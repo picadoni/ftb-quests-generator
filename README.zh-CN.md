@@ -1,3 +1,5 @@
+🌐 **Language / Язык / 言語 / 语言:** [English](./README.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md)
+
 # 🗺️ FTB Quests — 任务生成器
 
 专为 **Minecraft FTB Quests** 模组打造的在线网页任务生成工具，可快速生成任务线、章节、几何布局及奖励配置。直接在浏览器中运行，支持自动生成 HEX-ID、难度调节以及一键打包下载 `.zip` 文件。
