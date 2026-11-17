@@ -20,7 +20,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quest Generator — Saturn (Version 1.5) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/ver%1.5/)
+### 🗺️ FTB Quest Generator — Saturn (Version 1.5) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.5/)
 * **Updates:**
   * Added a reward chest.
   * Added a more generous amount of rewards.
@@ -31,7 +31,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quest Generator — Hyperjump (Version 1.4) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/ver%1.4/)
+### 🗺️ FTB Quest Generator — Hyperjump (Version 1.4) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.4/)
 * **Updates:**
   * Complete rewrite of geometric shapes, as previously only 11 out of 34 worked properly.
   * Added a manual mode toggle button for rewards and quests (triggered by clicking the medal icon).
@@ -43,7 +43,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quest Generator — Stardust (Version 1.3) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/ver%1.3/)
+### 🗺️ FTB Quest Generator — Stardust (Version 1.3) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.3/)
 * **Updates:**
   * Added integration notes for **CustomNPCs**.
   * Added visual effects:
@@ -61,7 +61,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quest Generator — Photon (Version 1.2) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/ver%1.2/)
+### 🗺️ FTB Quest Generator — Photon (Version 1.2) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.2/)
 * **Updates (New Features):**
   * Set a custom background image.
   * Remove the custom background image.
@@ -72,7 +72,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quest Generator — Jupiter (Version 1.1) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/ver%1.1/)
+### 🗺️ FTB Quest Generator — Jupiter (Version 1.1) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.1/)
 * **Updates:**
   * Unlocked all quest layout presets (how the quest tree looks inside the game).
   * Added a modal window to contact the author regarding various questions.
@@ -82,7 +82,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quest Generator — Supernova (Version 1.0) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/ver%1.0/)
+### 🗺️ FTB Quest Generator — Supernova (Version 1.0) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.0/)
 * **Updates:**
   * Added a Geometry tab/button with 10 initial layout shapes:
     1. **Ruler** *(creates a classic single-line quest chain)*
@@ -102,7 +102,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quest Generator — Mercury (Version 0.9) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/ver%0.9/)
+### 🗺️ FTB Quest Generator — Mercury (Version 0.9) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.9/)
 * **Updates:**
   * Code update and optimization, improved stability.
   * Updated quests and rewards.
