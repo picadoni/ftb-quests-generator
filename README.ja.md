@@ -20,7 +20,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quest クエストジェネレーター — 宇宙港 (Ver 1.6)(https://github.com)
+### 🗺️ FTB Quest クエストジェネレーター — 宇宙港 (Ver 1.6) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.6/)
 * **アップデート内容:**
   * **報酬リスト:** プリセット報酬や報酬チェストの選択、または独自カスタマイズが可能なモーダルウィンドウを追加。
   * 報酬機能の拡張 *（現在テスト中ですが、クラッシュもなく安定して動作しています）*。
@@ -35,7 +35,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quest クエストジェネレーター — 土星 (Ver 1.5)(https://github.com)
+### 🗺️ FTB Quest クエストジェネレーター — 土星 (Ver 1.5) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.5/)
 * **アップデート内容:**
   * 報酬チェストを追加し、より豪華な報酬量を実装。
   * 難易度システムと報酬システムを改善。
@@ -45,7 +45,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quest クエストジェネレーター — ハイパージャンプ (Ver 1.4)(https://github.com)
+### 🗺️ FTB Quest クエストジェネレーター — ハイパージャンプ (Ver 1.4) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.5/)
 * **アップデート内容:**
   * 幾何学シェイプのコードを全面的に書き直し（以前は34種類のうち11種類しか正常に動作していませんでした）。
   * 報酬とクエストの手動モード切替ボタンを追加（メダルアイコンのクリックで起動）。
@@ -57,7 +57,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quest クエストジェネレーター — スターダスト (Ver 1.3)(https://github.com)
+### 🗺️ FTB Quest クエストジェネレーター — スターダスト (Ver 1.3) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.3/)
 * **アップデート内容:**
   * **CustomNPCs** MODとの連携メモを追加。
   * 画面エフェクトを追加：桜吹雪、雪、雨、花火、秋の紅葉、夏の落葉、およびエフェクト解除ボタン。
@@ -68,7 +68,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quest クエストジェネレーター — フォトン (Ver 1.2)
+### 🗺️ FTB Quest クエストジェネレーター — フォトン (Ver 1.2)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.2/)
 * **アップデート内容（新機能）:**
   * 背景に任意のカスタム画像を設定する機能。
   * 設定したカスタム背景画像を削除する機能。
@@ -79,7 +79,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quest クエストジェネレーター — 木星 (Ver 1.1)
+### 🗺️ FTB Quest クエストジェネレーター — 木星 (Ver 1.1)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.1/)
 * **アップデート内容:**
   * ゲーム内でのクエストツリー表示プリセットをすべて解放。
   * 作者へ各種質問・連絡ができるモーダルウィンドウを追加。
@@ -89,7 +89,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quest クエストジェネレーター — 超新星 (Ver 1.0)
+### 🗺️ FTB Quest クエストジェネレーター — 超新星 (Ver 1.0)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.0/)
 * **アップデート内容:**
   * ジオメトリ（幾何学配置）タブ・ボタンを追加（初期10種類の形状を実装）：
     1. **ルーラー（直線）** *（従来通りの一直線のクエストチェーン）*
@@ -109,7 +109,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quest クエストジェネレーター — 水星 (Ver 0.9)
+### 🗺️ FTB Quest クエストジェネレーター — 水星 (Ver 0.9)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.9/)
 * **アップデート内容:**
   * コードの最適化と安定性の向上。
   * クエストおよび報酬データの更新。
@@ -118,7 +118,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — クエストジェネレーター 彗星 (Ver 0.8)
+### 🗺️ FTB Quests — クエストジェネレーター 彗星 (Ver 0.8)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.8/)
 * **アップデートと修正:**
   * コードの更新と最適化。
   * クエストのアイコンが表示されない不具合、および「ブロックと建築」ボタンの画像を修正。
@@ -128,7 +128,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — ジェネレーター 小惑星 (Ver 0.7)
+### 🗺️ FTB Quests — ジェネレーター 小惑星 (Ver 0.7)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.7/)
 * **アップデート内容:**
   * コードと機能のアップデート。
   * 難易度スライダーを追加（選択した難易度に応じてクエスト報酬が変化、全8段階：*ベビー、とても簡単、簡単、普通、難しい、とても難しい、ハードコア、私が審判だ*）。
@@ -137,7 +137,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — クエストジェネレーター 世界 (Ver 0.6)
+### 🗺️ FTB Quests — クエストジェネレーター 世界 (Ver 0.6)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.6/)
 * **アップデート内容:**
   * コアコードの超大規模な刷新：単なる「ビルダー」から本格的な「クエストジェネレーター」へと進化。
   * クエスト生成エンジンおよび全ファイルの `.zip` 一括ダウンロード機能を追加。
@@ -147,7 +147,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — クエストビルダー 滝 (Ver 0.5)
+### 🗺️ FTB Quests — クエストビルダー 滝 (Ver 0.5)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.5/)
 * **アップデート内容:**
   * 報酬機能を備えた初のクエストビルダー。
   * カテゴリーボタンを追加：ランダムクエスト生成、建築とブロック、ツール、プレイヤーステータス。
@@ -159,7 +159,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — インタラクティブビルダー プロトタイプ (Ver 0.4)
+### 🗺️ FTB Quests — インタラクティブビルダー プロトタイプ (Ver 0.4)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.4/)
 * **アップデート内容:**
   * デザインの刷新：暗く独特な背景から、明るく紙のようなテーマへと変更。
   * この系統における最後のビルダーバージョン。
@@ -179,7 +179,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — インタラクティブビルダー 潮流 (Ver 0.3)
+### 🗺️ FTB Quests — インタラクティブビルダー 潮流 (Ver 0.3)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.3/)
 * **アップデート内容:**
   * コードの大統合：これまで `Logic.js` と `конструктор.html` に分かれていたコードを1つのファイルに統合し、最適化しました。
 
@@ -187,7 +187,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — インタラクティブジェネレーター 要塞 (Ver 0.2)
+### 🗺️ FTB Quests — インタラクティブジェネレーター 要塞 (Ver 0.2)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.2/)
 * **アップデート内容:**
   * コードと機能の拡張。
   * クエストチャプター自動生成機能を追加し、コアコードを更新：
@@ -198,7 +198,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — インタラクティブビルダー 雫 (Ver 0.1)
+### 🗺️ FTB Quests — インタラクティブビルダー 雫 (Ver 0.1)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.1/)
 * **アップデート内容:**
   * コアの拡張。
   * カテゴリーボタンを追加：
@@ -220,7 +220,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ---
 
-### 🗺️ FTB Quests — インタラクティブビルダー 虚無 (Ver 0.0)
+### 🗺️ FTB Quests — インタラクティブビルダー 虚無 (Ver 0.0)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.0/)
 * **アップデート内容:**
   * プロジェクトの始まり。
   * クエストの種類を選択する最初の4つのタブのみを作成（`ゲーム内アクションの種類を選択:`）：
