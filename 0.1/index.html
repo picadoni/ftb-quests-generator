@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { background: #141414; color: #e0e0e0; font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #1e1e1e; padding: 25px; border-radius: 8px; border: 1px solid #2d2d2d; }
+        h2 { text-align: center; color: #52a869; margin-bottom: 20px; font-size: 22px; }
+        .category-title { color: #888; font-weight: bold; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin: 15px 0 8px 0; }
+        
+        /* Сетка кнопок теперь адаптирована под большое количество категорий */
+        .tabs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 25px; }
+        .tab-btn { background: #263329; color: #a3cca8; border: 1px solid #384d3d; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .tab-btn:hover { background: #2f4234; border-color: #52a869; color: #fff; }
+        .tab-btn.active { background: #3f5c45; border-color: #52a869; color: #fff; box-shadow: 0 0 8px rgba(82,168,105,0.3); }
+        
+        .settings-panel { background: #252525; padding: 20px; border-radius: 6px; border: 1px solid #333; display: none; }
+        .panel-title { color: #52a869; font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; color: #ccc; font-size: 14px; }
+        input[type="text"], select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #444; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        input[type="text"]:focus, select:focus { border-color: #52a869; outline: none; }
+        
+        .btn-save { background: #3a71c4; color: #fff; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; width: 100%; margin-top: 10px; }
+        .btn-save:hover { background: #4a82d6; }
+        .btn-download-all { background: #52a869; color: #fff; border: none; padding: 14px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 16px; width: 100%; margin-top: 15px; transition: background 0.2s; box-shadow: 0 0 10px rgba(82,168,105,0.2); }
+        .btn-download-all:hover { background: #63be7d; }
+        .btn-clear { background: #7a2c2c; color: #fff; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .btn-clear:hover { background: #9c3a3a; }
+        .chain-box { margin-top: 20px; background: #1a1a1a; padding: 15px; border-radius: 4px; border: 1px solid #2d2d2d; }
+        .quest-item { background: #2a2a2a; padding: 8px 12px; margin: 5px 0; border-radius: 4px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid #52a869; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🗺️ FTB Quests - Интерактивный Конструктор Капля (версия 0.1)</h2>
+    
+    <div class="form-group" style="margin-bottom: 25px; background: #222; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <label style="color: #52a869; font-size: 16px;">📁 Название вкладки квестов (Главы) в игре:</label>
+        <input type="text" id="chapterTitle" value="Мои приключения" placeholder="Например: Выживание, Магия, Кирка">
+    </div>
+
+    <div class="category-title">Выберите тему или занятие квеста:</div>
+    <div class="tabs-grid">
+        <button class="tab-btn" onclick="openSettings('mine', this, '⛏️ Подземелья и Шахты')">⛏️ Шахты и Секреты</button>
+        <button class="tab-btn" onclick="openSettings('kill', this, '⚔️ Охота на монстров')">⚔️ Охота на монстров</button>
+        <button class="tab-btn" onclick="openSettings('animals', this, '🐷 Охота на животных')">🐷 Охота на животных</button>
+        <button class="tab-btn" onclick="openSettings('cook', this, '🍳 Фермерство и Готовка')">🍳 Готовка еды</button>
+        <button class="tab-btn" onclick="openSettings('gear', this, '🛡️ Создание экипировки')">🛡️ Создание брони и оружия</button>
+        <button class="tab-btn" onclick="openSettings('dims', this, '🌌 Исследование измерений')">🌌 Переход по измерениям</button>
+        <button class="tab-btn" onclick="openSettings('trade', this, '⚖️ Торговля и Деревня')">⚖️ Деревня и Торговля</button>
+    </div>
+
+    <div class="settings-panel" id="settingsPanel">
+        <div class="panel-title" id="actionTitle">Настройка задания</div>
+        
+        <div class="form-group">
+            <label>1. Название задания:</label>
+            <input type="text" id="qTitle" placeholder="Например: Время копать железо!">
+        </div>
+
+        <div class="form-group">
+            <label id="targetLabel">2. Выберите цель задания:</label>
+            <select id="qTarget"></select>
+        </div>
+
+        <div class="form-group">
+            <label>3. Выберите награду за выполнение:</label>
+            <div style="display:flex; gap: 10px;">
+                <select id="qReward" style="flex: 2;">
+                    <option value="coinmod:silvercoin">🪙 Серебряная монета (CoinMod)</option>
+                    <option value="minecraft:cooked_beef">🥩 Жареный стейк</option>
+                    <option value="minecraft:coal">🪵 Уголь</option>
+                    <option value="minecraft:iron_ingot">🪙 Железный слиток</option>
+                    <option value="minecraft:diamond">💎 Алмаз</option>
+                    <option value="minecraft:experience_bottle">🧪 Флакон опыта</option>
+                </select>
+                <input type="text" id="qRewardCount" value="4" style="flex: 1; text-align: center;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>4. Последовательность (Зависимость):</label>
+            <select id="qDependency">
+                <option value="none">🟢 Начальный квест (Доступен сразу)</option>
+                <option value="previous">🔒 Доступен только после предыдущего квеста</option>
+            </select>
+        </div>
+
+        <button class="btn-save" onclick="addQuestToChain()">➕ Добавить задание в цепочку</button>
+    </div>
+
+    <div class="chain-box" id="chainBox" style="display:none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="font-weight:bold; color: #888;">Текущая цепочка заданий:</div>
+            <button class="btn-clear" onclick="clearQuestChain()">🗑️ Сбросить всё</button>
+        </div>
+        <div id="questList"></div>
+        
+        <button class="btn-download-all" onclick="downloadAllFiles()">💾 Скачать все файлы главы (.snbt)</button>
+        <div id="alertContainer"></div>
+    </div>
+</div>
+
+<script src="logic.js"></script>
+
+</body>
+</html>

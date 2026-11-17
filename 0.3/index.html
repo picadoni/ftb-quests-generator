@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { background: #141414; color: #e0e0e0; font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #1e1e1e; padding: 25px; border-radius: 8px; border: 1px solid #2d2d2d; }
+        h2 { text-align: center; color: #52a869; margin-bottom: 20px; font-size: 22px; }
+        .category-title { color: #888; font-weight: bold; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin: 15px 0 8px 0; }
+        .tabs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 25px; }
+        .tab-btn { background: #263329; color: #a3cca8; border: 1px solid #384d3d; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .tab-btn:hover { background: #2f4234; border-color: #52a869; color: #fff; }
+        .tab-btn.active { background: #3f5c45; border-color: #52a869; color: #fff; box-shadow: 0 0 8px rgba(82,168,105,0.3); }
+        .settings-panel { background: #252525; padding: 20px; border-radius: 6px; border: 1px solid #333; display: none; }
+        .panel-title { color: #52a869; font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; color: #ccc; font-size: 14px; }
+        input[type="text"], select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #444; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        input[type="text"]:focus, select:focus { border-color: #52a869; outline: none; }
+        .btn-save { background: #3a71c4; color: #fff; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; width: 100%; margin-top: 10px; }
+        .btn-save:hover { background: #4a82d6; }
+        .btn-download-all { background: #52a869; color: #fff; border: none; padding: 14px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 16px; width: 100%; margin-top: 15px; transition: background 0.2s; box-shadow: 0 0 10px rgba(82,168,105,0.2); }
+        .btn-download-all:hover { background: #63be7d; }
+        .btn-clear { background: #7a2c2c; color: #fff; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .btn-clear:hover { background: #9c3a3a; }
+        .chain-box { margin-top: 20px; background: #1a1a1a; padding: 15px; border-radius: 4px; border: 1px solid #2d2d2d; }
+        .quest-item { background: #2a2a2a; padding: 8px 12px; margin: 5px 0; border-radius: 4px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid #52a869; }
+        .id-box { background: #191919; padding: 12px; border-radius: 6px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-rnd { background: #444; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-rnd:hover { background: #555; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🗺️ FTB Quests - Интерактивный Конструктор Поток (версия 0.3)</h2>
+    
+    <div class="form-group" style="margin-bottom: 15px; background: #222; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <label style="color: #52a869; font-size: 16px;">📁 Название вкладки квестов (Главы) в игре:</label>
+        <input type="text" id="chapterTitle" value="Мои приключения" placeholder="Например: Выживание, Магия, Кирка">
+    </div>
+
+    <div class="id-box">
+        <div>📂 Текущий HEX-ID папки главы в игре: <span id="displayFolderID" style="color: #52a869; font-weight: bold; font-family: monospace; font-size: 16px;">--------</span></div>
+        <button class="btn-rnd" onclick="rerollChapterUID()">🔄 Сгенерировать новый ID папки</button>
+    </div>
+
+    <div class="category-title">Выберите тему или занятие квеста:</div>
+    <div class="tabs-grid">
+        <button class="tab-btn" onclick="openSettings('mine', this, '⛏️ Подземелья и Шахты')">⛏️ Шахты и Секреты</button>
+        <button class="tab-btn" onclick="openSettings('kill', this, '⚔️ Охота на монстров')">⚔️ Охота на монстров</button>
+        <button class="tab-btn" onclick="openSettings('animals', this, '🐷 Охота на животных')">🐷 Охота на животных</button>
+        <button class="tab-btn" onclick="openSettings('cook', this, '🍳 Фермерство и Готовка')">🍳 Готовка еды</button>
+        <button class="tab-btn" onclick="openSettings('gear', this, '🛡️ Создание экипировки')">🛡️ Создание брони и оружия</button>
+        <button class="tab-btn" onclick="openSettings('dims', this, '🌌 Исследование измерений')">🌌 Переход по измерениям</button>
+        <button class="tab-btn" onclick="openSettings('trade', this, '⚖️ Торговля и Деревня')">⚖️ Деревня и Торговля</button>
+    </div>
+
+    <div class="settings-panel" id="settingsPanel">
+        <div class="panel-title" id="actionTitle">Настройка задания</div>
+        
+        <div class="form-group">
+            <label>1. Название задания:</label>
+            <input type="text" id="qTitle" placeholder="Например: Время копать железо!">
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+            <div style="flex: 2;">
+                <label id="targetLabel">2. Выберите цель задания:</label>
+                <select id="qTarget"></select>
+            </div>
+            <div style="flex: 1;">
+                <label>Кол-во целей:</label>
+                <select id="qTargetCount">
+                    <option value="1">1 шт / 1 моб</option>
+                    <option value="10">10 шт / 10 мобов</option>
+                    <option value="50">50 шт / 50 мобов</option>
+                    <option value="100" selected>100 шт / 100 мобов</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>3. Выберите награду за выполнение:</label>
+            <div style="display:flex; gap: 10px;">
+                <select id="qReward" style="flex: 2;"></select>
+                <input type="text" id="qRewardCount" value="4" style="flex: 1; text-align: center;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>4. Последовательность (Зависимость):</label>
+            <select id="qDependency">
+                <option value="none">🟢 Начальный квест (Доступен сразу)</option>
+                <option value="previous">🔒 Доступен только после предыдущего квеста</option>
+            </select>
+        </div>
+
+        <button class="btn-save" onclick="addQuestToChain()">➕ Добавить задание в цепочку</button>
+    </div>
+
+    <div class="chain-box" id="chainBox" style="display:none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="font-weight:bold; color: #888;">Текущая цепочка заданий:</div>
+            <button class="btn-clear" onclick="clearQuestChain()">🗑️ Сбросить всё</button>
+        </div>
+        <div id="questList"></div>
+        
+        <button class="btn-download-all" onclick="downloadAllFiles()">💾 Скачать все файлы главы (.snbt)</button>
+        <div id="alertContainer"></div>
+    </div>
+</div>
+<script>
+// ======  БАЗА ДАННЫХ И НАСТРОЙКИ СТАРТА ======
+const db = {
+    mine: [
+        { id: "minecraft:coal_ore", type: "item", name: "⛏️ Добыть каменный уголь (руда)" },
+        { id: "minecraft:iron_ore", type: "item", name: "⛏️ Добыть железную руду" },
+        { id: "minecraft:diamond_ore", type: "item", name: "💎 Найти алмазную руду" },
+        { id: "minecraft:lava_bucket", type: "item", name: "🌋 Набрать ведро лавы" },
+        { id: "minecraft:obsidian", type: "item", name: "🧱 Добыть обсидиан" },
+        { id: "minecraft:minecart", type: "item", name: "🛒 Найти или скрафтить вагонетку" },
+        { id: "minecraft:cave_spider", type: "kill", name: "🕷️ Охота: Победить пещерного паука" }
+    ],
+    kill: [
+        { id: "minecraft:zombie", type: "kill", name: "🧟 Победить Зомби" },
+        { id: "minecraft:skeleton", type: "kill", name: "💀 Уничтожить Скелета" },
+        { id: "minecraft:creeper", type: "kill", name: "💥 Взорвать или победить Крипера" },
+        { id: "minecraft:spider", type: "kill", name: "🕷️ Победить обычного Паука" }
+    ],
+    animals: [
+        { id: "minecraft:cow", type: "kill", name: "🐄 Найти Корову" },
+        { id: "minecraft:pig", type: "kill", name: "🐷 Найти Свинью" },
+        { id: "minecraft:sheep", type: "kill", name: "🐑 Найти Овцу" },
+        { id: "minecraft:squid", type: "kill", name: "🦑 Охота в воде: Победить Спрута" }
+    ],
+    cook: [
+        { id: "minecraft:cake", type: "item", name: "🎂 Приготовить праздничный Тортик" },
+        { id: "minecraft:cooked_beef", type: "item", name: "🥩 Зажарить стейк из говядины" },
+        { id: "minecraft:baked_potato", type: "item", name: "🥔 Запечь картофель в печке" },
+        { id: "minecraft:wheat", type: "item", name: "🌾 Вырастить и собрать урожай пшеницы" }
+    ],
+    gear: [
+        { id: "minecraft:shield", type: "item", name: "🛡️ Скрафтить защитный Щит" },
+        { id: "minecraft:iron_chestplate", type: "item", name: "👕 Сделать железный нагрудник" },
+        { id: "minecraft:iron_sword", type: "item", name: "⚔️ Выковать железный меч" },
+        { id: "minecraft:bow", type: "item", name: "🏹 Создать дальнобойный Лук" },
+        { id: "minecraft:arrow", type: "item", name: "🎯 Наделать стрел для лука" }
+    ],
+    dims: [
+        { id: "minecraft:wither_skeleton", type: "kill", name: "🖤 Нижний мир: Охота на Скелета-иссушителя" },
+        { id: "minecraft:ghast", type: "kill", name: "👻 Нижний мир: Победить летающего Гаста" },
+        { id: "minecraft:quartz", type: "item", name: "💎 Нижний мир: Добыть кварцевую руду" },
+        { id: "minecraft:enderman", type: "kill", name: "🔮 Эндер-мир: Победить Странника Края" }
+    ],
+    trade: [
+        { id: "minecraft:emerald", type: "item", name: "💚 Найти или заработать Изумруд" },
+        { id: "minecraft:villager", type: "stat", name: "👨 Торговля: Заключить сделку с жителем" },
+        { id: "minecraft:bed", type: "item", name: "🛏️ Скрафтить кровать для отдыха в деревне" }
+    ]
+};
+
+let allGeneratedChapters = [];
+let currentType = '';
+let questChain = [];
+let chapterUID = generateUID(); 
+
+if (!allGeneratedChapters.includes(chapterUID)) {
+    allGeneratedChapters.push(chapterUID);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById('displayFolderID');
+    if(el) el.innerText = chapterUID;
+    updateRewardsSelect();
+});
+
+function rerollChapterUID() {
+    if(confirm("Сгенерировать новый ID папки для СЛЕДУЮЩЕЙ главы? Текущая цепочка квестов сбросится!")) {
+        chapterUID = generateUID();
+        if (!allGeneratedChapters.includes(chapterUID)) {
+            allGeneratedChapters.push(chapterUID);
+        }
+        const el = document.getElementById('displayFolderID');
+        if(el) el.innerText = chapterUID;
+        questChain = [];
+        const box = document.getElementById('chainBox');
+        if(box) box.style.display = 'none';
+        document.getElementById('questList').innerHTML = '';
+        document.getElementById('alertContainer').innerHTML = '';
+    }
+}
+
+function updateRewardsSelect() {
+    const rewardSelect = document.getElementById('qReward');
+    if(!rewardSelect) return;
+    rewardSelect.innerHTML = '';
+    
+    const rewardsPack = [
+        { group: "Изумруды", items: [
+            { id: "minecraft:emerald", name: "💚 Изумруд" },
+            { id: "minecraft:emerald_block", name: "🟩 Изумрудный блок" }
+        ]},
+        { group: "Ценные Ресурсы", items: [
+            { id: "minecraft:iron_ingot", name: "🪙 Железный слиток" },
+            { id: "minecraft:gold_ingot", name: "🟡 Золотой слиток" },
+            { id: "minecraft:diamond", name: "💎 Алмаз" },
+            { id: "minecraft:iron_block", name: "⛓️ Железный блок" },
+            { id: "minecraft:gold_block", name: "🟡 Золотой блок" },
+            { id: "minecraft:diamond_block", name: "💎 Алмазный блок" }
+        ]},
+        { group: "Еда и Выживание", items: [
+            { id: "minecraft:cooked_beef", name: "🥩 Жареный стейк" },
+            { id: "minecraft:golden_apple", name: "🍎 Золотое яблоко" },
+            { id: "minecraft:golden_apple:1", name: "💜 Зачарованное яблоко Нотча" },
+            { id: "minecraft:cake", name: "🎂 Целый торт" }
+        ]},
+        { group: "Редкие Сокровища", items: [
+            { id: "ftbquests:lootcrate", name: "📦 Случайный сундук с лутом (Lootcrate)" },
+            { id: "minecraft:experience_bottle", name: "🧪 Флакон с опытом" },
+            { id: "minecraft:totem_of_undying", name: "🦅 Totem бессмертия" }
+        ]}
+    ];
+    
+    rewardsPack.forEach(group => {
+        let optGroup = document.createElement('optgroup');
+        optGroup.label = group.group;
+        group.items.forEach(item => {
+            let opt = document.createElement('option');
+            opt.value = item.id;
+            opt.innerText = item.name;
+            optGroup.appendChild(opt);
+        });
+        rewardSelect.appendChild(optGroup);
+    });
+}
+// ======  ЛОГИКА УПРАВЛЕНИЯ И СКАЧИВАНИЯ (ФИНАЛ) ======
+function openSettings(type, element, titleText) {
+    currentType = type;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    if (element) element.classList.add('active');
+
+    document.getElementById('actionTitle').innerText = titleText;
+    const targetSelect = document.getElementById('qTarget');
+    targetSelect.innerHTML = '';
+    
+    let labelText = "2. Выберите цель для задания:";
+    document.getElementById('targetLabel').innerText = labelText;
+
+    if (db[type]) {
+        db[type].forEach(item => {
+            let opt = document.createElement('option');
+            opt.value = item.id;
+            opt.setAttribute('data-tasktype', item.type);
+            opt.innerText = item.name;
+            targetSelect.appendChild(opt);
+        });
+    }
+    document.getElementById('settingsPanel').style.display = 'block';
+}
+
+function generateUID() {
+    return Array.from({length: 8}, () => Math.floor(Math.random()*16).toString(16).toUpperCase()).join('').toLowerCase();
+}
+
+function addQuestToChain() {
+    const title = document.getElementById('qTitle').value || "Без названия";
+    const targetSelect = document.getElementById('qTarget');
+    const targetID = targetSelect.value;
+    const targetName = targetSelect.options[targetSelect.selectedIndex].text;
+    
+    const selectedOption = targetSelect.options[targetSelect.selectedIndex];
+    const taskType = selectedOption.getAttribute('data-tasktype') || "item";
+    const targetCount = parseInt(document.getElementById('qTargetCount').value) || 1;
+
+    const rewardID = document.getElementById('qReward').value;
+    const rewardCount = parseInt(document.getElementById('qRewardCount').value) || 1;
+    const depType = document.getElementById('qDependency').value;
+    const questUID = generateUID();
+    
+    let autoDesc = "";
+    if(currentType === 'mine') {
+        autoDesc = taskType === "kill" ? "Спускайся в заброшенные шахты и очисти их от пещерных пауков!" : "Пора заняться горным делом! Спустись под землю и раздобудь этот важный ресурс.";
+    } else if(currentType === 'kill') {
+        autoDesc = "Наступила ночь! Защити свой лагерь и одолей опасного ночного монстра.";
+    } else if(currentType === 'animals') {
+        autoDesc = "Займись скотоводством и найди полезных животных на просторах мира.";
+    } else if(currentType === 'cook') {
+        autoDesc = "Пора подкрепиться! Разведи огонь в печи или используй верстак, чтобы приготовить вкусную еду.";
+    } else if(currentType === 'gear') {
+        autoDesc = "Кузнечное дело мастера боится! Сделай крепкое снаряжение для будущих сражений.";
+    } else if(currentType === 'dims') {
+        autoDesc = "Ты готов к опасному путешествию? Построй портал и отправляйся на исследование таинственных измерений.";
+    } else if(currentType === 'trade') {
+        autoDesc = "Добро пожаловать в мир коммерции! Отыщи деревню жителей и добудь изумруды для торговли.";
+    }
+
+    let questData = {
+        uid: questUID,
+        title: title,
+        desc: autoDesc,
+        taskType: taskType,
+        targetID: targetID,
+        targetCount: targetCount,
+        rewardID: rewardID,
+        rewardCount: rewardCount,
+        dependency: (depType === 'previous' && questChain.length > 0) ? questChain[questChain.length - 1].uid : null
+    };
+
+    questChain.push(questData);
+    updateChainUI();
+    document.getElementById('qTitle').value = "";
+}
+
+function updateChainUI() {
+    document.getElementById('chainBox').style.display = 'block';
+    const list = document.getElementById('questList');
+    list.innerHTML = '';
+    questChain.forEach((q, idx) => {
+        let countText = q.taskType === "kill" ? " мобов" : " шт.";
+        list.innerHTML += `<div class="quest-item"><span>№${idx+1}. <b>${q.title}</b> (${q.desc}) — Требуется: ${q.targetCount}${countText}</span> <span style="color:#888;">Файл: ${q.uid}.snbt</span></div>`;
+    });
+    document.getElementById('alertContainer').innerHTML = '';
+}
+
+function clearQuestChain() {
+    if (confirm("Вы уверены, что хотите стереть текущую цепочку квестов и начать заново?")) {
+        questChain = [];
+        document.getElementById('chainBox').style.display = 'none';
+        document.getElementById('questList').innerHTML = '';
+        document.getElementById('alertContainer').innerHTML = '';
+    }
+}
+
+function downloadFileDirect(content, filename) {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+}
+
+function downloadAllFiles() {
+    if (questChain.length === 0) {
+        alert("Добавьте хотя бы одно задание перед скачиванием!");
+        return;
+    }
+
+    const chapterInput = document.getElementById('chapterTitle');
+    const chTitle = chapterInput ? chapterInput.value : "Мои приключения";
+    
+    // 1. Формируем и скачиваем корректный файл главы chapter.snbt
+    let chapterSnbt = "{\n" +
+        "\ttitle: \"" + chTitle + "\",\n" +
+        "\ticon: \"minecraft:map\",\n" +
+        "\talways_invisible: false,\n" +
+        "\tgroup: 0,\n" +
+        "\tdefault_quest_shape: \"\"\n" +
+        "}";
+    downloadFileDirect(chapterSnbt, "chapter.snbt");
+
+    // 2. Поочередно скачиваем файлы каждого квеста со всеми капризными запятыми 1.12.2
+    let currentX = 0.0;
+    questChain.forEach((q, index) => {
+        const taskUID = generateUID();
+        const rewardUID = generateUID();
+
+        let qContent = "{\n" +
+            "\tx: " + currentX.toFixed(1) + "d,\n" +
+            "\ty: -59.5d,\n";
+
+        if(q.dependency) {
+            qContent += "\tdependencies: [\n\t\t\"" + q.dependency + "\"\n\t],\n";
+        }
+
+        if(q.taskType === "kill") {
+            let weaponIcon = q.targetID.includes("wither") ? "minecraft:diamond_sword" : "minecraft:iron_sword";
+            qContent += "\ttasks: [{\n" +
+                "\t\tuid: \"" + taskUID + "\",\n" +
+                "\t\ttype: \"kill\",\n" +
+                "\t\ticon: \"" + weaponIcon + "\",\n" +
+                "\t\tentity: \"" + q.targetID + "\",\n" +
+                "\t\tvalue: " + q.targetCount + "L\n" +
+                "\t}],\n";
+        } else {
+            qContent += "\ttasks: [{\n" +
+                "\t\tuid: \"" + taskUID + "\",\n" +
+                "\t\ttype: \"item\",\n" +
+                "\t\titems: [{\n" +
+                "\t\t\titem: \"" + q.targetID + "\",\n" +
+                "\t\t\tcount: " + q.targetCount + "L\n" +
+                "\t\t}]\n" +
+                "\t}],\n";
+        }
+
+        qContent += "\trewards: [{\n" +
+            "\t\tuid: \"" + rewardUID + "\",\n" +
+            "\t\ttype: \"item\",\n" +
+            "\t\titem: \"" + q.rewardID + "\",\n" +
+            "\t\tcount: " + q.rewardCount + "\n" +
+            "\t}],\n" +
+            "}";
+
+        setTimeout(() => {
+            downloadFileDirect(qContent, q.uid + ".snbt");
+        }, (index + 1) * 150);
+
+        currentX += 1.5;
+    });
+
+    // 3. Формируем и автоматически скачиваем готовый файл манифеста index.snbt
+    let formattedChapters = allGeneratedChapters.map(id => "\t\t\"" + id + "\"").join(",\n");
+    let indexSnbtContent = "{\n" +
+        "\tindex: [\n" +
+        formattedChapters + "\n" +
+        "\t]\n" +
+        "}";
+        
+    setTimeout(() => {
+        downloadFileDirect(indexSnbtContent, "index.snbt");
+    }, (questChain.length + 1) * 160);
+
+    // Выводим простую и понятную инструкцию для младших игроков
+    const alertBox = document.getElementById('alertContainer');
+    if (alertBox) {
+        alertBox.innerHTML = "<div style='background:#222c24; border:1px solid #3f6b47; padding:15px; margin-top:20px; border-radius:6px; font-family:monospace; font-size:13px; color:#bdf0c4; line-height:1.6;'>" +
+            "🎉 <b>ВСЕ ФАЙЛЫ УСПЕШНО СКАЧАНЫ ПАЧКОЙ!</b> 🎉<br><br>" +
+            "<b>Инструкция по установке:</b><br>" +
+            "1️⃣ Зайди в папку Майнкрафта по пути: <b style='color:#fff;'>config/ftbquests/normal/</b><br>" +
+            "2️⃣ Перенеси туда скачанный файл <b style='color:#fff;'>index.snbt</b> и нажми 'Заменить файл'.<br>" +
+            "3️⃣ Внутри папки <b style='color:#fff;'>chapters</b> создай новую папку с именем: <b style='color:#52a869; font-size:15px; font-weight:bold;'>" + chapterUID + "</b><br>" +
+            "4️⃣ Перенеси файл <b style='color:#fff;'>chapter.snbt</b> и все файлы квестов внутрь этой созданной папки.<br><br>" +
+            "✨ Готово! Запускай игру и выполняй задания! ✨" +
+            "</div>";
+    }
+}
+</script>
+</body>
+</html>
