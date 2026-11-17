@@ -111,7 +111,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Quest Generator Comet (Version 0.8)
+### 🗺️ FTB Quests — Quest Generator Comet (Version 0.8) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.8/)
 * **Updates & Fixes:**
   * Code update and optimization.
   * Fixed missing icons on quests.
@@ -122,7 +122,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Generator Asteroid (Version 0.7)
+### 🗺️ FTB Quests — Generator Asteroid (Version 0.7) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.7/)
 * **Updates:**
   * Code and feature update.
   * Added a difficulty slider — quest rewards now scale based on the chosen difficulty level:
@@ -139,7 +139,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Quest Generator World (Version 0.6)
+### 🗺️ FTB Quests — Quest Generator World (Version 0.6) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.6/)
 * **Updates:**
   * A massive — truly huge — code overhaul: previously a builder, it has now evolved into a full-fledged quest generator.
   * Added the Quest Generator engine.
@@ -155,7 +155,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Quest Builder Waterfall (Version 0.5)
+### 🗺️ FTB Quests — Quest Builder Waterfall (Version 0.5) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.5/)
 * **Updates:**
   * The first quest builder with rewards.
   * Added category buttons: Random Quest Generation, Building & Blocks, Tools, Player Stats.
@@ -167,7 +167,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Interactive Builder Prototype (Version 0.4)
+### 🗺️ FTB Quests — Interactive Builder Prototype (Version 0.4) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.4/)
 * **Updates:**
   * Design overhaul: moved away from the dark and strange background in favor of a light, paper-like theme.
   * The last builder of its kind.
@@ -187,7 +187,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Interactive Builder Stream (Version 0.3)
+### 🗺️ FTB Quests — Interactive Builder Stream (Version 0.3) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.3/)
 * **Updates:**
   * The Great Code Merge: previously split into `Logic.js` and `конструктор.html`, the code was merged into a single optimized file.
 
@@ -195,7 +195,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Interactive Generator Stronghold (Version 0.2)
+### 🗺️ FTB Quests — Interactive Generator Stronghold (Version 0.2) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.2/)
 * **Updates:**
   * Code and feature expansion.
   * Added a quest chapter generator and updated the core code:
@@ -206,7 +206,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Interactive Builder Drop (Version 0.1)
+### 🗺️ FTB Quests — Interactive Builder Drop (Version 0.1) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.1/)
 * **Updates:**
   * Core expansion.
   * Added category buttons:
@@ -228,7 +228,7 @@ Web-based quest generator for Minecraft FTB Quests mod.
 
 ---
 
-### 🗺️ FTB Quests — Interactive Builder Void (Version 0.0)
+### 🗺️ FTB Quests — Interactive Builder Void (Version 0.0) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.0/)
 * **Updates:**
   * The very beginning of the project.
   * Created only 4 initial tabs for selecting quest types (`Select game action type:`):
