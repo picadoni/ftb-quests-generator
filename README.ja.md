@@ -1,5 +1,5 @@
 🌐 **Language / Язык / 言語 / 语言:** [English](./README.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md)
-
+---
 # 🗺️ FTB Quests — クエストジェネレーター
 
 MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプター、幾何学レイアウト、および報酬を素早く作成できるWebベースのオンラインツールです。ブラウザ上で直接動作し、HEX-IDの自動生成、難易度調整、`.zip` 形式での一括ダウンロードに対応しています。
