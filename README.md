@@ -5,7 +5,7 @@
 Web-based quest generator for Minecraft FTB Quests mod.
 
 
-
+### [Version 1.6](https://picadoni.github.io/ftb-quests-generator/ver%1.6/)
 ### 🗺️ FTB Quest Generator — Spaceport (Version 1.6)
 * **Updates:**
   * **Reward List:** Added a modal window with preset rewards and reward chests, or custom configuration.
