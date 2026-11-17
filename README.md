@@ -1,9 +1,25 @@
 🌐 **Language / Язык / 言語 / 语言:** [English](./README.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md)
 ---
 
-# ftb-quests-generator
-Web-based quest generator for Minecraft FTB Quests mod.
+# 🗺️ FTB Quests — Quest Generator
 
+A web-based online tool for quickly creating questlines, chapters, geometric layouts, and rewards for the **Minecraft FTB Quests** mod. Runs directly in your browser with automatic HEX-ID generation, difficulty scaling, and one-click `.zip` export.
+
+* **Author:** [picadoni](https://github.com)
+* **License:** "Absolute" Version License Agreement (Charityware) — see [`LICENSE`](./LICENSE) for details.
+
+---
+
+## 🚀 Development History & Changelog
+
+### 🗺️ FTB Quest Generator — Mars (Version 1.7)
+* **Status:** In Development
+* **Updates:**
+  * Added a graphical interface for viewing and editing quest connections (dependencies).
+
+> *Mars — a distant red planet. In ancient times, the Romans and Greeks considered it the planet of the God of War, colored red by countless battles. Yet looking at it from another angle, it is as red as blood — and just like blood, the cosmos and the universe cannot exist without living connections...!*
+
+---
 
 ### 🗺️ FTB Quest Generator — Spaceport (Version 1.6) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.6/)
 * **Updates:**
