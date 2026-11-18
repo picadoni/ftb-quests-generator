@@ -16,7 +16,7 @@ A web-based online tool for quickly creating questlines, chapters, geometric lay
 * **Status:** In Development
 * **Updates:**
   * Added a graphical interface for viewing and editing quest connections (dependencies).
-  * early access [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.7/)
+  * Early access [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.7/)
 > *Mars — a distant red planet. In ancient times, the Romans and Greeks considered it the planet of the God of War, colored red by countless battles. Yet looking at it from another angle, it is as red as blood — and just like blood, the cosmos and the universe cannot exist without living connections...!*
 
 ---
