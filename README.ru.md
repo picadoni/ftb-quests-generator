@@ -1,4 +1,4 @@
-🌐 **Language / Язык / 言語 / 语言:** [English](./README.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md)
+🌐 **Language / Язык / 言語 / 语言:** 🇬🇧 [English](./README.md) | 🇷🇺 [Русский](./README.ru.md) | 🇯🇵 [日本語](./README.ja.md) | 🇨🇳 [简体中文](./README.zh-CN.md) | 🇹🇼 [繁體中文](./README.zh-TW.md)
 ---
 
 # 🗺️ FTB Quests — Генератор заданий
