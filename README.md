@@ -14,14 +14,15 @@ A web-based online tool for quickly creating questlines, chapters, geometric lay
 
 ## 🚀 Development History & Changelog
 
-### 🗺️ FTB Quest Generator — Mars (Version 1.7) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.7/)
+### 🗺️ FTB Quest Generator — Mars (Version 1.7) — [🚀 Launch / Запустить](https://github.io)
 * **Updates:**
   * Graphical interface for viewing and editing quest connections (interactive dependency map).
-  * Added support for choosing quest node shapes when building quests (9 shape presets).
+  * Added support for choosing quest node shapes when building quests (9 presets).
   * Added Korean language support (🇰🇷 한국어).
   * Updated all existing localization languages (English, Japanese, Simplified & Traditional Chinese).
-  * Added full localization for all menus and modals (including reward crate setup, dependency map, and the "Absolute" license dialog).
-  * Updated localization for quest targets, rewards, and dropdown lists.
+  * Added full localization for all menus (reward crate setup and dependency map).
+  * Updated localization for quest targets and dropdown menus.
+  * Added a modal window displaying the "Absolute" (Charityware) license agreement in all supported languages.
 
 > *Mars is a distant red planet. In ancient times, the Romans and Greeks considered it the planet of the god of war, whose crimson color came from endless battles. Yet from another perspective, it is red like blood — and without blood, just like without living connections in this update, no world and no universe can exist…!*
 
