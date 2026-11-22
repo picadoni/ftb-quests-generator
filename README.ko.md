@@ -1,6 +1,17 @@
 🌐 **Language / Язык / 言語 / 语言 / 언어:** 🇬🇧 [English](./README.md) | 🇷🇺 [Русский](./README.ru.md) | 🇯🇵 [日本語](./README.ja.md) | 🇨🇳 [简体中文](./README.zh-CN.md) | 🇹🇼 [繁體中文](./README.zh-TW.md) | 🇰🇷 [한국어](./README.ko.md)
 ---
 
+# 🗺️ FTB Quests — 퀘스트 생성기
+
+**마인크래프트 FTB Quests** 모드의 퀘스트 라인, 챕터, 기하학적 배치 및 보상을 빠르게 제작할 수 있는 웹 기반 온라인 도구입니다. 자동 HEX-ID 생성, 난이도 조절, 원클릭 `.zip` 내보내기 기능을 지원하며 별도의 설치 없이 브라우저에서 바로 실행됩니다.
+
+* **제작자:** [picadoni](https://github.com)
+* **라이선스:** 「앱솔루트(Absolute)」 버전 라이선스 계약 (Charityware) — 자세한 내용은 [`LICENSE`](./LICENSE) 파일을 참조하세요.
+
+---
+
+## 🚀 개발 히스토리 및 변경 로그 (Changelog)
+
 
 ### 🗺️ FTB Quest 퀘스트 생성기 — 마르스 (버전 1.7) — [🚀 실행하기](https://github.io)
 * **업데이트 내용:**
