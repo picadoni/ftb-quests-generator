@@ -1,4 +1,5 @@
 🌐 **Language / Язык / 言語 / 语言 / 언어:** 🇬🇧 [English](./README.md) | 🇷🇺 [Русский](./README.ru.md) | 🇯🇵 [日本語](./README.ja.md) | 🇨🇳 [简体中文](./README.zh-CN.md) | 🇹🇼 [繁體中文](./README.zh-TW.md) | 🇰🇷 [한국어](./README.ko.md)
+---
 
 ---
 
