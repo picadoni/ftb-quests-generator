@@ -340,10 +340,30 @@
         <span id="flag-ja" class="lang-flag" onclick="setLanguage('ja')" style="cursor:pointer; font-size: 20px; transition: opacity 0.2s; opacity: 0.4;" title="日本語">🇯🇵</span>
         <span id="flag-zh_sp" class="lang-flag" onclick="setLanguage('zh_sp')" style="cursor:pointer; font-size: 20px; transition: opacity 0.2s; opacity: 0.4;" title="简体中文">🇨🇳</span>
         <span id="flag-zh_tr" class="lang-flag" onclick="setLanguage('zh_tr')" style="cursor:pointer; font-size: 20px; transition: opacity 0.2s; opacity: 0.4;" title="繁體中文">🇭🇰</span>
+		<span id="flag-ko" class="lang-flag" onclick="setLanguage('ko')" style="cursor:pointer; font-size: 20px; transition: opacity 0.2s; opacity: 0.4;" title="한국어">🇰🇷</span>
         <button type="button" onclick="toggleAuthorModal(true)" data-i18n-title="ttl_author_btn" title="🧍 Об авторе и контакты для багов" style="background: none; color: #99ccff; border: none; border-radius: 4px; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(2px); transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">📡</button>
+		<button type="button" id="btnLicenseModal" onclick="toggleLicenseModal(true)" title="📜 Лицензия «Абсолют» (Charityware)" style="background: none; color: #ffcc00; border: none; border-radius: 4px; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(2px); transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">📜</button>
     </div>
 
 </div>
+<!-- МОДАЛЬНОЕ ОКНО ЛИЦЕНЗИИ «АБСОЛЮТ» (CHARITYWARE) -->
+<!-- МОДАЛЬНОЕ ОКНО ЛИЦЕНЗИИ «АБСОЛЮТ» (CHARITYWARE) -->
+<div id="licenseModal" onclick="if(event.target === this) toggleLicenseModal(false)" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.72); z-index: 9999; align-items: center; justify-content: center; padding: 15px; backdrop-filter: blur(3px);">
+    <div style="background: rgba(252, 250, 245, 0.96); border: 2px solid #8b1e24; border-radius: 6px; max-width: 660px; width: 100%; padding: 20px; color: #1b5e36; box-shadow: 0 12px 35px rgba(0,0,0,0.6); font-family: sans-serif;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(139, 30, 36, 0.25); padding-bottom: 10px; margin-bottom: 12px;">
+            <h3 id="lblLicenseTitle" style="margin: 0; font-size: 16px; font-weight: bold; color: #8b1e24;">📜 Лицензия «Абсолют» (Charityware)</h3>
+            <button type="button" onclick="toggleLicenseModal(false)" style="background: none; border: none; color: #8b1e24; font-size: 18px; font-weight: bold; cursor: pointer;">✖</button>
+        </div>
+        <p id="lblLicenseSummary" style="font-size: 13px; line-height: 1.5; font-weight: 600; color: #1b5e36; margin-top: 0; margin-bottom: 12px;">
+            Бесплатно для игроков и открытых сборок. Запрещена продажа и перезалив на сайты из чёрного списка. Для коммерческих проектов — отчисление от 7% на благотворительность.
+        </p>
+        <pre id="lblLicenseFullText" style="background: #11151c; border: 1px solid #2d3748; padding: 12px; border-radius: 4px; font-size: 11.5px; line-height: 1.45; color: #e2e8f0; white-space: pre-wrap; max-height: 330px; overflow-y: auto; margin-bottom: 14px; font-family: monospace;"></pre>
+        <div style="text-align: right;">
+            <button id="btnLicenseClose" type="button" onclick="toggleLicenseModal(false)" style="background: #1b5e36; color: #ffffff; border: none; padding: 8px 20px; border-radius: 3px; font-weight: bold; cursor: pointer;">Принимаю / Закрыть</button>
+        </div>
+    </div>
+</div>
+
 
   <!-- ЭФФЕКТ ПАДАЮЩИХ ЧАСТИЦ: Прозрачный холст на весь экран -->
     <canvas id="fallingParticlesCanvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 999998; pointer-events: none; display: block;" height="626" width="1024"></canvas>
@@ -431,7 +451,7 @@
         
         <!-- ОБЫЧНЫЙ РЕЖИМ (Один общий ползунок) -->
         <div id="simpleDiffRow" style="display: flex; align-items: center; width: 100%;">
-            <div style="width: 250px; font-weight: bold; user-select: none;">Сложность заданий и наград:</div>
+            <div id="lblDifficulty" style="width: 250px; font-weight: bold; user-select: none;">Сложность заданий и наград:</div>
             <div style="flex-grow: 1; padding: 0 15px;">
                 <input type="range" class="custom-range-input" id="questDifficulty" min="1" max="8" value="4" oninput="window.customSliderPainter(this, 'simpleDiffLabel');">
             </div>
@@ -444,7 +464,7 @@
         <div id="expertDiffRow" style="display: none; flex-direction: column; gap: 12px; width: 100%;">
             <!-- Верхняя строка: Сложность квестов -->
             <div style="display: flex; align-items: center; width: 100%;">
-                <div style="width: 250px; font-weight: bold; user-select: none;">Сложность квестов:</div>
+                <div id="lblExpertQuestDiff" style="width: 250px; font-weight: bold; user-select: none;">Сложность квестов:</div>
                 <div style="flex-grow: 1; padding: 0 15px;">
                     <input type="range" class="custom-range-input" id="customQuestDiff" min="1" max="8" value="4" oninput="window.customSliderPainter(this, 'expertQuestLabel');">
                 </div>
@@ -454,7 +474,7 @@
             </div>
             <!-- Нижняя строка: Ценность призов -->
             <div style="display: flex; align-items: center; width: 100%;">
-                <div style="width: 250px; font-weight: bold; user-select: none;">Ценность призов:</div>
+                <div id="lblExpertRewardDiff" style="width: 250px; font-weight: bold; user-select: none;">Ценность призов:</div>
                 <div style="flex-grow: 1; padding: 0 15px;">
                     <input type="range" class="custom-range-input" id="customRewardDiff" min="1" max="8" value="4" oninput="window.customSliderPainter(this, 'expertRewardLabel');">
                 </div>
@@ -464,6 +484,8 @@
             </div>
         </div>
 
+
+
     </div>
 
     <!-- Исправленная логика закраски -->
@@ -472,8 +494,8 @@
             window.isExpertDifficultyMode = false;
 
             const originalTextMap = { 
-                1: "ОЧ. ЛЕГКО", 2: "ЛЕГКО", 3: "ПОД ПИВО", 4: "НОРМАЛЬНО", 
-                5: "СЛОЖНО", 6: "ХАРДКОР", 7: "ОЧЕНЬ СЛОЖНО", 8: "Я СУДЬЯ" 
+                1: "МЛАДЕНЕЦ", 2: "ОЧЕНЬ ЛЕГКО", 3: "ЛЕГКО", 4: "НОРМАЛЬНО", 
+                5: "СЛОЖНО", 6: "ОЧЕНЬ СЛОЖНО", 7: "ХАРДКОР", 8: "Я СУДЬЯ" 
             };
             
             const originalColorMap = {
@@ -493,13 +515,16 @@
                 // 2. МЕНЯЕМ ЦВЕТ САМОЙ ТОЧКИ (БЕГУНКА) через CSS-переменную
                 el.style.setProperty('--thumb-color', color);
                 
-                // 3. Красим бейдж справа
+                // 3. Красим бейдж справа и берем текст из активного языка
                 const label = document.getElementById(targetLabelId);
                 if (label) {
-                    label.innerText = originalTextMap[val] || "НОРМАЛЬНО";
+                    const dict = (typeof lng !== 'undefined' && lng[currentLang]) ? lng[currentLang] : (typeof lng !== 'undefined' ? lng['ru'] : null);
+                    const diffKey = 'diff_' + val;
+                    label.innerText = (dict && dict[diffKey]) ? dict[diffKey] : (originalTextMap[val] || "НОРМАЛЬНО");
                     label.style.setProperty('background-color', color, 'important');
                 }
             };
+
 
             window.toggleExpertDifficultyMode = function() {
                 window.isExpertDifficultyMode = !window.isExpertDifficultyMode;
@@ -613,15 +638,6 @@
 
         <div style="width: 100%; border-top: 1px solid rgba(255,255,255,0.2);"></div>
 
-        <!-- ТЕМЫ ОФОРМЛЕНИЯ -->
-        <div style="display: flex; flex-direction: column; gap: 6px; align-items: center;">
-            <button type="button" onclick="setTheme('pipboy')" data-i18n-title="ttl_theme_pip" title="Стиль: Пип-бой" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 2px;">🖥️</button>
-            <button type="button" onclick="setTheme('melonking')" data-i18n-title="ttl_theme_melon" title="Стиль 1994: MelonKing" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 2px;">🍉</button>
-            <button type="button" onclick="setTheme('yahoo')" data-i18n-title="ttl_theme_yahoo" title="Стиль 2000: Yahoo! Japan" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 2px;">🇯🇵</button>
-            <button type="button" onclick="setTheme('ifindit')" data-i18n-title="ttl_theme_win" title="Стиль 1997: Windows 95" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 2px;">💾</button>
-            <button type="button" onclick="setTheme('ryanair')" data-i18n-title="ttl_theme_ryan" title="Стиль 2007: Ryanair" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 2px;">✈️</button>
-        </div>
-
     </div>
 </div>
 
@@ -634,27 +650,27 @@
         <!-- Кнопка закрытия окна [X] -->
         <span onclick="window.toggleLootEditor(false)" style="position: absolute; top: 14px; right: 16px; cursor: pointer; color: #ff3333; font-weight: bold; font-size: 16px; user-select: none;">[X]</span>
         
-        <!-- Главный заголовок -->
-        <h3 style="margin: 0px 0px 15px; font-size: 18px; color: #ffcc00; text-transform: uppercase; letter-spacing: 0.5px;">🗃️ Настройка космических сундуков (Космопорт 1.6)</h3>
+<!-- Главный заголовок -->
+        <h3 id="lblLootModalTitle" style="margin: 0px 0px 15px; font-size: 18px; color: #ffcc00; text-transform: uppercase; letter-spacing: 0.5px;">🗃️ Настройка космических сундуков (Космопорт 1.6)</h3>
         
 <!-- БЛОК ВЫБОРА ГОТОВЫХ КОСМИЧЕСКИХ ПРЕСЕТОВ -->
 <div style="background: rgba(255,255,255,0.03); padding: 12px; border: 1px solid rgba(153,204,255,0.2); border-radius: 4px; margin-bottom: 15px;">
-    <div style="font-size: 12px; color: #fff; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">🚀 Выбрать готовый планетарный пресет лута:</div>
+    <div id="lblLootPresetTitle" style="font-size: 12px; color: #fff; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">🚀 Выбрать готовый планетарный пресет лута:</div>
     <!-- Сетка изменена на авто-подбор колонок, чтобы 10 кнопок красиво переносились на два ряда -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px;">
-        <button type="button" onclick="window.applyLootPreset('earth')" style="background: #27ae60; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🌍 Земля</button>
-        <button type="button" onclick="window.applyLootPreset('moon')" style="background: #7f8c8d; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🌙 Луна</button>
-        <button type="button" onclick="window.applyLootPreset('jupiter')" style="background: #e67e22; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🪐 Юпитер</button>
-        <button type="button" onclick="window.applyLootPreset('mars')" style="background: #c0392b; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🔴 Марс</button>
-        <button type="button" onclick="window.applyLootPreset('venus')" style="background: #d35400; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🌋 Венера</button>
-        <button type="button" onclick="window.applyLootPreset('saturn')" style="background: #f1c40f; color: #2c3e50; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🪐 Сатурн</button>
-        <button type="button" onclick="window.applyLootPreset('neptune')" style="background: #2980b9; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🔵 Нептун</button>
-        <button type="button" onclick="window.applyLootPreset('pluto')" style="background: #34495e; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🌱 Плутон</button>
-        <button type="button" onclick="window.applyLootPreset('photon')" style="background: #1abc9c; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">✨ Фотон</button>
-        <button type="button" onclick="window.applyLootPreset('end')" style="background: #8e44ad; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🔮 Край</button>
+        <button id="btnPlanetEarth" type="button" onclick="window.applyLootPreset('earth')" style="background: #27ae60; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🌍 Земля</button>
+        <button id="btnPlanetMoon" type="button" onclick="window.applyLootPreset('moon')" style="background: #7f8c8d; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🌙 Луна</button>
+        <button id="btnPlanetJupiter" type="button" onclick="window.applyLootPreset('jupiter')" style="background: #e67e22; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🪐 Юпитер</button>
+        <button id="btnPlanetMars" type="button" onclick="window.applyLootPreset('mars')" style="background: #c0392b; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🔴 Марс</button>
+        <button id="btnPlanetVenus" type="button" onclick="window.applyLootPreset('venus')" style="background: #d35400; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🌋 Венера</button>
+        <button id="btnPlanetSaturn" type="button" onclick="window.applyLootPreset('saturn')" style="background: #f1c40f; color: #2c3e50; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🪐 Сатурн</button>
+        <button id="btnPlanetNeptune" type="button" onclick="window.applyLootPreset('neptune')" style="background: #2980b9; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🔵 Нептун</button>
+        <button id="btnPlanetPluto" type="button" onclick="window.applyLootPreset('pluto')" style="background: #34495e; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🌱 Плутон</button>
+        <button id="btnPlanetPhoton" type="button" onclick="window.applyLootPreset('photon')" style="background: #1abc9c; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">✨ Фотон</button>
+        <button id="btnPlanetEnd" type="button" onclick="window.applyLootPreset('end')" style="background: #8e44ad; color: #fff; border: none; padding: 8px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: opacity 0.2s;">🔮 Край</button>
     </div>
 	<!-- ПОЛЕ ДИНАМИЧЕСКОГО ПОИСКА ПРЕДМЕТОВ -->
-<div style="margin-bottom: 12px; position: relative;">
+<div style="margin-bottom: 12px; position: relative; margin-top: 10px;">
     <input type="text" id="lootSearchInput" oninput="window.filterLootTable(this.value)" placeholder="🔍 Быстрый поиск предмета по названию или ID (например: алмаз, stone, dirt)..." style="width: 100%; background: #111; border: 1px solid rgba(153,204,255,0.4); color: #fff; padding: 10px 12px; border-radius: 4px; font-size: 13px; box-sizing: border-box; outline: none; transition: border-color 0.2s;">
 </div>
 
@@ -665,11 +681,11 @@
             <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
                 <thead>
                     <tr style="background: rgba(153,204,255,0.1); color: #fff; border-bottom: 1px solid rgba(153,204,255,0.3);">
-                        <th style="padding: 10px; width: 40px; text-align: center;">Вкл.</th>
-                        <th style="padding: 10px;">Предмет лута</th>
-                        <th style="padding: 10px; width: 80px;">Шанс (Вес)</th>
-                        <th style="padding: 10px; width: 60px; text-align: center;">Мин.</th>
-                        <th style="padding: 10px; width: 60px; text-align: center;">Макс.</th>
+                        <th id="thLootEnabled" style="padding: 10px; width: 40px; text-align: center;">Вкл.</th>
+                        <th id="thLootItem" style="padding: 10px;">Предмет лута</th>
+                        <th id="thLootWeight" style="padding: 10px; width: 80px;">Шанс (Вес)</th>
+                        <th id="thLootMin" style="padding: 10px; width: 60px; text-align: center;">Мин.</th>
+                        <th id="thLootMax" style="padding: 10px; width: 60px; text-align: center;">Макс.</th>
                     </tr>
                 </thead>
                 <tbody id="lootEditorTableBody">
@@ -680,21 +696,21 @@
 <!-- НОВЫЙ БЛОК: СУНДУК ПАНДОРЫ И КАСТОМНЫЙ ЦВЕТ -->
 <div style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.02); padding: 10px; border: 1px solid rgba(153,204,255,0.1); border-radius: 4px; width: fit-content;">
     
-    <!-- Кнопка Пандоры -->
-            <!-- Кнопка Пандоры + Счётчик предметов -->
+    <!-- Кнопка Пандоры + Счётчик предметов -->
             <div style="display: flex; align-items: center; gap: 4px;">
-                <button type="button" onclick="window.activatePandoraChest()" style="background: #9b59b6; color: #fff; border: none; padding: 7px 12px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer;">
+                <button id="btnPandoraChest" type="button" onclick="window.activatePandoraChest()" style="background: #9b59b6; color: #fff; border: none; padding: 7px 12px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer;">
                     🎲 Сундук Пандоры
                 </button>
                 <input type="number" id="pandoraCountInput" min="1" max="50" value="5" title="Количество случайных предметов для Пандоры" style="width: 42px; background: #111; border: 1px solid #9b59b6; color: #fff; padding: 6px 4px; border-radius: 3px; font-size: 11px; font-family: monospace; text-align: center; outline: none;">
             </div>
+
     
     <!-- Разделитель -->
     <div style="width: 1px; height: 24px; background: rgba(153,204,255,0.2);"></div>
     
-    <!-- Тонкая настройка цвета (Палитра + Поля ввода) -->
+<!-- Тонкая настройка цвета (Палитра + Поля ввода) -->
     <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 11px; color: #ccc; font-weight: bold; text-transform: uppercase;">🎨 Цвет:</span>
+        <span id="lblLootColor" style="font-size: 11px; color: #ccc; font-weight: bold; text-transform: uppercase;">🎨 Цвет:</span>
         
         <!-- Клик по этому инпуту откроет системную палитру (как цветовой круг) -->
         <input type="color" id="customLootColorPicker" onchange="window.updateColorFromPicker(this.value)" value="#ffcc00" style="width: 28px; height: 24px; border: 1px solid rgba(153,204,255,0.3); background: none; cursor: pointer; padding: 0; border-radius: 3px;">
@@ -725,7 +741,7 @@
 
         <!-- НИЖНЯЯ КНОПКА СОХРАНЕНИЯ -->
         <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
-            <button type="button" onclick="window.toggleLootEditor(false)" style="background: #438a5e; color: #fff; border: none; padding: 10px 24px; font-size: 13px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: background 0.1s;">💾 Применить и закрыть</button>
+            <button id="btnLootApplyClose" type="button" onclick="window.toggleLootEditor(false)" style="background: #438a5e; color: #fff; border: none; padding: 10px 24px; font-size: 13px; font-weight: bold; border-radius: 3px; cursor: pointer; transition: background 0.1s;">💾 Применить и закрыть</button>
         </div>
     </div>
 </div>
@@ -739,8 +755,8 @@
         <!-- Верхняя панель управления -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(153,204,255,0.2); padding-bottom: 10px; flex-wrap: wrap; gap: 10px;">
             <div style="display: flex; align-items: center; gap: 15px;">
-                <h3 style="margin: 0; font-size: 16px; color: #ffcc00; text-transform: uppercase;">🕸 Карта связей квестов</h3>
-                <span style="font-size: 11px; color: #aaa;">ЛКМ — двигать | Клик по 🟢 — связать/отвязать</span>
+                <h3 id="lblCanvasTitle" style="margin: 0; font-size: 16px; color: #ffcc00; text-transform: uppercase;">🕸 Карта связей квестов</h3>
+                <span id="lblCanvasHint" style="font-size: 11px; color: #aaa;">ЛКМ — двигать | Клик по 🟢 — связать/отвязать</span>
             </div>
             <div style="display: flex; gap: 8px; align-items: center;">
                 <!-- Управление масштабом (Зум) -->
@@ -750,10 +766,11 @@
                     <button type="button" onclick="window.changeCanvasZoom(0.15)" style="background: none; color: #fff; border: none; padding: 4px 8px; cursor: pointer; font-weight: bold;">➕</button>
                 </div>
 
-                <button type="button" onclick="window.clearAllCanvasLinks()" style="background: #c0392b; color: #fff; border: none; padding: 6px 12px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer;">✂ Сбросить связи</button>
-                <button type="button" onclick="window.toggleQuestCanvas(false)" style="background: #27ae60; color: #fff; border: none; padding: 6px 14px; font-size: 12px; font-weight: bold; border-radius: 3px; cursor: pointer;">💾 Готово</button>
+                <button id="btnCanvasClear" type="button" onclick="window.clearAllCanvasLinks()" style="background: #c0392b; color: #fff; border: none; padding: 6px 12px; font-size: 11px; font-weight: bold; border-radius: 3px; cursor: pointer;">✂ Сбросить связи</button>
+                <button id="btnCanvasDone" type="button" onclick="window.toggleQuestCanvas(false)" style="background: #27ae60; color: #fff; border: none; padding: 6px 14px; font-size: 12px; font-weight: bold; border-radius: 3px; cursor: pointer;">💾 Готово</button>
             </div>
         </div>
+
 
         <!-- Рабочая сетка с прокруткой -->
         <div id="questCanvasBoard" style="position: relative; flex-grow: 1; background-color: #141414; border: 1px solid rgba(153,204,255,0.3); border-radius: 4px; overflow: auto;">
@@ -1150,8 +1167,10 @@ window.activatePandoraChest = function() {
     
     let flatItemsPool = [];
     for (let category in window.lootRegistry) {
+        if (['beneficial', 'harmful', 'neutral'].includes(category)) continue;
         window.lootRegistry[category].forEach(item => { flatItemsPool.push(item); });
     }
+
     
     let shuffled = flatItemsPool.sort(() => 0.5 - Math.random());
     
@@ -1220,13 +1239,28 @@ window.renderLootEditorRows = function() {
 
     // Перебираем категории из оригинального реестра lootRegistry
     for (let category in window.lootRegistry) {
+        if (['beneficial', 'harmful', 'neutral'].includes(category)) continue;
         const currentTextColor = colorMap[category] || '#99ccff';
+
         
-        if (Array.isArray(window.lootRegistry[category])) {
+                if (Array.isArray(window.lootRegistry[category])) {
             window.lootRegistry[category].forEach((item, index) => {
                 const isChecked = item.enabled ? 'checked' : '';
                 const activeLang = (typeof currentLang !== 'undefined') ? currentLang : 'ru';
-                const displayName = activeLang === 'ru' ? item.name_ru : item.name_en;
+                let lookupKey = item.id;
+                if (item.damage) {
+                    lookupKey = item.id + ':' + item.damage;
+                } else if (item.nbt && item.nbt.includes('EntityTag')) {
+                    const match = item.nbt.match(/id:"([^"]+)"/);
+                    if (match) lookupKey = item.id + '|' + match[1];
+                } else if (item.nbt && item.nbt.includes('Potion')) {
+                    const match = item.nbt.match(/Potion:"([^"]+)"/);
+                    if (match) lookupKey = item.id + '|' + match[1];
+                }
+                const extraNames = window.mcItemNames && (window.mcItemNames[lookupKey] || window.mcItemNames[item.id]);
+                const displayName = (activeLang === 'ru') ? item.name_ru : ((extraNames && extraNames[activeLang]) || item.name_en);
+
+
                 
                 html += `
                     <tr style="border-bottom: 1px solid rgba(153,204,255,0.1); background: rgba(0,0,0,0.2);">
@@ -1265,6 +1299,10 @@ window.setLootEditorModeUI = function(isCustom) {
     const customBtn = document.getElementById('customModeBtn');
     const nameInput = document.getElementById('customCrateNameInput');
 
+    const activeDict = (typeof lng !== 'undefined' && lng[currentLang]) ? lng[currentLang] : (typeof lng !== 'undefined' ? lng['ru'] : null);
+    const activeText = (activeDict && activeDict.btnCustomLootModeActive) ? activeDict.btnCustomLootModeActive : '✅ Свой выбор';
+    const defaultText = (activeDict && activeDict.btnCustomLootMode) ? activeDict.btnCustomLootMode : '🛠️ Свой выбор';
+
     if (isCustom) {
         if (presetContainer) {
             presetContainer.style.opacity = '0.35';
@@ -1276,7 +1314,7 @@ window.setLootEditorModeUI = function(isCustom) {
         }
         if (customBtn) {
             customBtn.style.background = '#e67e22';
-            customBtn.innerText = '✅ Свой выбор';
+            customBtn.innerText = activeText;
         }
         if (nameInput) {
             nameInput.style.display = 'inline-block';
@@ -1292,7 +1330,7 @@ window.setLootEditorModeUI = function(isCustom) {
         }
         if (customBtn) {
             customBtn.style.background = '#34495e';
-            customBtn.innerText = '🛠️ Свой выбор';
+            customBtn.innerText = defaultText;
         }
         if (nameInput) {
             nameInput.style.display = 'none';
@@ -2015,8 +2053,8 @@ window.lootRegistry = {
         { id: "minecraft:quartz_ore", name_ru: "Кварцевая руда", name_en: "Quartz Ore", icon: "⛏️", enabled: false, weight: 30, min: 2, max: 6 },
         { id: "minecraft:redstone_ore", name_ru: "Редстоуновая руда", name_en: "Redstone Ore", icon: "⛏️", enabled: false, weight: 30, min: 2, max: 6 },
         { id: "minecraft:coal_block", name_ru: "Угольный блок", name_en: "Coal Block", icon: "⬛", enabled: false, weight: 45, min: 1, max: 4 }
-
     ],
+
 
     // 2. СТРОИТЕЛЬНЫЕ БЛОКИ
     blocks: [
@@ -2158,8 +2196,6 @@ window.lootRegistry = {
         { id: "minecraft:chorus_fruit_popped", name_ru: "Прожаренный плод коруса", name_en: "Popped Chorus Fruit", icon: "🍿", enabled: false, weight: 55, min: 4, max: 12 },
 		{ id: "minecraft:dye", damage: 3, name_ru: "Какао-бобы", name_en: "Cocoa Beans", icon: "🟤", enabled: false, weight: 65, min: 2, max: 8 },
 		{ id: "minecraft:red_flower", damage: 4, name_ru: "Красный тюльпан", name_en: "Red Tulip", icon: "🌷", enabled: false, weight: 40, min: 1, max: 4 },
-
-
     ],
 
     // 5. ЭКЗОТИКА И РЕДКИЙ ЛУТ
@@ -2377,7 +2413,7 @@ window.lootRegistry = {
         { id: "minecraft:cauldron", name_ru: "Котёл", name_en: "Cauldron", icon: "🪨", enabled: false, weight: 35, min: 1, max: 1 },
         { id: "minecraft:nether_wart", name_ru: "Адский нарост", name_en: "Nether Wart", icon: "🍄", enabled: false, weight: 60, min: 2, max: 8 },
         { id: "minecraft:blaze_powder", name_ru: "Огненный порошок", name_en: "Blaze Powder", icon: "✨", enabled: false, weight: 50, min: 2, max: 6 },
-        { id: "minecraft:magma_cream", weight: 45, min: 1, max: 4 },
+        { id: "minecraft:magma_cream", name_ru: "Сгусток магмы", name_en: "Magma Cream", icon: "🔥", enabled: false, weight: 45, min: 1, max: 4 },
         { id: "minecraft:fermented_spider_eye", name_ru: "Маринованный паучий глаз", name_en: "Fermented Spider Eye", icon: "👁️", enabled: false, weight: 45, min: 1, max: 3 },
         { id: "minecraft:speckled_melon", name_ru: "Сверкающий ломтик арбуза", name_en: "Glistering Melon", icon: "🍉", enabled: false, weight: 45, min: 1, max: 4 },
         { id: "minecraft:golden_carrot", name_ru: "Золотая морковь", name_en: "Golden Carrot", icon: "🥕", enabled: false, weight: 45, min: 1, max: 3 },
@@ -2444,6 +2480,406 @@ window.lootRegistry = {
         { id: "minecraft:glowing", name_ru: "Свечение (Контур) (Эффект нейт.)", name_en: "Glowing", icon: "🌟" }
     ]
 };
+
+    // =========================================================================
+    // ЯПОНСКИЙ\КИТАЙСКИЙ\КОРЕЙСКИЙ (АЗИЯ мать его..!)
+    // =========================================================================
+
+window.mcItemNames = Object.assign(window.mcItemNames || {}, {
+    "minecraft:coal":         { ja: "石炭", zh_sp: "煤炭", zh_tr: "煤炭", ko: "석탄" },
+    "minecraft:iron_ingot":   { ja: "鉄インゴット", zh_sp: "铁锭", zh_tr: "鐵錠", ko: "철 주괴" },
+    "minecraft:gold_ingot":   { ja: "金インゴット", zh_sp: "金锭", zh_tr: "金錠", ko: "금 주괴" },
+    "minecraft:diamond":      { ja: "ダイヤモンド", zh_sp: "钻石", zh_tr: "鑽石", ko: "다이아몬드" },
+    "minecraft:emerald":      { ja: "エメラルド", zh_sp: "绿宝石", zh_tr: "綠寶石", ko: "에메랄드" },
+    "minecraft:lapis_lazuli": { ja: "ラピスラズリ", zh_sp: "青金石", zh_tr: "青金石", ko: "청금석" },
+    "minecraft:quartz":       { ja: "ネザークォーツ", zh_sp: "下界石英", zh_tr: "地獄石英", ko: "네더 석영" },
+    "minecraft:coal_ore":     { ja: "石炭鉱石", zh_sp: "煤矿石", zh_tr: "煤礦", ko: "석탄 광석" },
+    "minecraft:iron_ore":     { ja: "鉄鉱石", zh_sp: "铁矿石", zh_tr: "鐵礦", ko: "철 광석" },
+    "minecraft:gold_ore":     { ja: "金鉱石", zh_sp: "金矿石", zh_tr: "金礦", ko: "금 광석" },
+    "minecraft:lapis_ore":    { ja: "ラピスラズリ鉱石", zh_sp: "青金石矿石", zh_tr: "青金石礦", ko: "청금석 광석" },
+    "minecraft:diamond_ore":  { ja: "ダイヤモンド鉱石", zh_sp: "钻石矿石", zh_tr: "鑽石礦", ko: "다이아몬드 광석" },
+    "minecraft:emerald_ore":  { ja: "エメラルド鉱石", zh_sp: "绿宝石矿石", zh_tr: "綠寶石礦", ko: "에메랄드 광석" },
+    "minecraft:quartz_ore":   { ja: "ネザークォーツ鉱石", zh_sp: "下界石英矿石", zh_tr: "地獄石英礦", ko: "네더 석영 광석" },
+    "minecraft:redstone_ore": { ja: "レッドストーン鉱石", zh_sp: "红石矿石", zh_tr: "紅石礦", ko: "레드스톤 광석" },
+    "minecraft:coal_block":   { ja: "石炭ブロック", zh_sp: "煤炭块", zh_tr: "煤炭方塊", ko: "석탄 블록" },
+
+    "minecraft:stone":                  { ja: "石", zh_sp: "石头", zh_tr: "石頭", ko: "돌" },
+    "minecraft:dirt":                   { ja: "土", zh_sp: "泥土", zh_tr: "泥土", ko: "흙" },
+    "minecraft:cobblestone":            { ja: "丸石", zh_sp: "圆石", zh_tr: "鵝卵石", ko: "조약돌" },
+    "minecraft:planks":                 { ja: "木材", zh_sp: "木板", zh_tr: "木材", ko: "목재" },
+    "minecraft:bedrock":                { ja: "岩盤", zh_sp: "基岩", zh_tr: "基岩", ko: "기반암" },
+    "minecraft:sand":                   { ja: "砂", zh_sp: "沙子", zh_tr: "沙子", ko: "모래" },
+    "minecraft:gravel":                 { ja: "砂利", zh_sp: "沙砾", zh_tr: "礫石", ko: "자갈" },
+    "minecraft:glass":                  { ja: "ガラス", zh_sp: "玻璃", zh_tr: "玻璃", ko: "유리" },
+    "minecraft:sandstone":              { ja: "砂岩", zh_sp: "砂岩", zh_tr: "砂岩", ko: "사암" },
+    "minecraft:obsidian":               { ja: "黒曜石", zh_sp: "黑曜石", zh_tr: "黑曜石", ko: "흑요석" },
+    "minecraft:brick_block":            { ja: "レンガ", zh_sp: "砖块", zh_tr: "紅磚", ko: "벽돌" },
+    "minecraft:mossy_cobblestone":      { ja: "苔石", zh_sp: "苔石", zh_tr: "青苔鵝卵石", ko: "이끼 낀 조약돌" },
+    "minecraft:netherrack":             { ja: "ネザーラック", zh_sp: "地狱岩", zh_tr: "地獄石", ko: "네더랙" },
+    "minecraft:soul_sand":              { ja: "ソウルサンド", zh_sp: "灵魂沙", zh_tr: "靈魂砂", ko: "영혼 모래" },
+    "minecraft:stonebrick":             { ja: "石レンガ", zh_sp: "石砖", zh_tr: "石磚", ko: "석재 벽돌" },
+    "minecraft:end_stone":              { ja: "エンドストーン", zh_sp: "末地石", zh_tr: "終界石", ko: "엔드 돌" },
+    "minecraft:prismarine":             { ja: "プリズマリン", zh_sp: "海晶石", zh_tr: "海磷石", ko: "프리즈머린" },
+    "minecraft:hardened_clay":          { ja: "テラコッタ", zh_sp: "陶瓦", zh_tr: "陶土", ko: "테라코타" },
+    "minecraft:stained_hardened_clay":  { ja: "色付きテラコッタ", zh_sp: "染色陶瓦", zh_tr: "染色陶土", ko: "염색된 테라코타" },
+    "minecraft:ice":                    { ja: "氷", zh_sp: "冰", zh_tr: "冰", ko: "얼음" },
+    "minecraft:snow":                   { ja: "雪", zh_sp: "雪块", zh_tr: "雪塊", ko: "눈" },
+    "minecraft:clay":                   { ja: "粘土", zh_sp: "粘土块", zh_tr: "黏土", ko: "점토" },
+    "minecraft:oak_stairs":             { ja: "オークの階段", zh_sp: "橡木楼梯", zh_tr: "橡木階梯", ko: "참나무 계단" },
+    "minecraft:stone_stairs":           { ja: "丸石の階段", zh_sp: "圆石楼梯", zh_tr: "鵝卵石階梯", ko: "조약돌 계단" },
+    "minecraft:brick_stairs":           { ja: "レンガの階段", zh_sp: "砖楼梯", zh_tr: "紅磚階梯", ko: "벽돌 계단" },
+    "minecraft:stone_brick_stairs":     { ja: "石レンガの階段", zh_sp: "石砖楼梯", zh_tr: "石磚階梯", ko: "석재 벽돌 계단" },
+    "minecraft:nether_brick_stairs":    { ja: "ネザーレンガの階段", zh_sp: "地狱砖楼梯", zh_tr: "地獄磚階梯", ko: "네더 벽돌 계단" },
+    "minecraft:sandstone_stairs":       { ja: "砂岩の階段", zh_sp: "砂岩楼梯", zh_tr: "砂岩階梯", ko: "사암 계단" },
+    "minecraft:spruce_stairs":          { ja: "トウヒの階段", zh_sp: "云杉木楼梯", zh_tr: "杉木階梯", ko: "가문비나무 계단" },
+    "minecraft:birch_stairs":           { ja: "シラカバの階段", zh_sp: "白桦木楼梯", zh_tr: "樺木階梯", ko: "자작나무 계단" },
+    "minecraft:jungle_stairs":          { ja: "ジャングルの階段", zh_sp: "丛林木楼梯", zh_tr: "叢林木階梯", ko: "정글 나무 계단" },
+    "minecraft:acacia_stairs":          { ja: "アカシアの階段", zh_sp: "金合欢木楼梯", zh_tr: "相思木階梯", ko: "아카시아나무 계단" },
+    "minecraft:dark_oak_stairs":        { ja: "ダークオークの階段", zh_sp: "深色橡木楼梯", zh_tr: "黑橡木階梯", ko: "짙은 참나무 계단" },
+    "minecraft:stone_slab":             { ja: "石のハーフブロック", zh_sp: "石台阶", zh_tr: "石半磚", ko: "돌 반 블록" },
+    "minecraft:wooden_slab":            { ja: "木のハーフブロック", zh_sp: "木台阶", zh_tr: "木半磚", ko: "나무 반 블록" },
+    "minecraft:red_sandstone":          { ja: "赤い砂岩", zh_sp: "红砂岩", zh_tr: "紅砂岩", ko: "붉은 사암" },
+    "minecraft:red_sandstone_stairs":   { ja: "赤い砂岩の階段", zh_sp: "红砂岩楼梯", zh_tr: "紅砂岩階梯", ko: "붉은 사암 계단" },
+    "minecraft:stone_slab2":            { ja: "赤い砂岩のハーフブロック", zh_sp: "红砂岩台阶", zh_tr: "紅砂岩半磚", ko: "붉은 사암 반 블록" },
+    "minecraft:purpur_block":           { ja: "プルプァブロック", zh_sp: "紫珀块", zh_tr: "紫珀方塊", ko: "퍼퍼 블록" },
+    "minecraft:purpur_pillar":          { ja: "プルプァの柱", zh_sp: "紫珀柱", zh_tr: "紫珀柱", ko: "퍼퍼 기둥" },
+    "minecraft:purpur_stairs":          { ja: "プルプァの階段", zh_sp: "紫珀楼梯", zh_tr: "紫珀階梯", ko: "퍼퍼 계단" },
+    "minecraft:purpur_slab":            { ja: "プルプァのハーフブロック", zh_sp: "紫珀台阶", zh_tr: "紫珀半磚", ko: "퍼퍼 반 블록" },
+    "minecraft:end_bricks":             { ja: "エンドストーンレンガ", zh_sp: "末地石砖", zh_tr: "終界石磚", ko: "엔드 석재 벽돌" },
+    "minecraft:magma":                  { ja: "マグマブロック", zh_sp: "岩浆块", zh_tr: "岩漿塊", ko: "마그마 블록" },
+    "minecraft:nether_wart_block":      { ja: "ネザーウォートブロック", zh_sp: "地狱疣块", zh_tr: "地獄疙瘩塊", ko: "네더 사마귀 블록" },
+    "minecraft:red_nether_brick":       { ja: "赤いネザーレンガ", zh_sp: "红色地狱砖", zh_tr: "紅地獄磚", ko: "붉은 네더 벽돌" },
+    "minecraft:bone_block":             { ja: "骨ブロック", zh_sp: "骨块", zh_tr: "骨塊", ko: "뼈 블록" },
+    "minecraft:concrete":               { ja: "コンクリート", zh_sp: "混凝土", zh_tr: "混凝土", ko: "콘크리트" },
+    "minecraft:concrete_powder":        { ja: "コンクリートパウダー", zh_sp: "混凝土粉末", zh_tr: "混凝土粉末", ko: "콘크리트 가루" },
+    "minecraft:crafting_table":         { ja: "作業台", zh_sp: "工作台", zh_tr: "工作台", ko: "제작대" },
+    "minecraft:double_stone_slab":      { ja: "二重の石ハーフブロック", zh_sp: "双层石台阶", zh_tr: "雙層石半磚", ko: "이중 돌 반 블록" },
+    "minecraft:packed_ice":             { ja: "氷塊", zh_sp: "浮冰", zh_tr: "冰磚", ko: "꽁꽁 언 얼음" },
+
+    "minecraft:dispenser":                     { ja: "ディスペンサー", zh_sp: "发射器", zh_tr: "發射器", ko: "발사기" },
+    "minecraft:noteblock":                     { ja: "音符ブロック", zh_sp: "音符盒", zh_tr: "音符盒", ko: "소리 블록" },
+    "minecraft:sticky_piston":                 { ja: "粘着ピストン", zh_sp: "粘性活塞", zh_tr: "黏性活塞", ko: "끈끈이 피스톤" },
+    "minecraft:piston":                        { ja: "ピストン", zh_sp: "活塞", zh_tr: "活塞", ko: "피스톤" },
+    "minecraft:tnt":                           { ja: "TNT", zh_sp: "TNT", zh_tr: "TNT", ko: "TNT" },
+    "minecraft:rail":                          { ja: "レール", zh_sp: "铁轨", zh_tr: "鐵軌", ko: "레일" },
+    "minecraft:golden_rail":                   { ja: "パワードレール", zh_sp: "充能铁轨", zh_tr: "動力鐵軌", ko: "전동 레일" },
+    "minecraft:detector_rail":                 { ja: "ディテクターレール", zh_sp: "探测铁轨", zh_tr: "感測鐵軌", ko: "탐지 레일" },
+    "minecraft:activator_rail":                { ja: "アクティベーターレール", zh_sp: "激活铁轨", zh_tr: "觸發鐵軌", ko: "활성화 레일" },
+    "minecraft:lever":                         { ja: "レバー", zh_sp: "拉杆", zh_tr: "控制桿", ko: "레버" },
+    "minecraft:redstone_block":                { ja: "レッドストーンブロック", zh_sp: "红石块", zh_tr: "紅石方塊", ko: "레드스톤 블록" },
+    "minecraft:hopper":                        { ja: "ホッパー", zh_sp: "漏斗", zh_tr: "漏斗", ko: "호퍼" },
+    "minecraft:dropper":                       { ja: "ドロッパー", zh_sp: "投掷器", zh_tr: "投擲器", ko: "공급기" },
+    "minecraft:command_block":                 { ja: "コマンドブロック", zh_sp: "命令方块", zh_tr: "指令方塊", ko: "명령 블록" },
+    "minecraft:stone_pressure_plate":          { ja: "石の感圧板", zh_sp: "石质压力板", zh_tr: "石質壓力板", ko: "돌 압력판" },
+    "minecraft:wooden_pressure_plate":         { ja: "木の感圧板", zh_sp: "木质压力板", zh_tr: "木質壓力板", ko: "나무 압력판" },
+    "minecraft:light_weighted_pressure_plate": { ja: "重量感圧板 (軽)", zh_sp: "测重压力板 (轻质)", zh_tr: "測重壓力板 (輕質)", ko: "경량 무게 압력판" },
+    "minecraft:heavy_weighted_pressure_plate": { ja: "重量感圧板 (重)", zh_sp: "测重压力板 (重质)", zh_tr: "測重壓力板 (重質)", ko: "중량 무게 압력판" },
+    "minecraft:stone_button":                  { ja: "石のボタン", zh_sp: "石按钮", zh_tr: "石按鈕", ko: "돌 버튼" },
+    "minecraft:wooden_button":                 { ja: "木のボタン", zh_sp: "木按钮", zh_tr: "木按鈕", ko: "나무 버튼" },
+    "minecraft:daylight_detector":             { ja: "日照センサー", zh_sp: "阳光传感器", zh_tr: "日光感測器", ko: "햇빛 감지기" },
+    "minecraft:repeating_command_block":       { ja: "リピートコマンドブロック", zh_sp: "循环型命令方块", zh_tr: "重複型指令方塊", ko: "반복형 명령 블록" },
+    "minecraft:chain_command_block":           { ja: "チェーンコマンドブロック", zh_sp: "连锁型命令方块", zh_tr: "連鎖型指令方塊", ko: "연쇄형 명령 블록" },
+    "minecraft:observer":                      { ja: "オブザーバー", zh_sp: "侦测器", zh_tr: "偵測器", ko: "관측기" },
+    "minecraft:repeater":                      { ja: "レッドストーンリピーター", zh_sp: "红石中继器", zh_tr: "紅石中繼器", ko: "레드스톤 중계기" },
+    "minecraft:comparator":                    { ja: "レッドストーンコンパレーター", zh_sp: "红石比较器", zh_tr: "紅石比較器", ko: "레드스톤 비교기" },
+    "minecraft:minecart":                      { ja: "トロッコ", zh_sp: "矿车", zh_tr: "礦車", ko: "광산 수레" },
+    "minecraft:chest_minecart":                { ja: "チェスト付きトロッコ", zh_sp: "运输矿车", zh_tr: "儲物箱礦車", ko: "상자가 실린 광산 수레" },
+    "minecraft:furnace_minecart":              { ja: "かまど付きトロッコ", zh_sp: "动力矿车", zh_tr: "熔爐礦車", ko: "화로가 실린 광산 수레" },
+    "minecraft:tnt_minecart":                  { ja: "TNT付きトロッコ", zh_sp: "TNT矿车", zh_tr: "TNT礦車", ko: "TNT가 실린 광산 수레" },
+    "minecraft:hopper_minecart":               { ja: "ホッパー付きトロッコ", zh_sp: "漏斗矿车", zh_tr: "漏斗礦車", ko: "호퍼가 실린 광산 수레" },
+    "minecraft:command_block_minecart":        { ja: "コマンドブロック付きトロッコ", zh_sp: "命令方块矿车", zh_tr: "指令方塊礦車", ko: "명령 블록이 실린 광산 수레" },
+    "minecraft:redstone_wire":                 { ja: "レッドストーン", zh_sp: "红石粉", zh_tr: "紅石粉", ko: "레드스톤" },
+    "minecraft:redstone_torch":                { ja: "レッドストーントーチ", zh_sp: "红石火把", zh_tr: "紅石火把", ko: "레드스톤 횃불" },
+    "minecraft:tripwire_hook":                 { ja: "トリップワイヤーフック", zh_sp: "绊线钩", zh_tr: "絆線鉤", ko: "철사 덫 갈고리" },
+
+    "minecraft:grass":                { ja: "草ブロック", zh_sp: "草方块", zh_tr: "草地", ko: "잔디 블록" },
+    "minecraft:sapling":              { ja: "苗木", zh_sp: "树苗", zh_tr: "樹苗", ko: "묘목" },
+    "minecraft:log":                  { ja: "オークの原木", zh_sp: "橡木原木", zh_tr: "橡木原木", ko: "참나무 원목" },
+    "minecraft:leaves":               { ja: "葉", zh_sp: "树叶", zh_tr: "樹葉", ko: "나뭇잎" },
+    "minecraft:sponge":               { ja: "スポンジ", zh_sp: "海绵", zh_tr: "海綿", ko: "스펀지" },
+    "minecraft:pumpkin":              { ja: "カボチャ", zh_sp: "南瓜", zh_tr: "南瓜", ko: "호박" },
+    "minecraft:melon_block":          { ja: "スイカ", zh_sp: "西瓜", zh_tr: "西瓜", ko: "수박" },
+    "minecraft:mycelium":             { ja: "菌糸", zh_sp: "菌丝", zh_tr: "菌絲土", ko: "균사체" },
+    "minecraft:cactus":               { ja: "サボテン", zh_sp: "仙人掌", zh_tr: "仙人掌", ko: "선인장" },
+    "minecraft:hay_block":            { ja: "干草の俵", zh_sp: "干草块", zh_tr: "乾草捆", ko: "건초 더미" },
+    "minecraft:wheat_seeds":          { ja: "小麦の種", zh_sp: "小麦种子", zh_tr: "小麥種子", ko: "밀 씨앗" },
+    "minecraft:wheat":                { ja: "小麦", zh_sp: "小麦", zh_tr: "小麥", ko: "밀" },
+    "minecraft:carrot":               { ja: "ニンジン", zh_sp: "胡萝卜", zh_tr: "胡蘿蔔", ko: "당근" },
+    "minecraft:potato":               { ja: "ジャガイモ", zh_sp: "马铃薯", zh_tr: "馬鈴薯", ko: "감자" },
+    "minecraft:tallgrass":            { ja: "背の高い草", zh_sp: "高草丛", zh_tr: "芒草", ko: "키 큰 잔디" },
+    "minecraft:deadbush":             { ja: "枯れ木", zh_sp: "枯萎的灌木", zh_tr: "枯灌木", ko: "마른 덤불" },
+    "minecraft:yellow_flower":        { ja: "タンポポ", zh_sp: "蒲公英", zh_tr: "蒲公英", ko: "민들레" },
+    "minecraft:red_flower":           { ja: "ポピー", zh_sp: "虞美人", zh_tr: "罌粟", ko: "양귀비" },
+    "minecraft:red_flower:4":         { ja: "赤色のチューリップ", zh_sp: "红色郁金香", zh_tr: "紅色鬱金香", ko: "빨간색 튤립" },
+    "minecraft:brown_mushroom":       { ja: "茶色のキノコ", zh_sp: "棕色蘑菇", zh_tr: "棕色蘑菇", ko: "갈색 버섯" },
+    "minecraft:red_mushroom":         { ja: "赤色のキノコ", zh_sp: "红色蘑菇", zh_tr: "紅色蘑菇", ko: "빨간색 버섯" },
+    "minecraft:vine":                 { ja: "ツタ", zh_sp: "藤蔓", zh_tr: "藤蔓", ko: "덩굴" },
+    "minecraft:waterlily":            { ja: "スイレンの葉", zh_sp: "睡莲", zh_tr: "荷葉", ko: "수련잎" },
+    "minecraft:log2":                 { ja: "アカシア/ダークオークの原木", zh_sp: "金合欢/深色橡木原木", zh_tr: "相思木/黑橡木原木", ko: "아카시아/짙은 참나무 원목" },
+    "minecraft:leaves2":              { ja: "アカシア/ダークオークの葉", zh_sp: "金合欢/深色橡木树叶", zh_tr: "相思木/黑橡木樹葉", ko: "아카시아/짙은 참나무 잎" },
+    "minecraft:double_plant":         { ja: "二段の花", zh_sp: "大型花朵", zh_tr: "大型花朵", ko: "키 큰 꽃" },
+    "minecraft:chorus_plant":         { ja: "コーラスプラント", zh_sp: "紫颂植物", zh_tr: "歌萊枝", ko: "후렴초" },
+    "minecraft:chorus_flower":        { ja: "コーラスフラワー", zh_sp: "紫颂花", zh_tr: "歌萊花", ko: "후렴화" },
+    "minecraft:grass_path":           { ja: "草の道", zh_sp: "草径", zh_tr: "草徑", ko: "잔디 길" },
+    "minecraft:reeds":                { ja: "サトウキビ", zh_sp: "甘蔗", zh_tr: "甘蔗", ko: "사탕수수" },
+    "minecraft:pumpkin_seeds":        { ja: "カボチャの種", zh_sp: "南瓜种子", zh_tr: "南瓜種子", ko: "호박 씨앗" },
+    "minecraft:melon_seeds":          { ja: "スイカの種", zh_sp: "西瓜种子", zh_tr: "西瓜種子", ko: "수박 씨앗" },
+    "minecraft:beetroot_seeds":       { ja: "ビートルートの種", zh_sp: "甜菜种子", zh_tr: "甜菜種子", ko: "비트 씨앗" },
+    "minecraft:chorus_fruit":         { ja: "コーラスフルーツ", zh_sp: "紫颂果", zh_tr: "歌萊果", ko: "후렴과" },
+    "minecraft:chorus_fruit_popped":  { ja: "焼いたコーラスフルーツ", zh_sp: "爆裂紫颂果", zh_tr: "爆裂歌萊果", ko: "튀긴 후렴과" },
+    "minecraft:dye:3":                { ja: "カカオ豆", zh_sp: "可可豆", zh_tr: "可可豆", ko: "코코아 콩" },
+    "minecraft:dye":                  { ja: "染料", zh_sp: "染料", zh_tr: "染料", ko: "염료" },
+
+    "minecraft:mob_spawner":        { ja: "モンスタースポナー", zh_sp: "刷怪箱", zh_tr: "生怪磚", ko: "몬스터 생성기" },
+    "minecraft:enchanting_table":   { ja: "エンチャントテーブル", zh_sp: "附魔台", zh_tr: "附魔台", ko: "마법 부여대" },
+    "minecraft:beacon":             { ja: "ビーコン", zh_sp: "信标", zh_tr: "烽火台", ko: "신호기" },
+    "minecraft:dragon_egg":         { ja: "ドラゴンの卵", zh_sp: "龙蛋", zh_tr: "龍蛋", ko: "드래곤 알" },
+    "minecraft:sea_lantern":        { ja: "シーランタン", zh_sp: "海晶灯", zh_tr: "海燈籠", ko: "바다 랜턴" },
+    "minecraft:golden_apple":       { ja: "金のリンゴ", zh_sp: "金苹果", zh_tr: "金蘋果", ko: "황금 사과" },
+    "minecraft:golden_apple:1":     { ja: "エンチャントされた金のリンゴ", zh_sp: "附魔金苹果", zh_tr: "附魔金蘋果", ko: "마법이 부여된 황금 사과" },
+    "minecraft:web":                { ja: "クモの巣", zh_sp: "蜘蛛网", zh_tr: "蜘蛛網", ko: "거미줄" },
+    "minecraft:slime":              { ja: "スライムブロック", zh_sp: "粘液块", zh_tr: "史萊姆方塊", ko: "슬라임 블록" },
+    "minecraft:barrier":            { ja: "バリアブロック", zh_sp: "屏障", zh_tr: "屏障", ko: "방벽" },
+    "minecraft:monster_egg":        { ja: "シルバーフィッシュ入りの石", zh_sp: "怪物蛋", zh_tr: "蠹魚石", ko: "몬스터 알" },
+    "minecraft:end_rod":            { ja: "エンドロッド", zh_sp: "末地烛", zh_tr: "終界燭", ko: "엔드 막대" },
+    "minecraft:structure_void":     { ja: "ストラクチャーヴォイド", zh_sp: "结构空位", zh_tr: "結構空位", ko: "구조물 공허" },
+    "minecraft:structure_block":    { ja: "ストラクチャーブロック", zh_sp: "结构方块", zh_tr: "結構方塊", ko: "구조물 블록" },
+    "minecraft:white_shulker_box":  { ja: "白色のシュルカーボックス", zh_sp: "白色潜影盒", zh_tr: "白色界伏盒", ko: "하얀색 셜커 상자" },
+
+    "minecraft:spawn_egg":                      { ja: "スポーンエッグ", zh_sp: "刷怪蛋", zh_tr: "生怪蛋", ko: "생성 알" },
+    "minecraft:spawn_egg|minecraft:pig":        { ja: "ブタのスポーンエッグ", zh_sp: "猪刷怪蛋", zh_tr: "豬生怪蛋", ko: "돼지 생성 알" },
+    "minecraft:spawn_egg|minecraft:cow":        { ja: "ウシのスポーンエッグ", zh_sp: "牛刷怪蛋", zh_tr: "牛生怪蛋", ko: "소 생성 알" },
+    "minecraft:spawn_egg|minecraft:sheep":      { ja: "ヒツジのスポーンエッグ", zh_sp: "羊刷怪蛋", zh_tr: "綿羊生怪蛋", ko: "양 생성 알" },
+    "minecraft:spawn_egg|minecraft:chicken":    { ja: "ニワトリのスポーンエッグ", zh_sp: "鸡刷怪蛋", zh_tr: "雞生怪蛋", ko: "닭 생성 알" },
+    "minecraft:spawn_egg|minecraft:rabbit":     { ja: "ウサギのスポーンエッグ", zh_sp: "兔子刷怪蛋", zh_tr: "兔子生怪蛋", ko: "토끼 생성 알" },
+    "minecraft:spawn_egg|minecraft:mooshroom":  { ja: "ムーシュルームのスポーンエッグ", zh_sp: "哞菇刷怪蛋", zh_tr: "哞菇生怪蛋", ko: "무시룸 생성 알" },
+    "minecraft:spawn_egg|minecraft:horse":      { ja: "ウマのスポーンエッグ", zh_sp: "马刷怪蛋", zh_tr: "馬生怪蛋", ko: "말 생성 알" },
+    "minecraft:spawn_egg|minecraft:donkey":     { ja: "ロバのスポーンエッグ", zh_sp: "驴刷怪蛋", zh_tr: "驢子生怪蛋", ko: "당나귀 생성 알" },
+    "minecraft:spawn_egg|minecraft:mule":       { ja: "ラバのスポーンエッグ", zh_sp: "骡刷怪蛋", zh_tr: "騾子生怪蛋", ko: "노새 생성 알" },
+    "minecraft:spawn_egg|minecraft:llama":      { ja: "ラマのスポーンエッグ", zh_sp: "羊驼刷怪蛋", zh_tr: "駱馬生怪蛋", ko: "라마 생성 알" },
+    "minecraft:spawn_egg|minecraft:wolf":       { ja: "オオカミのスポーンエッグ", zh_sp: "狼刷怪蛋", zh_tr: "狼生怪蛋", ko: "늑대 생성 알" },
+    "minecraft:spawn_egg|minecraft:ocelot":     { ja: "ヤマネコのスポーンエッグ", zh_sp: "豹猫刷怪蛋", zh_tr: "山貓生怪蛋", ko: "오실롯 생성 알" },
+    "minecraft:spawn_egg|minecraft:parrot":     { ja: "オウムのスポーンエッグ", zh_sp: "鹦鹉刷怪蛋", zh_tr: "鸚鵡生怪蛋", ko: "앵무새 생성 알" },
+    "minecraft:spawn_egg|minecraft:polar_bear": { ja: "シロクマのスポーンエッグ", zh_sp: "北极熊刷怪蛋", zh_tr: "北極熊生怪蛋", ko: "북극곰 생성 알" },
+    "minecraft:spawn_egg|minecraft:squid":      { ja: "イカのスポーンエッグ", zh_sp: "鱿鱼刷怪蛋", zh_tr: "魷魚生怪蛋", ko: "오징어 생성 알" },
+    "minecraft:spawn_egg|minecraft:bat":        { ja: "コウモリのスポーンエッグ", zh_sp: "蝙蝠刷怪蛋", zh_tr: "蝙蝠生怪蛋", ko: "박쥐 생성 알" },
+    "minecraft:spawn_egg|minecraft:villager":   { ja: "村人のスポーンエッグ", zh_sp: "村民刷怪蛋", zh_tr: "村民生怪蛋", ko: "주민 생성 알" },
+
+    "minecraft:spawn_egg|minecraft:zombie":              { ja: "ゾンビのスポーンエッグ", zh_sp: "僵尸刷怪蛋", zh_tr: "殭屍生怪蛋", ko: "좀비 생성 알" },
+    "minecraft:spawn_egg|minecraft:zombie_villager":     { ja: "村人ゾンビのスポーンエッグ", zh_sp: "僵尸村民刷怪蛋", zh_tr: "殭屍村民生怪蛋", ko: "좀비 주민 생성 알" },
+    "minecraft:spawn_egg|minecraft:husk":                { ja: "ハスクのスポーンエッグ", zh_sp: "尸壳刷怪蛋", zh_tr: "屍殼生怪蛋", ko: "허스크 생성 알" },
+    "minecraft:spawn_egg|minecraft:skeleton":            { ja: "スケルトンのスポーンエッグ", zh_sp: "骷髅刷怪蛋", zh_tr: "骷髏生怪蛋", ko: "스켈레톤 생성 알" },
+    "minecraft:spawn_egg|minecraft:stray":               { ja: "ストレイのスポーンエッグ", zh_sp: "流浪者刷怪蛋", zh_tr: "流髑生怪蛋", ko: "스트레이 생성 알" },
+    "minecraft:spawn_egg|minecraft:spider":              { ja: "クモのスポーンエッグ", zh_sp: "蜘蛛刷怪蛋", zh_tr: "蜘蛛生怪蛋", ko: "거미 생성 알" },
+    "minecraft:spawn_egg|minecraft:cave_spider":         { ja: "洞窟グモのスポーンエッグ", zh_sp: "洞穴蜘蛛刷怪蛋", zh_tr: "洞穴蜘蛛生怪蛋", ko: "동굴 거미 생성 알" },
+    "minecraft:spawn_egg|minecraft:creeper":             { ja: "クリーパーのスポーンエッグ", zh_sp: "苦力怕刷怪蛋", zh_tr: "苦力怕生怪蛋", ko: "크리퍼 생성 알" },
+    "minecraft:spawn_egg|minecraft:slime":               { ja: "スライムのスポーンエッグ", zh_sp: "史莱姆刷怪蛋", zh_tr: "史萊姆生怪蛋", ko: "슬라임 생성 알" },
+    "minecraft:spawn_egg|minecraft:witch":               { ja: "ウィッチのスポーンエッグ", zh_sp: "女巫刷怪蛋", zh_tr: "女巫生怪蛋", ko: "마녀 생성 알" },
+    "minecraft:spawn_egg|minecraft:silverfish":          { ja: "シルバーフィッシュのスポーンエッグ", zh_sp: "蠹虫刷怪蛋", zh_tr: "蠹魚生怪蛋", ko: "좀벌레 생성 알" },
+    "minecraft:spawn_egg|minecraft:skeleton_horse":      { ja: "スケルトンホースのスポーンエッグ", zh_sp: "骷髅马刷怪蛋", zh_tr: "骷髏馬生怪蛋", ko: "스켈레톤 말 생성 알" },
+    "minecraft:spawn_egg|minecraft:zombie_horse":        { ja: "ゾンビホースのスポーンエッグ", zh_sp: "僵尸马刷怪蛋", zh_tr: "殭屍馬生怪蛋", ko: "좀비 말 생성 알" },
+    "minecraft:spawn_egg|minecraft:vindication_illager": { ja: "ヴィンディケーターのスポーンエッグ", zh_sp: "卫道士刷怪蛋", zh_tr: "衛道士生怪蛋", ko: "변명자 생성 알" },
+    "minecraft:spawn_egg|minecraft:evocation_illager":   { ja: "エヴォーカーのスポーンエッグ", zh_sp: "唤魔者刷怪蛋", zh_tr: "喚魔者生怪蛋", ko: "소환사 생성 알" },
+    "minecraft:spawn_egg|minecraft:vex":                 { ja: "ヴェックスのスポーンエッグ", zh_sp: "恼鬼刷怪蛋", zh_tr: "惱鬼生怪蛋", ko: "벡스 생성 알" },
+    "minecraft:spawn_egg|minecraft:guardian":            { ja: "ガーディアンのスポーンエッグ", zh_sp: "守卫者刷怪蛋", zh_tr: "深海守衛生怪蛋", ko: "가디언 생성 알" },
+    "minecraft:spawn_egg|minecraft:elder_guardian":      { ja: "エルダーガーディアンのスポーンエッグ", zh_sp: "远古守卫者刷怪蛋", zh_tr: "遠古深海守衛生怪蛋", ko: "엘더 가디언 생성 알" },
+    "minecraft:spawn_egg|minecraft:blaze":               { ja: "ブレイズのスポーンエッグ", zh_sp: "烈焰人刷怪蛋", zh_tr: "烈焰使者生怪蛋", ko: "블레이즈 생성 알" },
+    "minecraft:spawn_egg|minecraft:ghast":               { ja: "ガストのスポーンエッグ", zh_sp: "恶魂刷怪蛋", zh_tr: "地獄幽靈生怪蛋", ko: "가스트 생성 알" },
+    "minecraft:spawn_egg|minecraft:magma_cube":          { ja: "マグマキューブのスポーンエッグ", zh_sp: "岩浆怪刷怪蛋", zh_tr: "岩漿立方怪生怪蛋", ko: "마그마 큐브 생성 알" },
+    "minecraft:spawn_egg|minecraft:zombie_pigman":       { ja: "ゾンビピッグマンのスポーンエッグ", zh_sp: "僵尸猪人刷怪蛋", zh_tr: "殭屍豬人生怪蛋", ko: "좀비 피그맨 생성 알" },
+    "minecraft:spawn_egg|minecraft:wither_skeleton":     { ja: "ウィザースケルトンのスポーンエッグ", zh_sp: "凋灵骷髅刷怪蛋", zh_tr: "凋零骷髏生怪蛋", ko: "위더 스켈레톤 생성 알" },
+    "minecraft:spawn_egg|minecraft:enderman":            { ja: "エンダーマンのスポーンエッグ", zh_sp: "末影人刷怪蛋", zh_tr: "終界使者生怪蛋", ko: "엔더맨 생성 알" },
+    "minecraft:spawn_egg|minecraft:endermite":           { ja: "エンダーマイトのスポーンエッグ", zh_sp: "末影螨刷怪蛋", zh_tr: "終界蟎生怪蛋", ko: "엔더마이트 생성 알" },
+    "minecraft:spawn_egg|minecraft:shulker":             { ja: "シュルカーのスポーンエッグ", zh_sp: "潜影贝刷怪蛋", zh_tr: "界伏蚌生怪蛋", ko: "셜커 생성 알" },
+
+    "minecraft:wool":                 { ja: "羊毛", zh_sp: "羊毛", zh_tr: "羊毛", ko: "양털" },
+    "minecraft:carpet":               { ja: "カーペット", zh_sp: "地毯", zh_tr: "地毯", ko: "양탄자" },
+    "minecraft:torch":                { ja: "松明", zh_sp: "火把", zh_tr: "火把", ko: "횃불" },
+    "minecraft:glowstone":            { ja: "グロウストーン", zh_sp: "荧石", zh_tr: "螢光石", ko: "발광석" },
+    "minecraft:redstone_lamp":        { ja: "レッドストーンランプ", zh_sp: "红石灯", zh_tr: "紅石燈", ko: "레드스톤 조명" },
+    "minecraft:chest":                { ja: "チェスト", zh_sp: "箱子", zh_tr: "儲物箱", ko: "상자" },
+    "minecraft:ender_chest":          { ja: "エンダーチェスト", zh_sp: "末影箱", zh_tr: "終界箱", ko: "엔더 상자" },
+    "minecraft:anvil":                { ja: "金床", zh_sp: "铁砧", zh_tr: "鐵砧", ko: "모루" },
+    "minecraft:jukebox":              { ja: "ジュークボックス", zh_sp: "唱片机", zh_tr: "唱片機", ko: "주크박스" },
+    "minecraft:fence":                { ja: "オークのフェンス", zh_sp: "橡木栅栏", zh_tr: "橡木柵欄", ko: "참나무 울타리" },
+    "minecraft:fence_gate":           { ja: "オークのフェンスゲート", zh_sp: "橡木栅栏门", zh_tr: "橡木柵欄門", ko: "참나무 울타리 문" },
+    "minecraft:iron_bars":            { ja: "鉄格子", zh_sp: "铁栏杆", zh_tr: "鐵柵欄", ko: "철창" },
+    "minecraft:glass_pane":           { ja: "板ガラス", zh_sp: "玻璃板", zh_tr: "玻璃片", ko: "유리판" },
+    "minecraft:stained_glass":        { ja: "色付きガラス", zh_sp: "染色玻璃", zh_tr: "染色玻璃", ko: "색유리" },
+    "minecraft:stained_glass_pane":   { ja: "色付き板ガラス", zh_sp: "染色玻璃板", zh_tr: "染色玻璃片", ko: "색유리 판" },
+    "minecraft:trapdoor":             { ja: "木のトラップドア", zh_sp: "木活板门", zh_tr: "木地板門", ko: "나무 다락문" },
+    "minecraft:iron_trapdoor":        { ja: "鉄のトラップドア", zh_sp: "铁活板门", zh_tr: "鐵地板門", ko: "철 다락문" },
+    "minecraft:ladder":               { ja: "はしご", zh_sp: "梯子", zh_tr: "梯子", ko: "사다리" },
+    "minecraft:brown_mushroom_block": { ja: "茶色のキノコブロック", zh_sp: "棕色蘑菇方块", zh_tr: "棕色蘑菇方塊", ko: "갈색 버섯 블록" },
+    "minecraft:red_mushroom_block":   { ja: "赤色のキノコブロック", zh_sp: "红色蘑菇方块", zh_tr: "紅色蘑菇方塊", ko: "빨간색 버섯 블록" },
+    "minecraft:nether_brick":         { ja: "ネザーレンガ", zh_sp: "地狱砖块", zh_tr: "地獄磚", ko: "네더 벽돌" },
+    "minecraft:nether_brick_fence":   { ja: "ネザーレンガのフェンス", zh_sp: "地狱砖栅栏", zh_tr: "地獄磚柵欄", ko: "네더 벽돌 울타리" },
+    "minecraft:cobblestone_wall":     { ja: "丸石の壁", zh_sp: "圆石墙", zh_tr: "鵝卵石牆", ko: "조약돌 담장" },
+    "minecraft:trapped_chest":        { ja: "トラップチェスト", zh_sp: "陷阱箱", zh_tr: "陷阱儲物箱", ko: "덫 상자" },
+
+    "minecraft:spruce_fence":            { ja: "トウヒのフェンス", zh_sp: "云杉木栅栏", zh_tr: "杉木柵欄", ko: "가문비나무 울타리" },
+    "minecraft:birch_fence":             { ja: "シラカバのフェンス", zh_sp: "白桦木栅栏", zh_tr: "樺木柵欄", ko: "자작나무 울타리" },
+    "minecraft:jungle_fence":            { ja: "ジャングルのフェンス", zh_sp: "丛林木栅栏", zh_tr: "叢林木柵欄", ko: "정글 나무 울타리" },
+    "minecraft:dark_oak_fence":          { ja: "ダークオークのフェンス", zh_sp: "深色橡木栅栏", zh_tr: "黑橡木柵欄", ko: "짙은 참나무 울타리" },
+    "minecraft:acacia_fence":            { ja: "アカシアのフェンス", zh_sp: "金合欢木栅栏", zh_tr: "相思木柵欄", ko: "아카시아나무 울타리" },
+    "minecraft:spruce_fence_gate":       { ja: "トウヒのフェンスゲート", zh_sp: "云杉木栅栏门", zh_tr: "杉木柵欄門", ko: "가문비나무 울타리 문" },
+    "minecraft:birch_fence_gate":        { ja: "シラカバのフェンスゲート", zh_sp: "白桦木栅栏门", zh_tr: "樺木柵欄門", ko: "자작나무 울타리 문" },
+    "minecraft:jungle_fence_gate":       { ja: "ジャングルのフェンスゲート", zh_sp: "丛林木栅栏门", zh_tr: "叢林木柵欄門", ko: "정글 나무 울타리 문" },
+    "minecraft:dark_oak_fence_gate":     { ja: "ダークオークのフェンスゲート", zh_sp: "深色橡木栅栏门", zh_tr: "黑橡木柵欄門", ko: "짙은 참나무 울타리 문" },
+    "minecraft:acacia_fence_gate":       { ja: "アカシアのフェンスゲート", zh_sp: "金合欢木栅栏门", zh_tr: "相思木柵欄門", ko: "아카시아나무 울타리 문" },
+    "minecraft:white_glazed_terracotta": { ja: "白色の彩釉テラコッタ", zh_sp: "白色带釉陶瓦", zh_tr: "白色釉陶", ko: "하얀색 유광 테라코타" },
+    "minecraft:painting":                { ja: "絵画", zh_sp: "画", zh_tr: "繪畫", ko: "그림" },
+    "minecraft:sign":                    { ja: "看板", zh_sp: "告示牌", zh_tr: "告示牌", ko: "표지판" },
+    "minecraft:wooden_door":             { ja: "オークのドア", zh_sp: "橡木门", zh_tr: "橡木門", ko: "참나무 문" },
+    "minecraft:spruce_door":             { ja: "トウヒのドア", zh_sp: "云杉木门", zh_tr: "杉木門", ko: "가문비나무 문" },
+    "minecraft:birch_door":              { ja: "シラカバのドア", zh_sp: "白桦木门", zh_tr: "樺木門", ko: "자작나무 문" },
+    "minecraft:jungle_door":             { ja: "ジャングルのドア", zh_sp: "丛林木门", zh_tr: "叢林木門", ko: "정글 나무 문" },
+    "minecraft:acacia_door":             { ja: "アカシアのドア", zh_sp: "金合欢木门", zh_tr: "相思木門", ko: "아카시아나무 문" },
+    "minecraft:dark_oak_door":           { ja: "ダークオークのドア", zh_sp: "深色橡木门", zh_tr: "黑橡木門", ko: "짙은 참나무 문" },
+    "minecraft:iron_door":               { ja: "鉄のドア", zh_sp: "铁门", zh_tr: "鐵門", ko: "철문" },
+    "minecraft:item_frame":              { ja: "額縁", zh_sp: "物品展示框", zh_tr: "物品展示框", ko: "아이템 액자" },
+    "minecraft:flower_pot":              { ja: "植木鉢", zh_sp: "花盆", zh_tr: "花盆", ko: "화분" },
+    "minecraft:bed":                     { ja: "ベッド", zh_sp: "床", zh_tr: "床", ko: "침대" },
+    "minecraft:banner":                  { ja: "旗", zh_sp: "旗帜", zh_tr: "旗幟", ko: "현수막" },
+    "minecraft:boat":                    { ja: "オークのボート", zh_sp: "橡木船", zh_tr: "橡木船", ko: "참나무 보트" },
+    "minecraft:spruce_boat":             { ja: "トウヒのボート", zh_sp: "云杉木船", zh_tr: "杉木船", ko: "가문비나무 보트" },
+    "minecraft:birch_boat":              { ja: "シラカバのボート", zh_sp: "白桦木船", zh_tr: "樺木船", ko: "자작나무 보트" },
+    "minecraft:jungle_boat":             { ja: "ジャングルのボート", zh_sp: "丛林木船", zh_tr: "叢林木船", ko: "정글 나무 보트" },
+    "minecraft:acacia_boat":             { ja: "アカシアのボート", zh_sp: "金合欢木船", zh_tr: "相思木船", ko: "아카시아나무 보트" },
+    "minecraft:dark_oak_boat":           { ja: "ダークオークのボート", zh_sp: "深色橡木船", zh_tr: "黑橡木船", ko: "짙은 참나무 보트" },
+
+    "minecraft:iron_shovel":          { ja: "鉄のシャベル", zh_sp: "铁锹", zh_tr: "鐵鏟", ko: "철 삽" },
+    "minecraft:iron_pickaxe":         { ja: "鉄のツルハシ", zh_sp: "铁镐", zh_tr: "鐵鎬", ko: "철 곡괭이" },
+    "minecraft:iron_axe":             { ja: "鉄の斧", zh_sp: "铁斧", zh_tr: "鐵斧", ko: "철 도끼" },
+    "minecraft:flint_and_steel":      { ja: "火打石と打ち金", zh_sp: "打火石", zh_tr: "打火石", ko: "부싯돌과 부시" },
+    "minecraft:bow":                  { ja: "弓", zh_sp: "弓", zh_tr: "弓", ko: "활" },
+    "minecraft:arrow":                { ja: "矢", zh_sp: "箭", zh_tr: "箭", ko: "화살" },
+    "minecraft:stick":                { ja: "棒", zh_sp: "木棍", zh_tr: "木棒", ko: "막대기" },
+    "minecraft:iron_sword":           { ja: "鉄の剣", zh_sp: "铁剑", zh_tr: "鐵劍", ko: "철 검" },
+    "minecraft:wooden_sword":         { ja: "木の剣", zh_sp: "木剑", zh_tr: "木劍", ko: "나무 검" },
+    "minecraft:stone_sword":          { ja: "石の剣", zh_sp: "石剑", zh_tr: "石劍", ko: "돌 검" },
+    "minecraft:diamond_sword":        { ja: "ダイヤモンドの剣", zh_sp: "钻石剑", zh_tr: "鑽石劍", ko: "다이아몬드 검" },
+    "minecraft:golden_sword":         { ja: "金の剣", zh_sp: "金剑", zh_tr: "金劍", ko: "금 검" },
+    "minecraft:diamond_pickaxe":      { ja: "ダイヤモンドのツルハシ", zh_sp: "钻石镐", zh_tr: "鑽石鎬", ko: "다이아몬드 곡괭이" },
+    "minecraft:diamond_axe":          { ja: "ダイヤモンドの斧", zh_sp: "钻石斧", zh_tr: "鑽石斧", ko: "다이아몬드 도끼" },
+    "minecraft:golden_pickaxe":       { ja: "金のツルハシ", zh_sp: "金镐", zh_tr: "金鎬", ko: "금 곡괭이" },
+    "minecraft:leather_helmet":       { ja: "革の帽子", zh_sp: "皮革帽子", zh_tr: "皮革帽子", ko: "가죽 모자" },
+    "minecraft:leather_chestplate":   { ja: "革の上着", zh_sp: "皮革外套", zh_tr: "皮革上衣", ko: "가죽 조끼" },
+    "minecraft:chainmail_chestplate": { ja: "チェーンのチェストプレート", zh_sp: "锁链胸甲", zh_tr: "鎖鏈胸甲", ko: "사슬 흉갑" },
+    "minecraft:iron_chestplate":      { ja: "鉄のチェストプレート", zh_sp: "铁胸甲", zh_tr: "鐵胸甲", ko: "철 흉갑" },
+    "minecraft:diamond_chestplate":   { ja: "ダイヤモンドのチェストプレート", zh_sp: "钻石胸甲", zh_tr: "鑽石胸甲", ko: "다이아몬드 흉갑" },
+    "minecraft:golden_chestplate":    { ja: "金のチェストプレート", zh_sp: "金胸甲", zh_tr: "金胸甲", ko: "금 흉갑" },
+    "minecraft:golden_boots":         { ja: "金のブーツ", zh_sp: "金靴子", zh_tr: "金靴子", ko: "금 부츠" },
+    "minecraft:shears":               { ja: "ハサミ", zh_sp: "剪刀", zh_tr: "剪刀", ko: "가위" },
+    "minecraft:shield":               { ja: "盾", zh_sp: "盾牌", zh_tr: "盾牌", ko: "방패" },
+    "minecraft:fishing_rod":          { ja: "釣竿", zh_sp: "钓鱼竿", zh_tr: "釣竿", ko: "낚싯대" },
+    "minecraft:carrot_on_a_stick":    { ja: "ニンジン付きの棒", zh_sp: "胡萝卜钓竿", zh_tr: "胡蘿蔔釣竿", ko: "당근 낚싯대" },
+    "minecraft:iron_horse_armor":     { ja: "鉄の馬鎧", zh_sp: "铁马铠", zh_tr: "鐵製馬鎧", ko: "철 말 갑옷" },
+    "minecraft:golden_horse_armor":   { ja: "金の馬鎧", zh_sp: "金马铠", zh_tr: "金製馬鎧", ko: "금 말 갑옷" },
+    "minecraft:diamond_horse_armor":  { ja: "ダイヤモンドの馬鎧", zh_sp: "钻石马铠", zh_tr: "鑽石馬鎧", ko: "다이아몬드 말 갑옷" },
+    "minecraft:saddle":               { ja: "鞍", zh_sp: "鞍", zh_tr: "鞍", ko: "안장" },
+    "minecraft:lead":                 { ja: "リード", zh_sp: "拴绳", zh_tr: "拴繩", ko: "끈" },
+    "minecraft:name_tag":             { ja: "名札", zh_sp: "命名牌", zh_tr: "命名牌", ko: "이름표" },
+    "minecraft:armor_stand":          { ja: "防具立て", zh_sp: "盔甲架", zh_tr: "盔甲座", ko: "갑옷 거치대" },
+
+    "minecraft:porkchop":        { ja: "生の豚肉", zh_sp: "生猪肉", zh_tr: "生豬肉", ko: "익히지 않은 돼지고기" },
+    "minecraft:cooked_porkchop": { ja: "焼き豚", zh_sp: "熟猪肉", zh_tr: "烤豬肉", ko: "익힌 돼지고기" },
+    "minecraft:beef":            { ja: "生の牛肉", zh_sp: "生牛肉", zh_tr: "生牛肉", ko: "익히지 않은 쇠고기" },
+    "minecraft:cooked_beef":     { ja: "ステーキ", zh_sp: "牛排", zh_tr: "牛排", ko: "익힌 소고기" },
+    "minecraft:chicken":         { ja: "生の鶏肉", zh_sp: "生鸡肉", zh_tr: "生雞肉", ko: "익히지 않은 닭고기" },
+    "minecraft:cooked_chicken":  { ja: "焼き鳥", zh_sp: "熟鸡肉", zh_tr: "烤雞", ko: "익힌 닭고기" },
+    "minecraft:rabbit":          { ja: "生の兎肉", zh_sp: "生兔肉", zh_tr: "生兔肉", ko: "익히지 않은 토끼고기" },
+    "minecraft:cooked_rabbit":   { ja: "焼き兎肉", zh_sp: "熟兔肉", zh_tr: "烤兔肉", ko: "익힌 토끼고기" },
+    "minecraft:mutton":          { ja: "生の羊肉", zh_sp: "生羊肉", zh_tr: "生羊肉", ko: "익히지 않은 양고기" },
+    "minecraft:cooked_mutton":   { ja: "焼き羊肉", zh_sp: "熟羊肉", zh_tr: "烤羊肉", ko: "익힌 양고기" },
+    "minecraft:fish":            { ja: "生魚", zh_sp: "生鱼", zh_tr: "生魚", ko: "날생선" },
+    "minecraft:cooked_fish":     { ja: "焼き魚", zh_sp: "熟鱼", zh_tr: "烤魚", ko: "익힌 생선" },
+    "minecraft:mushroom_stew":   { ja: "キノコシチュー", zh_sp: "蘑菇煲", zh_tr: "蘑菇湯", ko: "버섯 스튜" },
+    "minecraft:rabbit_stew":     { ja: "ウサギシチュー", zh_sp: "兔肉煲", zh_tr: "兔肉湯", ko: "토끼 스튜" },
+    "minecraft:beetroot_soup":   { ja: "ビートルートスープ", zh_sp: "甜菜汤", zh_tr: "甜菜湯", ko: "비트 수프" },
+    "minecraft:beetroot":        { ja: "ビートルート", zh_sp: "甜菜根", zh_tr: "甜菜根", ko: "비트" },
+    "minecraft:cookie":          { ja: "クッキー", zh_sp: "曲奇", zh_tr: "餅乾", ko: "쿠키" },
+    "minecraft:cake":            { ja: "ケーキ", zh_sp: "蛋糕", zh_tr: "蛋糕", ko: "케이크" },
+    "minecraft:pumpkin_pie":     { ja: "パンプキンパイ", zh_sp: "南瓜派", zh_tr: "南瓜派", ko: "호박 파이" },
+    "minecraft:sugar":           { ja: "砂糖", zh_sp: "糖", zh_tr: "糖", ko: "설탕" },
+    "minecraft:egg":             { ja: "卵", zh_sp: "鸡蛋", zh_tr: "雞蛋", ko: "달걀" },
+    "minecraft:bucket":          { ja: "バケツ", zh_sp: "桶", zh_tr: "鐵桶", ko: "양동이" },
+    "minecraft:water_bucket":    { ja: "水入りバケツ", zh_sp: "水桶", zh_tr: "水桶", ko: "물 양동이" },
+    "minecraft:lava_bucket":     { ja: "溶岩入りバケツ", zh_sp: "岩浆桶", zh_tr: "岩漿桶", ko: "용암 양동이" },
+    "minecraft:milk_bucket":     { ja: "牛乳", zh_sp: "牛奶", zh_tr: "牛奶", ko: "우유 양동이" },
+
+    // Алхимия и ингредиенты
+    "minecraft:potion":               { ja: "ポーション", zh_sp: "药水", zh_tr: "藥水", ko: "물약" },
+    "minecraft:splash_potion":        { ja: "スプラッシュポーション", zh_sp: "喷溅药水", zh_tr: "飛濺藥水", ko: "투척용 물약" },
+    "minecraft:lingering_potion":     { ja: "残留ポーション", zh_sp: "滞留药水", zh_tr: "滯留藥水", ko: "잔류형 물약" },
+    "minecraft:glass_bottle":         { ja: "ガラス瓶", zh_sp: "玻璃瓶", zh_tr: "玻璃瓶", ko: "유리병" },
+    "minecraft:brewing_stand":        { ja: "醸造台", zh_sp: "酿造台", zh_tr: "釀造台", ko: "양조기" },
+    "minecraft:cauldron":             { ja: "大釜", zh_sp: "炼药锅", zh_tr: "鍋釜", ko: "가마솥" },
+    "minecraft:nether_wart":          { ja: "ネザーウォート", zh_sp: "地狱疣", zh_tr: "地獄疙瘩", ko: "네더 사마귀" },
+    "minecraft:blaze_powder":         { ja: "ブレイズパウダー", zh_sp: "烈焰粉", zh_tr: "烈焰粉", ko: "블레이즈 가루" },
+    "minecraft:magma_cream":          { ja: "マグマクリーム", zh_sp: "岩浆膏", zh_tr: "岩漿球", ko: "마그마 크림" },
+    "minecraft:fermented_spider_eye": { ja: "発酵したクモの目", zh_sp: "发酵蛛眼", zh_tr: "發酵蜘蛛眼", ko: "발효된 거미 눈" },
+    "minecraft:speckled_melon":       { ja: "きらめくスイカ", zh_sp: "闪烁的西瓜", zh_tr: "鑲金西瓜", ko: "반짝이는 수박 조각" },
+    "minecraft:golden_carrot":        { ja: "金のニンジン", zh_sp: "金胡萝卜", zh_tr: "金胡蘿蔔", ko: "황금 당근" },
+    "minecraft:dragon_breath":        { ja: "ドラゴンブレス", zh_sp: "龙息", zh_tr: "龍之吐息", ko: "드래곤의 숨결" },
+    "minecraft:spider_eye":           { ja: "クモの目", zh_sp: "蜘蛛眼", zh_tr: "蜘蛛眼", ko: "거미 눈" },
+
+    // Готовые зелья с NBT
+    "minecraft:potion|minecraft:night_vision":           { ja: "暗視のポーション", zh_sp: "夜视药水", zh_tr: "夜視藥水", ko: "야간 투시의 물약" },
+    "minecraft:potion|minecraft:long_night_vision":      { ja: "暗視のポーション (延長)", zh_sp: "夜视药水 (延长版)", zh_tr: "夜視藥水 (延長)", ko: "야간 투시의 물약 (연장)" },
+    "minecraft:potion|minecraft:water_breathing":        { ja: "水中呼吸のポーション", zh_sp: "水肺药水", zh_tr: "水下呼吸藥水", ko: "수중 호흡의 물약" },
+    "minecraft:potion|minecraft:long_water_breathing":   { ja: "水中呼吸のポーション (延長)", zh_sp: "水肺药水 (延长版)", zh_tr: "水下呼吸藥水 (延長)", ko: "수중 호흡의 물약 (연장)" },
+    "minecraft:potion|minecraft:fire_resistance":        { ja: "耐火のポーション", zh_sp: "抗火药水", zh_tr: "抗火藥水", ko: "화염 저항의 물약" },
+    "minecraft:potion|minecraft:long_fire_resistance":   { ja: "耐火のポーション (延長)", zh_sp: "抗火药水 (延长版)", zh_tr: "抗火藥水 (延長)", ko: "화염 저항의 물약 (연장)" },
+    "minecraft:potion|minecraft:swiftness":              { ja: "俊敏のポーション", zh_sp: "迅捷药水", zh_tr: "迅捷藥水", ko: "신속의 물약" },
+    "minecraft:potion|minecraft:healing":                { ja: "治癒のポーション", zh_sp: "治疗药水", zh_tr: "治療藥水", ko: "치유의 물약" },
+    "minecraft:potion|minecraft:regeneration":           { ja: "再生のポーション", zh_sp: "再生药水", zh_tr: "回復藥水", ko: "재생의 물약" },
+    "minecraft:potion|minecraft:strength":               { ja: "力のポーション", zh_sp: "力量药水", zh_tr: "力量藥水", ko: "힘의 물약" },
+    "minecraft:splash_potion|minecraft:healing":         { ja: "治癒のスプラッシュポーション", zh_sp: "喷溅型治疗药水", zh_tr: "飛濺治療藥水", ko: "투척용 치유의 물약" },
+    "minecraft:splash_potion|minecraft:harming":         { ja: "負傷のスプラッシュポーション", zh_sp: "喷溅型伤害药水", zh_tr: "飛濺傷害藥水", ko: "투척용 고통의 물약" },
+
+    // music_and_modded
+    "minecraft:record_13":      { ja: "レコード (13)", zh_sp: "音乐唱片 (13)", zh_tr: "唱片 (13)", ko: "음반 (13)" },
+    "minecraft:record_cat":     { ja: "レコード (cat)", zh_sp: "音乐唱片 (cat)", zh_tr: "唱片 (cat)", ko: "음반 (cat)" },
+    "minecraft:record_blocks":  { ja: "レコード (blocks)", zh_sp: "音乐唱片 (blocks)", zh_tr: "唱片 (blocks)", ko: "음반 (blocks)" },
+    "minecraft:record_11":      { ja: "レコード (11)", zh_sp: "音乐唱片 (11)", zh_tr: "唱片 (11)", ko: "음반 (11)" },
+    "minecraft:record_wait":    { ja: "レコード (wait)", zh_sp: "音乐唱片 (wait)", zh_tr: "唱片 (wait)", ko: "음반 (wait)" },
+    "minecraft:iron_nugget":    { ja: "鉄塊", zh_sp: "铁粒", zh_tr: "鐵粒", ko: "철 조각" },
+    "minecraft:knowledge_book": { ja: "知恵の本", zh_sp: "知识之书", zh_tr: "知識之書", ko: "지식의 책" },
+
+    // beneficial (положительные эффекты)
+    "minecraft:speed":           { ja: "移動速度上昇", zh_sp: "迅捷", zh_tr: "迅捷", ko: "신속" },
+    "minecraft:haste":           { ja: "採掘速度上昇", zh_sp: "急迫", zh_tr: "挖掘加速", ko: "성급함" },
+    "minecraft:strength":        { ja: "攻撃力上昇", zh_sp: "力量", zh_tr: "力量", ko: "힘" },
+    "minecraft:instant_health":  { ja: "即時回復", zh_sp: "瞬间治疗", zh_tr: "立即治療", ko: "즉시 치유" },
+    "minecraft:jump_boost":      { ja: "跳躍力上昇", zh_sp: "跳跃提升", zh_tr: "跳躍提升", ko: "점프 강화" },
+    "minecraft:regeneration":    { ja: "再生能力", zh_sp: "生命恢复", zh_tr: "回復", ko: "재생" },
+    "minecraft:resistance":      { ja: "耐性", zh_sp: "抗性提升", zh_tr: "抗性", ko: "저항" },
+    "minecraft:fire_resistance": { ja: "火炎耐性", zh_sp: "防火", zh_tr: "抗火性", ko: "화염 저항" },
+    "minecraft:water_breathing": { ja: "水中呼吸", zh_sp: "水下呼吸", zh_tr: "水下呼吸", ko: "수중 호흡" },
+    "minecraft:invisibility":    { ja: "透明化", zh_sp: "隐身", zh_tr: "隱形", ko: "투명" },
+    "minecraft:night_vision":    { ja: "暗視", zh_sp: "夜视", zh_tr: "夜視", ko: "야간 투시" },
+    "minecraft:health_boost":    { ja: "体力増強", zh_sp: "生命提升", zh_tr: "生命值提升", ko: "생명력 강화" },
+    "minecraft:absorption":      { ja: "衝撃吸収", zh_sp: "伤害吸收", zh_tr: "吸收", ko: "흡수" },
+    "minecraft:saturation":      { ja: "満腹度回復", zh_sp: "饱和", zh_tr: "飽和", ko: "포화" },
+    "minecraft:luck":            { ja: "幸運", zh_sp: "幸运", zh_tr: "幸運", ko: "행운" },
+
+    // harmful (отрицательные эффекты)
+    "minecraft:slowness":        { ja: "移動速度低下", zh_sp: "缓慢", zh_tr: "緩速", ko: "구속" },
+    "minecraft:mining_fatigue":  { ja: "採掘速度低下", zh_sp: "挖掘疲劳", zh_tr: "挖掘疲勞", ko: "피로" },
+    "minecraft:instant_damage":  { ja: "即時ダメージ", zh_sp: "瞬间伤害", zh_tr: "立即傷害", ko: "즉시 피해" },
+    "minecraft:nausea":          { ja: "吐き気", zh_sp: "反胃", zh_tr: "噁心", ko: "멀미" },
+    "minecraft:blindness":       { ja: "盲目", zh_sp: "失明", zh_tr: "失明", ko: "실명" },
+    "minecraft:hunger":          { ja: "空腹", zh_sp: "饥饿", zh_tr: "飢餓", ko: "허기" },
+    "minecraft:weakness":        { ja: "弱体化", zh_sp: "虚弱", zh_tr: "虛弱", ko: "나약함" },
+    "minecraft:poison":          { ja: "毒", zh_sp: "中毒", zh_tr: "中毒", ko: "독" },
+    "minecraft:wither":          { ja: "衰弱", zh_sp: "凋零", zh_tr: "凋零", ko: "시듦" },
+    "minecraft:levitation":      { ja: "浮遊", zh_sp: "飘浮", zh_tr: "飄浮", ko: "공중 부양" },
+    "minecraft:unluck":          { ja: "不運", zh_sp: "霉运", zh_tr: "霉運", ko: "불운" },
+
+    // neutral (нейтральные эффекты)
+    "minecraft:glowing":         { ja: "発光", zh_sp: "发光", zh_tr: "發光", ko: "발광" }
+});
 
 
     // =========================================================================
@@ -2638,18 +3074,19 @@ function openSettings(type, element, themeKey) {
             opt.value = item.id;
             opt.setAttribute('data-tasktype', item.type);
             
-            // УМНЫЙ АВТО-ПЕРЕВОД ЦЕЛЕЙ
-            if (currentLang !== "ru") {
-                const icon = item.name.match(/^([^\s]+)/); 
-                const itemCleanName = item.id.split(':')[1].split('_').join(' ');
-                opt.innerText = (icon ? icon[0] : "🎯") + " " + itemCleanName.toUpperCase();
-            } else {
-                opt.innerText = item.name;
+            let label = "";
+            if (typeof window.getDbItemName === "function") {
+                label = window.getDbItemName(item);
             }
+            if (!label) {
+                label = item.name || item.id;
+            }
+            opt.innerText = label;
             
             targetSelect.appendChild(opt);
         });
     }
+
     
     // МУЛЬТИЯЗЫЧНЫЙ СПИСОК КОЛИЧЕСТВА
     const countSelect = document.getElementById('qTargetCount');
@@ -2674,6 +3111,7 @@ function openSettings(type, element, themeKey) {
     
     document.getElementById('settingsPanel').style.display = 'block';
 }
+
 
 
 // =========================================================================
@@ -2704,29 +3142,128 @@ function updateRewardsSelect() {
     const rewardSelect = document.getElementById('qReward');
     if (!rewardSelect) return;
 
+    const prevValue = rewardSelect.value;
     rewardSelect.innerHTML = '';
 
-    const rewards = [
-        { value: 'minecraft:cooked_beef', text: '🥩 Жареная говядина (Cooked Beef)' },
-        { value: 'minecraft:experience_bottle', text: '🧪 Пузырёк опыта (XP Bottle)' },
-        { value: 'minecraft:iron_ingot', text: '🪙 Железный слиток (Iron Ingot)' },
-        { value: 'minecraft:gold_ingot', text: '👑 Золотой слиток (Gold Ingot)' },
-        { value: 'minecraft:emerald', text: '🟢 Изумруд (Emerald)' },
-        { value: 'minecraft:diamond', text: '💎 Алмаз (Diamond)' },
-        { value: 'minecraft:iron_block', text: '🧱 Железный блок (Iron Block)' },
-        { value: 'minecraft:gold_block', text: '📦 Золотой блок (Gold Block)' },
-        { value: 'minecraft:golden_apple', text: '🍎 Зачарованное золотое яблоко (Enchanted Apple)' },
-        { value: 'minecraft:emerald_block', text: '💎 Изумрудный блок (Emerald Block)' },
-        { value: 'custom_lootcrate', text: '🎁 Эпический сундук Юпитера (Loot Box)' },
-        { value: 'minecraft:totem_of_undying', text: '🛡️ Тотем бессмертия (Totem of Undying)' }
+    const rewardsData = [
+        {
+            value: 'minecraft:cooked_beef',
+            ru: '🥩 Жареная говядина (Cooked Beef)',
+            en: '🥩 Cooked Beef',
+            ja: '🥩 ステーキ (Cooked Beef)',
+            zh_sp: '🥩 牛排 (Cooked Beef)',
+            zh_tr: '🥩 牛排 (Cooked Beef)',
+            ko: '🥩 익힌 소고기 (Cooked Beef)'
+        },
+        {
+            value: 'minecraft:experience_bottle',
+            ru: '🧪 Пузырёк опыта (XP Bottle)',
+            en: '🧪 Bottle o\' Enchanting (XP Bottle)',
+            ja: '🧪 エンチャントの瓶 (XP Bottle)',
+            zh_sp: '🧪 附魔之瓶 (XP Bottle)',
+            zh_tr: '🧪 附魔之瓶 (XP Bottle)',
+            ko: '🧪 경험치 병 (XP Bottle)'
+        },
+        {
+            value: 'minecraft:iron_ingot',
+            ru: '🪙 Железный слиток (Iron Ingot)',
+            en: '🪙 Iron Ingot',
+            ja: '🪙 鉄インゴット (Iron Ingot)',
+            zh_sp: '🪙 铁锭 (Iron Ingot)',
+            zh_tr: '🪙 鐵錠 (Iron Ingot)',
+            ko: '🪙 철 주괴 (Iron Ingot)'
+        },
+        {
+            value: 'minecraft:gold_ingot',
+            ru: '👑 Золотой слиток (Gold Ingot)',
+            en: '👑 Gold Ingot',
+            ja: '👑 金インゴット (Gold Ingot)',
+            zh_sp: '👑 金锭 (Gold Ingot)',
+            zh_tr: '👑 金錠 (Gold Ingot)',
+            ko: '👑 금 주괴 (Gold Ingot)'
+        },
+        {
+            value: 'minecraft:emerald',
+            ru: '🟢 Изумруд (Emerald)',
+            en: '🟢 Emerald',
+            ja: '🟢 エメラルド (Emerald)',
+            zh_sp: '🟢 绿宝石 (Emerald)',
+            zh_tr: '🟢 綠寶石 (Emerald)',
+            ko: '🟢 에메랄드 (Emerald)'
+        },
+        {
+            value: 'minecraft:diamond',
+            ru: '💎 Алмаз (Diamond)',
+            en: '💎 Diamond',
+            ja: '💎 ダイヤモンド (Diamond)',
+            zh_sp: '💎 钻石 (Diamond)',
+            zh_tr: '💎 鑽石 (Diamond)',
+            ko: '💎 다이아몬드 (Diamond)'
+        },
+        {
+            value: 'minecraft:iron_block',
+            ru: '🧱 Железный блок (Iron Block)',
+            en: '🧱 Block of Iron',
+            ja: '🧱 鉄ブロック (Iron Block)',
+            zh_sp: '🧱 铁块 (Iron Block)',
+            zh_tr: '🧱 鐵方塊 (Iron Block)',
+            ko: '🧱 철 블록 (Iron Block)'
+        },
+        {
+            value: 'minecraft:gold_block',
+            ru: '📦 Золотой блок (Gold Block)',
+            en: '📦 Block of Gold',
+            ja: '📦 金ブロック (Gold Block)',
+            zh_sp: '📦 金块 (Gold Block)',
+            zh_tr: '📦 金方塊 (Gold Block)',
+            ko: '📦 금 블록 (Gold Block)'
+        },
+        {
+            value: 'minecraft:golden_apple',
+            ru: '🍎 Зачарованное золотое яблоко (Enchanted Apple)',
+            en: '🍎 Enchanted Golden Apple',
+            ja: '🍎 エンチャントされた金のリンゴ (Enchanted Apple)',
+            zh_sp: '🍎 附魔金苹果 (Enchanted Apple)',
+            zh_tr: '🍎 附魔金蘋果 (Enchanted Apple)',
+            ko: '🍎 마법이 부여된 황금 사과 (Enchanted Apple)'
+        },
+        {
+            value: 'minecraft:emerald_block',
+            ru: '💎 Изумрудный блок (Emerald Block)',
+            en: '💎 Block of Emerald',
+            ja: '💎 エメラルドブロック (Emerald Block)',
+            zh_sp: '💎 绿宝石块 (Emerald Block)',
+            zh_tr: '💎 綠寶石方塊 (Emerald Block)',
+            ko: '💎 에메랄드 블록 (Emerald Block)'
+        },
+        {
+            value: 'custom_lootcrate',
+            ru: '🎁 Эпический сундук Юпитера (Loot Box)',
+            en: '🎁 Epic Jupiter Crate (Loot Box)',
+            ja: '🎁 エピック木星ルートボックス (Loot Box)',
+            zh_sp: '🎁 史诗木星战利品箱 (Loot Box)',
+            zh_tr: '🎁 史詩木星戰利品箱 (Loot Box)',
+            ko: '🎁 에픽 목성 전리품 상자 (Loot Box)'
+        },
+        {
+            value: 'minecraft:totem_of_undying',
+            ru: '🛡️ Тотем бессмертия (Totem of Undying)',
+            en: '🛡️ Totem of Undying',
+            ja: '🛡️ 不死のトーテム (Totem of Undying)',
+            zh_sp: '🛡️ 不死图腾 (Totem of Undying)',
+            zh_tr: '🛡️ 不死圖騰 (Totem of Undying)',
+            ko: '🛡️ 불사의 토템 (Totem of Undying)'
+        }
     ];
 
-    rewards.forEach(reward => {
+    rewardsData.forEach(reward => {
         const option = document.createElement('option');
         option.value = reward.value;
-        option.text = reward.text;
+        option.text = reward[currentLang] || reward.en;
         rewardSelect.appendChild(option);
     });
+
+    if (prevValue) rewardSelect.value = prevValue;
 }
 
 // =========================================================================
@@ -2893,7 +3430,13 @@ function generateRandomChapterTitle() {
             "帶上鎬子", "挖礦時間到！", "怪物獵人", "牠還活著！", 
             "明星學員", "火辣好戲", "哦，方塊世界！", "拿個桶來！",
             "直插雲霄", "世紀交易", "開挖時間", "絕對平衡"
-        )
+        ),
+        ko: Array.of(
+            "곡괭이를 챙겨라", "광질할 시간이다!", "몬스터 사냥꾼", "살아 움직인다!", 
+            "최고의 모험가", "뜨거운 작업", "오, 네모난 세계여!", "양동이를 가져와!",
+            "일격필살", "세기의 거래", "땅을 팔 시간", "완벽한 균형"
+        ),
+
     };
 
     const currentPool = titlesByLang[currentLang] || titlesByLang["ru"];
@@ -2907,7 +3450,35 @@ function generateRandomChapterTitle() {
 // =========================================================================
 const lng = {
     ru: {
+        canvasTitle: "🕸 Карта связей квестов",
+		canvasHint: "ЛКМ — двигать | Клик по 🟢 — связать/отвязать",
+		canvasClearBtn: "✂ Сбросить связи",
+		canvasDoneBtn: "💾 Готово",
+		expertQuestDiff: "Сложность квестов:", 
+		expertRewardDiff: "Ценность призов:",
         lblDiff: "🎖 Сложность заданий и наград:", 
+		lootModalTitle: "🗃️ Настройка космических сундуков (Космопорт 1.6)",
+		lootPresetTitle: "🚀 Выбрать готовый планетарный пресет лута:",
+		planet_earth: "🌍 Земля",
+		planet_moon: "🌙 Луна",
+		planet_jupiter: "🪐 Юпитер",
+		planet_mars: "🔴 Марс",
+		planet_venus: "🌋 Венера",
+		planet_saturn: "🪐 Сатурн",
+		planet_neptune: "🔵 Нептун",
+		planet_pluto: "🌱 Плутон",
+		planet_photon: "✨ Фотон",
+		planet_end: "🔮 Край",
+		btnCustomLootMode: "🛠️ Свой выбор",
+		btnPresetLootMode: "🚀 Вернуться к пресетам",
+		lootSearchPh: "🔍 Быстрый поиск предмета по названию или ID (например: алмаз, stone, dirt)...",
+		th_enabled: "Вкл.",
+		th_item: "Предмет лута",
+		th_weight: "Шанс (Вес)",
+		th_min: "Мин.",
+		th_max: "Макс.",
+		btnPandora: "🎲 Сундук Пандоры",
+		ttlPandoraCount: "Количество случайных предметов для Пандоры",
 		diff_1: "МЛАДЕНЕЦ", 
 		diff_2: "ОЧЕНЬ ЛЕГКО", 
 		diff_3: "ЛЕГКО", 
@@ -2937,6 +3508,10 @@ const lng = {
         task_tools: "Создать", 
 		task_stats: "Выполнить",
         title: "🗺️ FTB Quest Генератор заданий — Марс (версия 1.7)",
+		lblLootColor: "🎨 Цвет:",
+		btnCustomLootMode: "🛠️ Свой выбор",
+		phCustomCrateName: "Название сундука...",
+		btnLootApplyClose: "💾 Применить и закрыть",
         chapterLabel: "📝 Название вкладки квестов (Главы) в игре:",
         chapterPlaceholder: "Например: Выживание, Магия, Кирка",
         mcStyleBtn: "🎲 Имя в стиле MC",
@@ -2950,6 +3525,7 @@ const lng = {
         gearBtn: "🛡️ Создание брони и оружия",
         dimsBtn: "🌌 Переход по измерениям",
         tradeBtn: "⚖️ Деревня и Торговля",
+		btnCustomLootModeActive: "✅ Свой выбор",
         buildBtn: "🧱 Стройка и Блоки", 
         toolsBtn: "🪓 Инструменты",
         statsBtn: "🦘 Статы игрока",
@@ -3073,6 +3649,8 @@ const lng = {
        },
     en: {
         lblDiff: "🎖 Quest Difficulty & Rewards:", 
+		expertQuestDiff: "Quest Difficulty:", 
+		expertRewardDiff: "Reward Value:",
 		diff_1: "BABY", 
 		diff_2: "VERY EASY", 
 		diff_3: "EASY", 
@@ -3081,6 +3659,7 @@ const lng = {
 		diff_6: "VERY HARD", 
 		diff_7: "HARDCORE", 
 		diff_8: "I AM JUDGE",
+		btnCustomLootModeActive: "✅ Custom Pick",
         unit_mob_1: " mob",
 		unit_mob_2: " mobs", 
 		unit_mob_5: " mobs",
@@ -3090,7 +3669,15 @@ const lng = {
         unit_swim_1: " meter",
 		unit_swim_2: " meters", 
 		unit_swim_5: " meters",
+		canvasTitle: "🕸 Quest Dependency Map",
+		canvasHint: "LMB — move | Click 🟢 — link/unlink",
+		canvasClearBtn: "✂ Reset Links",
+		canvasDoneBtn: "💾 Done",
         unit_pcs: " pcs.",
+		lblLootColor: "🎨 Color:",
+		btnCustomLootMode: "🛠️ Custom Pick",
+		phCustomCrateName: "Crate name...",
+		btnLootApplyClose: "💾 Apply & Close",
         task_mine: "Mine", 
 		task_kill: "Defeat",
 		task_animal: "Find", 
@@ -3101,7 +3688,29 @@ const lng = {
 		task_build: "Collect", 
         task_tools: "Forge", 
 		task_stats: "Perform",
-        title: "🗺️ FTB Quests Quest Generator — Hyperspace Jump (version 1.4)",
+		lootModalTitle: "🗃️ Space Loot Crate Setup (Spaceport 1.6)",
+		lootPresetTitle: "🚀 Select a Planetary Loot Preset:",
+		planet_earth: "🌍 Earth",
+		planet_moon: "🌙 Moon",
+		planet_jupiter: "🪐 Jupiter",
+		planet_mars: "🔴 Mars",
+		planet_venus: "🌋 Venus",
+		planet_saturn: "🪐 Saturn",
+		btnCustomLootMode: "🛠️ Custom Pick",
+		btnPresetLootMode: "🚀 Back to Presets",
+		planet_neptune: "🔵 Neptune",
+		planet_pluto: "🌱 Pluto",
+		planet_photon: "✨ Photon",
+		planet_end: "🔮 The End",
+		lootSearchPh: "🔍 Quick search by item name or ID (e.g. diamond, stone, dirt)...",
+		th_enabled: "On",
+		th_item: "Loot Item",
+		th_weight: "Weight",
+		th_min: "Min",
+		th_max: "Max",
+		btnPandora: "🎲 Pandora's Chest",
+		ttlPandoraCount: "Number of random items for Pandora's Chest",
+        title: "🗺️ FTB Quests Quest Generator — Mars (version 1.7)",
         chapterLabel: "📝 Quest Chapter Title in-game:",
         chapterPlaceholder: "e.g., Survival, Magic, Mining",
         mcStyleBtn: "🎲 MC Style Name",
@@ -3237,6 +3846,8 @@ const lng = {
 		panel_title_fx: "🌠 Environment effects settings",
 		    },
     ja: {
+        expertQuestDiff: "クエストの難易度:",
+		expertRewardDiff: "報酬の価値:",
         unit_mob_1: "体",
 		unit_mob_2: "体", 
 		unit_mob_5: "体",
@@ -3247,9 +3858,16 @@ const lng = {
 		unit_swim_2: "メートル",
 		unit_swim_5: "メートル",
         unit_pcs: "個",
+		canvasTitle: "🕸 クエスト関連マップ",
+		canvasHint: "左クリック — 移動 | 🟢クリック — 接続/解除",
+		canvasClearBtn: "✂ 接続をリセット",
+		canvasDoneBtn: "💾 完了",
         task_mine: "採掘する", 
 		task_kill: "討伐する", 
 		task_animal: "見つける", 
+		btnCustomLootMode: "🛠️ カスタム選択",
+		btnPresetLootMode: "🚀 プリセットに戻る",
+		btnCustomLootModeActive: "✅ カスタム選択",
 		task_cook: "料理する", 
         task_gear: "作成する", 
 		task_dims: "調査する", 
@@ -3257,7 +3875,31 @@ const lng = {
 		task_build: "設置する", 
         task_tools: "鍛造する",
 		task_stats: "達成する",
-        title: "🗺️ FTB Quest クエストジェネレーター — ハイパージャンプ (Ver 1.4)",
+        title: "🗺️ FTB Quest クエストジェネレーター — マーズ (Ver 1.7)",
+		lootModalTitle: "🗃️ 宇宙ルートチェスト設定 (スペースポート 1.6)",
+		lootPresetTitle: "🚀 惑星プリセットを選択:",
+		lblLootColor: "🎨 色:",
+		btnCustomLootMode: "🛠️ カスタム選択",
+		phCustomCrateName: "チェスト名...",
+		btnLootApplyClose: "💾 適用して閉じる",
+		planet_earth: "🌍 地球",
+		planet_moon: "🌙 月",
+		planet_jupiter: "🪐 木星",
+		planet_mars: "🔴 火星",
+		planet_venus: "🌋 金星",
+		planet_saturn: "🪐 土星",
+		planet_neptune: "🔵 海王星",
+		planet_pluto: "🌱 冥王星",
+		planet_photon: "✨ フォトン",
+		planet_end: "🔮 ジ・エンド",
+		lootSearchPh: "🔍 アイテム名またはIDで検索 (例: ダイヤ, stone, dirt)...",
+		th_enabled: "有効",
+		th_item: "ルートアイテム",
+		th_weight: "重み (確率)",
+		th_min: "最小",
+		th_max: "最大",
+		btnPandora: "🎲 パンドラの箱",
+		ttlPandoraCount: "パンドラの箱のランダムアイテム数",
         chapterLabel: "📝 ゲーム内のクエストタブ名（章）:",
         chapterPlaceholder: "例：サバイバル、魔法、採掘",
         mcStyleBtn: "🎲 MC風の名前",
@@ -3402,6 +4044,8 @@ const lng = {
     },
     zh_sp: {
         unit_mob_1: "个", 
+		expertQuestDiff: "任务难度:", 
+		expertRewardDiff: "奖励价值:",
 		unit_mob_2: "个", 
 		unit_mob_5: "个",
         unit_jump_1: "次", 
@@ -3410,6 +4054,17 @@ const lng = {
         unit_swim_1: "米", 
 		unit_swim_2: "米", 
 		unit_swim_5: "米",
+		canvasTitle: "🕸 任务关联图",
+		canvasHint: "左键 — 拖动 | 点击 🟢 — 连接/断开",
+		canvasClearBtn: "✂ 重置连接",
+		canvasDoneBtn: "💾 完成",
+		lblLootColor: "🎨 颜色:",
+		btnCustomLootModeActive: "✅ 自定义选择",
+		btnCustomLootMode: "🛠️ 自定义选择",
+		btnPresetLootMode: "🚀 返回预设方案",
+		btnCustomLootMode: "🛠️ 自定义选择",
+		phCustomCrateName: "战利品箱名称...",
+		btnLootApplyClose: "💾 应用并关闭",
         unit_pcs: "个",
         task_mine: "采掘", 
 		task_kill: "击败", 
@@ -3421,7 +4076,27 @@ const lng = {
 		task_build: "收集", 
         task_tools: "锻造", 
 		task_stats: "完成",
-        title: "🗺️ FTB Quest 任务生成器 — 超空间跳跃 (版本 1.4)",
+		lootModalTitle: "🗃️ 太空战利品箱设置 (太空港 1.6)",
+		lootPresetTitle: "🚀 选择预设星球战利品方案:",
+		planet_earth: "🌍 地球",
+		planet_moon: "🌙 月球",
+		planet_jupiter: "🪐 木星",
+		planet_mars: "🔴 火星",
+		planet_venus: "🌋 金星",
+		planet_saturn: "🪐 土星",
+		planet_neptune: "🔵 海王星",
+		planet_pluto: "🌱 冥王星",
+		planet_photon: "✨ 光子",
+		planet_end: "🔮 末地",
+		lootSearchPh: "🔍 按名称或 ID 快速搜索物品 (例如: 钻石, stone, dirt)...",
+		th_enabled: "启用",
+		th_item: "战利品物品",
+		th_weight: "权重 (概率)",
+		th_min: "最少",
+		th_max: "最多",
+		btnPandora: "🎲 潘多拉魔盒",
+		ttlPandoraCount: "潘多拉魔盒的随机物品数量",
+        title: "🗺️ FTB Quest 任务生成器 — 火星 (版本 1.7)",
         chapterLabel: "📝 游戏内任务分页名称（章节）:",
         chapterPlaceholder: "例如：生存、魔法、采掘",
         mcStyleBtn: "🎲 MC 风格名称",
@@ -3566,6 +4241,10 @@ const lng = {
 	    },
     zh_tr: {
         unit_mob_1: "个", 
+		expertQuestDiff: "任務難度:", 
+		btnCustomLootMode: "🛠️ 自訂選擇",
+		btnPresetLootMode: "🚀 返回預設方案",
+		expertRewardDiff: "獎勵價值:",
 		unit_mob_2: "个", 
 		unit_mob_5: "个",
         unit_jump_1: "次", 
@@ -3574,7 +4253,16 @@ const lng = {
         unit_swim_1: "米", 
 		unit_swim_2: "米", 
 		unit_swim_5: "米",
+		btnCustomLootModeActive: "✅ 自訂選擇",
         unit_pcs: "个",
+		canvasTitle: "🕸 任務關聯圖",
+		canvasHint: "左鍵 — 拖動 | 點擊 🟢 — 連接/斷開",
+		canvasClearBtn: "✂ 重置連接",
+		canvasDoneBtn: "💾 完成",
+		lblLootColor: "🎨 顏色:",
+		btnCustomLootMode: "🛠️ 自訂選擇",
+		phCustomCrateName: "戰利品箱名稱...",
+		btnLootApplyClose: "💾 套用並關閉",
         task_mine: "采掘", 
 		task_kill: "击败", 
 		task_animal: "寻找", 
@@ -3585,12 +4273,32 @@ const lng = {
 		task_build: "收集", 
         task_tools: "锻造", 
 		task_stats: "完成",
-        title: "🗺️ FTB Quest 任務產生器 — 超空間跳躍 (版本 1.4)",
+        title: "🗺️ FTB Quest 任務生成器 — 火星 (版本 1.7)",
         chapterLabel: "📝 遊戲內任務分頁名稱（章節）:",
         chapterPlaceholder: "例如：生存、魔法、採掘",
         mcStyleBtn: "🎲 MC 任務名稱",
         folderIdLabel: "📂 當前章節文件夾 HEX-ID:",
         rerollBtn: "🔄 生成新文件夾 ID",
+		lootModalTitle: "🗃️ 太空戰利品箱設定 (太空港 1.6)",
+		lootPresetTitle: "🚀 選擇預設星球戰利品方案:",
+		planet_earth: "🌍 地球",
+		planet_moon: "🌙 月球",
+		planet_jupiter: "🪐 木星",
+		planet_mars: "🔴 火星",
+		planet_venus: "🌋 金星",
+		planet_saturn: "🪐 土星",
+		planet_neptune: "🔵 海王星",
+		planet_pluto: "🌱 冥王星",
+		planet_photon: "✨ 光子",
+		planet_end: "🔮 終界",
+		lootSearchPh: "🔍 按名稱或 ID 快速搜尋物品 (例如: 鑽石, stone, dirt)...",
+		th_enabled: "啟用",
+		th_item: "戰利品物品",
+		th_weight: "權重 (機率)",
+		th_min: "最少",
+		th_max: "最多",
+		btnPandora: "🎲 潘朵拉魔盒",
+		ttlPandoraCount: "潘朵拉魔盒的隨機物品數量",
         catTitle: "選擇任務主題 or 活動:",
         mineBtn: "⛏️ 礦山 & 秘密",
         killBtn: "⚔️ 狩獵怪物",
@@ -3728,6 +4436,204 @@ const lng = {
 		panel_title_reset: "❌ 重置自訂背景",
 		panel_title_memo: "🖇 FTB Quests 關聯備忘錄",
 		panel_title_fx: "🌠 環境特效設置",
+    },
+	ko: {
+        lblDiff: "🎖 퀘스트 및 보상 난이도:", 
+		expertQuestDiff: "퀘스트 난이도:", 
+		lblLootColor: "🎨 顏色:",
+		btnCustomLootMode: "🛠️ 自訂選擇",
+		phCustomCrateName: "戰利品箱名稱...",
+		btnLootApplyClose: "💾 套用並關閉",
+		expertRewardDiff: "보상 가치:",
+		canvasTitle: "🕸 퀘스트 연결 맵",
+		canvasHint: "좌클릭 — 이동 | 🟢 클릭 — 연결/해제",
+		btnCustomLootMode: "🛠️ 직접 선택",
+		btnPresetLootMode: "🚀 프리셋으로 돌아가기",
+		canvasClearBtn: "✂ 연결 초기화",
+		btnCustomLootModeActive: "✅ 직접 선택",
+		canvasDoneBtn: "💾 완료",
+        diff_1: "아기", 
+        diff_2: "매우 쉬움", 
+        diff_3: "쉬움", 
+        diff_4: "보통", 
+        diff_5: "어려움", 
+        diff_6: "매우 어려움", 
+        diff_7: "하드코어", 
+        diff_8: "내가 곧 법이다",
+        unit_mob_1: "마리", 
+        unit_mob_2: "마리",
+        unit_mob_5: "마리",
+        unit_jump_1: "회",
+        unit_jump_2: "회", 
+        unit_jump_5: "회",
+        unit_swim_1: "m",
+        unit_swim_2: "m",
+        unit_swim_5: "m",
+        unit_pcs: "개",
+        task_mine: "채굴:", 
+        task_kill: "처치:", 
+        task_animal: "발견:", 
+        task_cook: "조리:", 
+        task_gear: "제작:", 
+        task_dims: "탐험:", 
+        task_trade: "완료:",
+        task_build: "수집:", 
+        task_tools: "제작:", 
+        task_stats: "달성:",
+        title: "🗺️ FTB Quest 퀘스트 생성기 — 마르스 (버전 1.7)",
+        chapterLabel: "📝 게임 내 퀘스트 탭(챕터) 이름:",
+        chapterPlaceholder: "예: 야생, 마법, 곡괭이",
+        mcStyleBtn: "🎲 MC 스타일 이름",
+        folderIdLabel: "📂 게임 내 챕터 폴더의 현재 HEX-ID:",
+        rerollBtn: "🔄 새 폴더 ID 생성",
+        catTitle: "퀘스트 주제 또는 활동을 선택하세요:",
+        mineBtn: "⛏️ 광산과 비밀",
+        killBtn: "⚔️ 몬스터 사냥",
+        animalsBtn: "🐷 동물 사냥",
+        cookBtn: "🍳 음식 요리",
+        gearBtn: "🛡️ 방어구 및 무기 제작",
+        dimsBtn: "🌌 차원 이동",
+        tradeBtn: "⚖️ 마을과 거래",
+        buildBtn: "🧱 건축과 블록", 
+        toolsBtn: "🪓 도구",
+        statsBtn: "🦘 플레이어 스탯",
+        randomBtn: "🎲 무작위 선택",
+        lengthLabel: "🎚️ 무작위 퀘스트 체인 길이:",
+        unitPcs: "개",
+        manualTitle: "퀘스트 설정",
+        qTitleLabel: "1. 퀘스트 이름:",
+        qTitlePlaceholder: "예: 철을 캘 시간이다!",
+        qTargetLabel: "2. 퀘스트 목표 선택:",
+        qTargetCountLabel: "목표 수량:",
+        qRewardLabel: "3. 완료 보상 선택:",
+        qDepLabel: "4. 진행 순서 (선행 조건):",
+        depNone: "🟢 시작 퀘스트 (즉시 진행 가능)",
+        depPrev: "🔒 이전 퀘스트 완료 후 잠금 해제",
+        saveBtn: "➕ 체인에 퀘스트 추가",
+		lootModalTitle: "🗃️ 우주 전리품 상자 설정 (우주공항 1.6)",
+		lootPresetTitle: "🚀 행성별 전리품 프리셋 선택:",
+		planet_earth: "🌍 지구",
+		planet_moon: "🌙 달",
+		planet_jupiter: "🪐 목성",
+		planet_mars: "🔴 화성",
+		planet_venus: "🌋 금성",
+		planet_saturn: "🪐 토성",
+		planet_neptune: "🔵 해왕성",
+		planet_pluto: "🌱 명왕성",
+		planet_photon: "✨ 광자",
+		planet_end: "🔮 엔드",
+		lootSearchPh: "🔍 아이템 이름 또는 ID로 빠른 검색 (예: 다이아, stone, dirt)...",
+		th_enabled: "활성",
+		th_item: "전리품 아이템",
+		th_weight: "가중치 (확률)",
+		th_min: "최소",
+		th_max: "최대",
+		btnPandora: "🎲 판도라의 상자",
+		ttlPandoraCount: "판도라의 상자 무작위 아이템 수",
+        consumeLabel: "📦 아이템 제출 (소모): 플레이어 인벤토리에서 자원을 회수합니다",
+        chainTitle: "현재 퀘스트 체인:",
+        clearBtn: "🗑️ 모두 초기화",
+        downloadBtn: "💾 모든 챕터 파일 다운로드 (.zip)",
+        confirmReroll: "다음 챕터를 위해 새 폴더 ID를 생성할까요? 현재 퀘스트 체인이 초기화됩니다!",
+        confirmClear: "현재 퀘스트 체인을 모두 지우고 처음부터 다시 시작하시겠습니까?",
+        addAlert: "다운로드하기 전에 최소 하나의 퀘스트를 추가하세요!",
+        defaultDesc: "당신의 월드를 위해 자동 생성된 도전 과제입니다!",
+        defaultChapter: "나의 모험",
+        noName: "제목 없음",
+        stageText: "단계 ",
+        countOpt1: "1개 / 1마리", 
+        countOpt10: "10개 / 10마리", 
+        countOpt50: "50개 / 50마리", 
+        countOpt100: "100개 / 100마리",
+        countOpt10_stat: "10회 / 10m",
+        countOpt100_stat: "100회 / 100m",
+        countOpt500_stat: "500회 / 500m", 
+        countOpt1000_stat: "1000회 / 1000m",
+        reward_emerald: "💚 에메랄드", 
+        reward_emerald_block: "🟩 에메랄드 블록", 
+        reward_iron_ingot: "🪙 철 주괴", 
+        reward_gold_ingot: "🟡 금 주괴",
+        reward_diamond: "💎 다이아몬드", 
+        reward_iron_block: "⛓️ 철 블록", 
+        reward_gold_block: "🟡 금 블록",
+        reward_diamond_block: "💎 다이아몬드 블록", 
+        reward_cooked_beef: "🥩 익힌 소고기", 
+        reward_golden_apple: "🍎 황금 사과", 
+        reward_golden_apple_notch: "💜 마법이 부여된 황금 사과",
+        reward_cake: "🎂 케이크", 
+        reward_lootcrate: "📦 전리품 상자 (Lootcrate)", 
+        reward_exp: "🧪 경험치 병", 
+        reward_totem: "🦅 불사의 토템",
+        mdl_auth_title: "📡 프로젝트 개발자",
+        mdl_auth_desc: "버그나 문법 오류를 발견하셨거나 생성기 개선 아이디어가 있다면 개발자에게 직접 연락해 주세요:",
+        lnk_CF: "CurseForge (CF)",
+        lnk_bs: "BlueSky",
+        lnk_gt: "GitHub",
+        lnk_yt: "YouTube",
+        lnk_am: "Ameba (JP)",
+        lnk_mc: "MCMod (CN)",
+        shape_line: "📏 기본 일직선",
+        shape_snake: "🐍 스마트 뱀 모양 (지그재그)",
+        shape_wave: "〰️ 수학적 파동",
+        shape_stairs: "📈 계단 / 상승형",
+        shape_bow: "🏹 활 모양 (아치)",
+        shape_diamond: "💎 마름모 (분기형)",
+        shape_spiral: "🌀 나선형 (은하수)",
+        shape_square: "📦 사각형 테두리",
+        shape_triangle: "🔺 삼각형 / 피라미드",
+        shape_hexagon: "🐝 벌집 모양",
+        shape_trident: "🔱 삼지창",
+        shape_cross: "❌ 십자가 / X자형",
+        shape_tech_tree: "🌿 테크 트리",
+        shape_web: "🕸️ 거미줄",
+        shape_star: "⭐ 오각별",
+        shape_target: "🎯 과녁",
+        shape_lightning: "⚡ 번개 / 꺾은선",
+        shape_anchor: "⚓ 닻",
+        shape_crown: "👑 왕관",
+        shape_hourglass: "⏳ 모래시계",
+        shape_infinity: "♾️ 무한대",
+        shape_castle: "🏰 성벽",
+        shape_dna: "🧬 DNA 이중나선",
+        shape_maze: "🎲 무작위 미로",
+        shape_saturn: "🪐 토성의 고리",
+        shape_shield: "🛡️ 방어막 테두리",
+        shape_portal: "🚪 퀘스트 차원문",
+        shape_volcano: "🌋 화산 / 하강형",
+        shape_footsteps: "👣 발자국 / 2열 보행",
+        shape_cards: "🃏 노가다 맵",
+        shape_lantern: "🏮 일본식 등불",
+        shape_tracks: "🐾 곰 발자국 길",
+        shape_atlas: "🗺️ 모험의 지도",
+        shape_key: "🗝️ 퀘스트 열쇠",
+        shapePanelTitle: "📐 퀘스트 배치 형태 선택 (34종 프리셋)",
+        shapeBtnTitle: "📐 브랜치 배치 형태",
+        win_ftb_memo_title: "📎 메모: FTB Quests 연동 가이드",
+        memo_ftb_close: "Х 닫기",
+        memo_ftb_main_1: "복잡한 스크립트 없이 CustomNPCs 스토리와 FTBQuests 퀘스트 라인을 연결하려면",
+        memo_ftb_main_2: "아이템을 활용한 물리적 방식",
+        memo_ftb_main_3: "을 사용하세요. 모드 충돌이나 버그로 망가지지 않는 가장 확실한 방법입니다.",
+        memo_ftb_title_a: "💡 방법 A: NPC에서 퀘스트 북으로 연결",
+        memo_ftb_desc_a1: "NPC의 대화나 퀘스트 보상으로 플레이어에게 고유 아이템(예: 퀘스트 코인, 커스텀 토큰, 이름이 지정된 양피지 등)을 지급하도록 설정하세요. 그다음",
+        memo_ftb_desc_a2: "퀘스트 북에서 해당 아이템을 소지하는 조건의",
+        memo_ftb_desc_a3: "Item Task",
+        memo_ftb_desc_a4: "퀘스트를 생성합니다. 플레이어가 NPC에게서 보상을 받는 즉시 퀘스트 단계가 자동으로 완료됩니다.",
+        memo_ftb_title_b: "💡 방법 B: 퀘스트 북에서 NPC로 연결",
+        memo_ftb_desc_b1: "복잡한 테크 트리 완료 보상으로",
+        memo_ftb_desc_b2: "에서 플레이어에게 특수 아이템(예: '통행증' 또는 '마스터의 열쇠')을 지급하세요. 그리고 NPC 설정의",
+        memo_ftb_desc_b3: "가용성 옵션 (Availability Options)",
+        memo_ftb_desc_b4: "에서 해당 아이템을 인벤토리에 보유했을 때만 대화나 퀘스트가 열리도록 지정하면 됩니다.",
+        fx_title_none: "❌ 모든 효과 끄기",
+        fx_title_sakura: "🌸 벚꽃 잎",
+        fx_title_leaves: "🍁 가을 낙엽",
+        fx_title_green: "🍃 여름 나뭇잎",
+        fx_title_snow: "❄️ 겨울 눈송이",
+        fx_title_rain: "🌧️ 현실적인 비",
+        fx_title_fw: "🎆 축하 불꽃놀이 (Win XP!)",
+        panel_title_upload: "🖼️ 사용자 지정 배경 이미지 설정",
+        panel_title_reset: "❌ 사용자 지정 배경 초기화",
+        panel_title_memo: "🖇 FTB Quests 연동 메모",
+        panel_title_fx: "🌠 환경 효과 설정",
     }
 };
 
@@ -3774,16 +4680,22 @@ function setLanguage(lang) {
     el('lblLength', t.lengthLabel);
     el('lblCountUnit', t.unitPcs);
     el('lblDifficulty', t.lblDiff);
+    el('lblExpertQuestDiff', t.expertQuestDiff || "Сложность квестов:");
+    el('lblExpertRewardDiff', t.expertRewardDiff || "Ценность призов:");
     
-    // Пересчитываем и переводим текст текущей сложности на плашке (например, МЛАДЕНЕЦ -> BABY)
-    const diffInput = document.getElementById('questDifficulty');
-    if (diffInput) {
-        const badge = document.getElementById('diffValue');
-        if (badge) {
-            const dKey = "diff_" + diffInput.value;
-            badge.innerText = t[dKey] || lng["ru"][dKey];
+    // Пересчитываем и переводим текст текущей сложности на всех 3 плашках
+    const syncSliderBadge = (inputId, labelId) => {
+        const inp = document.getElementById(inputId);
+        const lbl = document.getElementById(labelId);
+        if (inp && lbl) {
+            const dKey = "diff_" + inp.value;
+            lbl.innerText = t[dKey] || lng["ru"][dKey];
         }
-    }
+    };
+    syncSliderBadge('questDifficulty', 'simpleDiffLabel');
+    syncSliderBadge('customQuestDiff', 'expertQuestLabel');
+    syncSliderBadge('customRewardDiff', 'expertRewardLabel');
+
     
     // 5. Переводим внутренности панели ручной настройки квестов
     el('actionTitle', t.manualTitle);
@@ -3796,7 +4708,43 @@ function setLanguage(lang) {
     el('lblQTargetCount', t.qTargetCountLabel);
     el('lblQReward', t.qRewardLabel);
     el('lblQDep', t.qDepLabel);
-    
+    el('lblCanvasTitle', t.canvasTitle);
+    el('lblCanvasHint', t.canvasHint);
+    el('btnCanvasClear', t.canvasClearBtn);
+    el('btnCanvasDone', t.canvasDoneBtn);
+	
+	 // Модальное окно настройки космических сундуков
+    el('lblLootModalTitle', t.lootModalTitle);
+    el('lblLootPresetTitle', t.lootPresetTitle);
+    el('btnPlanetEarth', t.planet_earth);
+    el('btnPlanetMoon', t.planet_moon);
+    el('btnPlanetJupiter', t.planet_jupiter);
+    el('btnPlanetMars', t.planet_mars);
+    el('btnPlanetVenus', t.planet_venus);
+    el('btnPlanetSaturn', t.planet_saturn);
+    el('btnPlanetNeptune', t.planet_neptune);
+    el('btnPlanetPluto', t.planet_pluto);
+    el('btnPlanetPhoton', t.planet_photon);
+    el('btnPlanetEnd', t.planet_end);
+	
+    el('lblLootColor', t.lblLootColor);
+    el('customModeBtn', t.btnCustomLootMode);
+    const crateNameInp = document.getElementById('customCrateNameInput');
+    if (crateNameInp) crateNameInp.placeholder = t.phCustomCrateName;
+    el('btnLootApplyClose', t.btnLootApplyClose);
+
+
+    const lootSearch = document.getElementById('lootSearchInput');
+    if (lootSearch) lootSearch.placeholder = t.lootSearchPh;
+
+    el('thLootEnabled', t.th_enabled);
+    el('thLootItem', t.th_item);
+    el('thLootWeight', t.th_weight);
+    el('thLootMin', t.th_min);
+    el('thLootMax', t.th_max);
+    el('btnPandoraChest', t.btnPandora);
+    el('pandoraCountInput', t.ttlPandoraCount, true);
+	
     // 6. Обновляем выпадающий список последовательности (зависимостей)
     const depSelect = document.getElementById('qDependency');
     if(depSelect && depSelect.options.length >= 2) {
@@ -3813,6 +4761,9 @@ function setLanguage(lang) {
     const actionTitle = document.getElementById('actionTitle');
     if (actionTitle && document.getElementById('settingsPanel').style.display === 'block') {
         actionTitle.innerText = t[currentOpenThemeKey] || lng["ru"][currentOpenThemeKey];
+        if (currentType) {
+            openSettings(currentType, document.querySelector('.tab-btn.active'), currentOpenThemeKey);
+        }
     }
 
     // 8. Переводим названия кнопок категорий (по их дата-атрибутам)
@@ -3831,8 +4782,11 @@ function setLanguage(lang) {
     updateSingleBtn('tools', t.toolsBtn);
     updateSingleBtn('player_stats', t.statsBtn);
     updateSingleBtn('random', t.randomBtn);
-    
-    // 9. Переводим большую зелёную кнопку скачивания в самом низу
+	
+    if (typeof window.renderLootEditorRows === 'function') window.renderLootEditorRows();
+    if (typeof updateChainUI === 'function') updateChainUI();
+	
+	// 9. Переводим большую зелёную кнопку скачивания в самом низу
     const dlBtn = document.getElementById('btnDownloadAll');
     if (dlBtn) {
         dlBtn.innerHTML = t.downloadBtn;
@@ -4359,6 +5313,34 @@ function recalculateQuestCoordinates() {
         q.x = Math.round(q.x * 100) / 100;
         q.y = Math.round(q.y * 100) / 100;
     });
+	
+	    // Авто-стилизация форм и размеров под общую геометрию ветки
+    const shapeStyleMap = {
+        hexagon: "hexagon",
+        honeycomb: "hexagon",
+        diamond: "diamond",
+        rhombus: "diamond",
+        star: "star",
+        circle: "circle",
+        orbit: "circle",
+        saturn: "circle",
+        tech_tree: "gear"
+    };
+    const baseNodeShape = shapeStyleMap[currentShape] || "rsquare";
+
+    questChain.forEach((q, idx) => {
+        if (idx === 0) {
+            q.shape = "gear";    // Стартовый узел ветки
+            q.size = 1.3;
+        } else if (idx === questChain.length - 1 && questChain.length > 2) {
+            q.shape = "star";    // Финальный босс-узел ветки
+            q.size = 1.5;
+        } else {
+            q.shape = baseNodeShape;
+            q.size = 1.0;
+        }
+    });
+
 }
 
 
@@ -4439,6 +5421,396 @@ const db = {
         { id: "minecraft:swim", type: "stat_swim", name: "🏊 Пловец: Преодолеть расстояние по воде" }
     ]
 };
+// =========================================================================
+// МУЛЬТИЯЗЫЧНЫЕ НАЗВАНИЯ НАХУЙ ЦЕЛЕЙ ДЛЯ БАЗЫ ДАННЫХ db (5 ЯЗЫКОВ БЛЯДЬ)
+// =========================================================================
+window.dbNamesByLang = {
+    // mine
+    "minecraft:coal_ore": {
+        en: "⛏️ Mine Coal Ore",
+        ja: "⛏️ 石炭鉱石を採掘する",
+        zh_sp: "⛏️ 开采煤矿石",
+        zh_tr: "⛏️ 開採煤礦",
+        ko: "⛏️ 석탄 광석 채굴하기"
+    },
+    "minecraft:iron_ore": {
+        en: "⛏️ Mine Iron Ore",
+        ja: "⛏️ 鉄鉱石を採掘する",
+        zh_sp: "⛏️ 开采铁矿石",
+        zh_tr: "⛏️ 開採鐵礦",
+        ko: "⛏️ 철 광석 채굴하기"
+    },
+    "minecraft:diamond_ore": {
+        en: "💎 Find Diamond Ore",
+        ja: "💎 ダイヤモンド鉱石を見つける",
+        zh_sp: "💎 寻找钻石矿石",
+        zh_tr: "💎 尋找鑽石礦",
+        ko: "💎 다이아몬드 광석 찾기"
+    },
+    "minecraft:lava_bucket": {
+        en: "🌋 Collect a Lava Bucket",
+        ja: "🌋 溶岩入りバケツを汲む",
+        zh_sp: "🌋 装一桶岩浆",
+        zh_tr: "🌋 裝一桶岩漿",
+        ko: "🌋 용암 양동이 채우기"
+    },
+    "minecraft:obsidian": {
+        en: "🧱 Mine Obsidian",
+        ja: "🧱 黒曜石を採掘する",
+        zh_sp: "🧱 开采黑曜石",
+        zh_tr: "🧱 開採黑曜石",
+        ko: "🧱 흑요석 채굴하기"
+    },
+    "minecraft:minecart": {
+        en: "🛒 Find or Craft a Minecart",
+        ja: "🛒 トロッコを見つけるかクラフトする",
+        zh_sp: "🛒 寻找或合成矿车",
+        zh_tr: "🛒 尋找或合成礦車",
+        ko: "🛒 광산 수레 찾기 또는 제작하기"
+    },
+    "minecraft:cave_spider": {
+        en: "🕷️ Hunt: Defeat a Cave Spider",
+        ja: "🕷️ 狩猟: 洞窟グモを倒す",
+        zh_sp: "🕷️ 狩猎：击败洞穴蜘蛛",
+        zh_tr: "🕷️ 狩獵：擊敗洞穴蜘蛛",
+        ko: "🕷️ 사냥: 동굴 거미 처치하기"
+    },
+
+    // kill
+    "minecraft:zombie": {
+        en: "🧟 Defeat a Zombie",
+        ja: "🧟 ゾンビを倒す",
+        zh_sp: "🧟 击败僵尸",
+        zh_tr: "🧟 擊敗殭屍",
+        ko: "🧟 좀비 처치하기"
+    },
+    "minecraft:skeleton": {
+        en: "💀 Destroy a Skeleton",
+        ja: "💀 スケルトンを倒す",
+        zh_sp: "💀 消灭骷髅",
+        zh_tr: "💀 消滅骷髏",
+        ko: "💀 스켈레톤 처치하기"
+    },
+    "minecraft:creeper": {
+        en: "💥 Defeat a Creeper",
+        ja: "💥 クリーパーを倒す",
+        zh_sp: "💥 击败苦力怕",
+        zh_tr: "💥 擊敗苦力怕",
+        ko: "💥 크리퍼 처치하기"
+    },
+    "minecraft:spider": {
+        en: "🕷️ Defeat a Spider",
+        ja: "🕷️ クモを倒す",
+        zh_sp: "🕷️ 击败蜘蛛",
+        zh_tr: "🕷️ 擊敗蜘蛛",
+        ko: "🕷️ 거미 처치하기"
+    },
+    "minecraft:guardian": {
+        en: "🐟 Ocean: Defeat a Guardian",
+        ja: "🐟 海洋: ガーディアンを倒す",
+        zh_sp: "🐟 海洋：击败守卫者",
+        zh_tr: "🐟 海洋：擊敗深海守衛",
+        ko: "🐟 바다: 가디언 처치하기"
+    },
+    "minecraft:elder_guardian": {
+        en: "🔱 Boss: Defeat an Elder Guardian",
+        ja: "🔱 ボス: エルダーガーディアンを倒す",
+        zh_sp: "🔱 首领：击败远古守卫者",
+        zh_tr: "🔱 首領：擊敗遠古深海守衛",
+        ko: "🔱 보스: 엘더 가디언 처치하기"
+    },
+
+    // animals
+    "minecraft:cow": {
+        en: "🐄 Find a Cow",
+        ja: "🐄 ウシを見つける",
+        zh_sp: "🐄 寻找牛",
+        zh_tr: "🐄 尋找牛",
+        ko: "🐄 소 찾기"
+    },
+    "minecraft:pig": {
+        en: "🐷 Find a Pig",
+        ja: "🐷 ブタを見つける",
+        zh_sp: "🐷 寻找猪",
+        zh_tr: "🐷 尋找豬",
+        ko: "🐷 돼지 찾기"
+    },
+    "minecraft:sheep": {
+        en: "🐑 Find a Sheep",
+        ja: "🐑 ヒツジを見つける",
+        zh_sp: "🐑 寻找羊",
+        zh_tr: "🐑 尋找綿羊",
+        ko: "🐑 양 찾기"
+    },
+    "minecraft:squid": {
+        en: "🦑 Water Hunt: Defeat a Squid",
+        ja: "🦑 水中狩猟: イカを倒す",
+        zh_sp: "🦑 水下狩猎：击败鱿鱼",
+        zh_tr: "🦑 水下狩獵：擊敗魷魚",
+        ko: "🦑 수중 사냥: 오징어 처치하기"
+    },
+    "minecraft:rabbit": {
+        en: "🐇 Hunt: Catch a Wild Rabbit",
+        ja: "🐇 狩猟: ウサギを捕まえる",
+        zh_sp: "🐇 狩猎：捕捉野兔",
+        zh_tr: "🐇 狩獵：捕捉野兔",
+        ko: "🐇 사냥: 야생 토끼 잡기"
+    },
+
+    // cook
+    "minecraft:cake": {
+        en: "🎂 Bake a Festive Cake",
+        ja: "🎂 ケーキを作る",
+        zh_sp: "🎂 制作蛋糕",
+        zh_tr: "🎂 製作蛋糕",
+        ko: "🎂 케이크 만들기"
+    },
+    "minecraft:cooked_beef": {
+        en: "🥩 Cook a Beef Steak",
+        ja: "🥩 ステーキを焼く",
+        zh_sp: "🥩 烤制牛排",
+        zh_tr: "🥩 烤製牛排",
+        ko: "🥩 소고기 스테이크 굽기"
+    },
+    "minecraft:baked_potato": {
+        en: "🥔 Bake a Potato in a Furnace",
+        ja: "🥔 かまどでベイクドポテトを焼く",
+        zh_sp: "🥔 在熔炉中烤制马铃薯",
+        zh_tr: "🥔 在熔爐中烤製馬鈴薯",
+        ko: "🥔 화로에서 감자 굽기"
+    },
+    "minecraft:wheat": {
+        en: "🌾 Grow and Harvest Wheat",
+        ja: "🌾 小麦を育てて収穫する",
+        zh_sp: "🌾 种植并收获小麦",
+        zh_tr: "🌾 種植並收穫小麥",
+        ko: "🌾 밀 재배 및 수확하기"
+    },
+    "minecraft:dye:2": {
+        en: "🟢 Alchemy: Craft Cactus Green Dye",
+        ja: "🟢 錬金: 緑色の染料を作る",
+        zh_sp: "🟢 炼金：获取绿色染料",
+        zh_tr: "🟢 煉金：取得綠色染料",
+        ko: "🟢 연금술: 초록색 염료 얻기"
+    },
+
+    // gear
+    "minecraft:shield": {
+        en: "🛡️ Craft a Protective Shield",
+        ja: "🛡️ 盾をクラフトする",
+        zh_sp: "🛡️ 合成盾牌",
+        zh_tr: "🛡️ 合成盾牌",
+        ko: "🛡️ 방어용 방패 제작하기"
+    },
+    "minecraft:iron_chestplate": {
+        en: "👕 Craft an Iron Chestplate",
+        ja: "👕 鉄のチェストプレートを作る",
+        zh_sp: "👕 制作铁胸甲",
+        zh_tr: "👕 製作鐵胸甲",
+        ko: "👕 철 흉갑 제작하기"
+    },
+    "minecraft:iron_sword": {
+        en: "⚔️ Forge an Iron Sword",
+        ja: "⚔️ 鉄の剣を鍛える",
+        zh_sp: "⚔️ 锻造铁剑",
+        zh_tr: "⚔️ 鍛造鐵劍",
+        ko: "⚔️ 철 검 제작하기"
+    },
+    "minecraft:bow": {
+        en: "🏹 Craft a Ranged Bow",
+        ja: "🏹 弓をクラフトする",
+        zh_sp: "🏹 制作弓",
+        zh_tr: "🏹 製作弓",
+        ko: "🏹 원거리 활 제작하기"
+    },
+    "minecraft:arrow": {
+        en: "🎯 Craft Arrows for Your Bow",
+        ja: "🎯 弓用の矢を作る",
+        zh_sp: "🎯 制作箭矢",
+        zh_tr: "🎯 製作箭矢",
+        ko: "🎯 활에 쓸 화살 제작하기"
+    },
+
+    // dims
+    "minecraft:wither_skeleton": {
+        en: "🖤 Nether: Hunt a Wither Skeleton",
+        ja: "🖤 ネザー: ウィザースケルトンを倒す",
+        zh_sp: "🖤 下界：狩猎凋灵骷髅",
+        zh_tr: "🖤 地獄：狩獵凋零骷髏",
+        ko: "🖤 네더: 위더 스켈레톤 사냥하기"
+    },
+    "minecraft:ghast": {
+        en: "👻 Nether: Defeat a Flying Ghast",
+        ja: "👻 ネザー: ガストを倒す",
+        zh_sp: "👻 下界：击败恶魂",
+        zh_tr: "👻 地獄：擊敗地獄幽靈",
+        ko: "👻 네더: 가스트 처치하기"
+    },
+    "minecraft:quartz": {
+        en: "💎 Nether: Mine Nether Quartz",
+        ja: "💎 ネザー: ネザークォーツを採掘する",
+        zh_sp: "💎 下界：开采下界石英",
+        zh_tr: "💎 地獄：開採地獄石英",
+        ko: "💎 네더: 네더 석영 채굴하기"
+    },
+    "minecraft:enderman": {
+        en: "🔮 The End: Defeat an Enderman",
+        ja: "🔮 ジ・エンド: エンダーマンを倒す",
+        zh_sp: "🔮 末地：击败末影人",
+        zh_tr: "🔮 終界：擊敗終界使者",
+        ko: "🔮 엔드: 엔더맨 처치하기"
+    },
+
+    // trade
+    "minecraft:emerald": {
+        en: "💚 Find or Earn an Emerald",
+        ja: "💚 エメラルドを見つけるか取引で得る",
+        zh_sp: "💚 寻找或赚取绿宝石",
+        zh_tr: "💚 尋找或賺取綠寶石",
+        ko: "💚 에메랄드 찾기 또는 거래로 얻기"
+    },
+    "minecraft:villager": {
+        en: "👨 Trading: Complete a Villager Trade",
+        ja: "👨 取引: 村人と取引を行う",
+        zh_sp: "👨 交易：与村民完成交易",
+        zh_tr: "👨 交易：與村民完成交易",
+        ko: "👨 거래: 주민과 거래 완료하기"
+    },
+    "minecraft:bed": {
+        en: "🛏️ Craft a Bed for Village Rest",
+        ja: "🛏️ ベッドをクラフトする",
+        zh_sp: "🛏️ 合成床铺",
+        zh_tr: "🛏️ 合成床鋪",
+        ko: "🛏️ 침대 제작하기"
+    },
+
+    // building
+    "minecraft:dirt": {
+        en: "🧱 Earthworks: Dig Dirt Blocks",
+        ja: "🧱 土木作業: 土ブロックを掘る",
+        zh_sp: "🧱 土方工程：挖掘泥土块",
+        zh_tr: "🧱 土方工程：挖掘泥土塊",
+        ko: "🧱 토목 작업: 흙 블록 캐기"
+    },
+    "minecraft:stone": {
+        en: "🪨 Quarrying: Mine Cobblestone / Stone",
+        ja: "🪨 採石: 石を採掘する",
+        zh_sp: "🪨 采石：开采石头",
+        zh_tr: "🪨 採石：開採石頭",
+        ko: "🪨 채석: 돌 채굴하기"
+    },
+    "minecraft:fence": {
+        en: "🪵 Carpentry: Craft a Wooden Fence",
+        ja: "🪵 大工仕事: 木のフェンスを作る",
+        zh_sp: "🪵 木工：制作木栅栏",
+        zh_tr: "🪵 木工：製作木柵欄",
+        ko: "🪵 목공: 나무 울타리 제작하기"
+    },
+    "minecraft:crafting_table": {
+        en: "📦 The Basics: Craft a Crafting Table",
+        ja: "📦 基本のき: 作業台を作る",
+        zh_sp: "📦 万物之始：合成工作台",
+        zh_tr: "📦 萬物之始：合成工作台",
+        ko: "📦 기초 중의 기초: 제작대 만들기"
+    },
+    "minecraft:furnace": {
+        en: "🔥 Hearth: Craft a Furnace",
+        ja: "🔥 かまど: 丸石からかまどを作る",
+        zh_sp: "🔥 炉火：用圆石合成熔炉",
+        zh_tr: "🔥 爐火：用鵝卵石合成熔爐",
+        ko: "🔥 화덕: 조약돌로 화로 제작하기"
+    },
+    "minecraft:sponge:0": {
+        en: "🧽 Dry Sponge: Obtain a Dry Sponge",
+        ja: "🧽 乾いたスポンジを入手する",
+        zh_sp: "🧽 干海绵：获取干海绵",
+        zh_tr: "🧽 乾海綿：取得乾海綿",
+        ko: "🧽 마른 스펀지 얻기"
+    },
+    "minecraft:sponge:1": {
+        en: "💧 Wet Sponge: Collect a Wet Sponge",
+        ja: "💧 濡れたスポンジを入手する",
+        zh_sp: "💧 湿海绵：收集湿海绵",
+        zh_tr: "💧 濕海綿：收集濕海綿",
+        ko: "💧 젖은 스펀지 얻기"
+    },
+    "minecraft:glass": {
+        en: "🪟 Glazier: Smelt Sand into Glass",
+        ja: "🪟 ガラス職人: 砂を精錬してガラスを作る",
+        zh_sp: "🪟 玻璃工：将沙子烧炼成玻璃",
+        zh_tr: "🪟 玻璃工：將沙子燒煉成玻璃",
+        ko: "🪟 유리공: 모래를 제련해 유리 만들기"
+    },
+    "minecraft:cactus": {
+        en: "🌵 Flora: Harvest a Prickly Cactus",
+        ja: "🌵 植物: サボテンを採取する",
+        zh_sp: "🌵 植物：采集仙人掌",
+        zh_tr: "🌵 植物：採集仙人掌",
+        ko: "🌵 식물: 선인장 채집하기"
+    },
+
+    // tools
+    "minecraft:iron_axe": {
+        en: "🪓 Lumberjack: Forge an Iron Axe",
+        ja: "🪓 きこり: 鉄の斧を作る",
+        zh_sp: "🪓 伐木工：锻造铁斧",
+        zh_tr: "🪓 伐木工：鍛造鐵斧",
+        ko: "🪓 나무꾼: 철 도끼 제작하기"
+    },
+    "minecraft:iron_hoe": {
+        en: "🧑‍🌾 Farmer: Craft an Iron Hoe",
+        ja: "🧑‍🌾 農家: 鉄のクワを作る",
+        zh_sp: "🧑‍🌾 农夫：制作铁锄",
+        zh_tr: "🧑‍🌾 農夫：製作鐵鋤",
+        ko: "🧑‍🌾 농부: 철 괭이 제작하기"
+    },
+    "minecraft:iron_shovel": {
+        en: "🥄 Digger: Craft an Iron Shovel",
+        ja: "🥄 穴掘り: 鉄のシャベルを作る",
+        zh_sp: "🥄 挖掘工：制作铁锹",
+        zh_tr: "🥄 挖掘工：製作鐵鏟",
+        ko: "🥄 땅파기: 철 삽 제작하기"
+    },
+    "minecraft:iron_pickaxe": {
+        en: "⛏️ Prospector: Craft an Iron Pickaxe",
+        ja: "⛏️ 探鉱者: 鉄のツルハシを作る",
+        zh_sp: "⛏️ 勘探者：制作铁镐",
+        zh_tr: "⛏️ 勘探者：製作鐵鎬",
+        ko: "⛏️ 광부: 철 곡괭이 제작하기"
+    },
+    "minecraft:shears": {
+        en: "✂️ Shearing: Craft Shears for Sheep",
+        ja: "✂️ 毛刈り: ハサミをクラフトする",
+        zh_sp: "✂️ 剪毛：合成剪刀",
+        zh_tr: "✂️ 剪毛：合成剪刀",
+        ko: "✂️ 양털 깎기: 가위 제작하기"
+    },
+
+    // player_stats
+    "minecraft:jump": {
+        en: "🦘 Acrobatics: Perform Jumps",
+        ja: "🦘 アクロバット: ジャンプする",
+        zh_sp: "🦘 杂技：完成跳跃次数",
+        zh_tr: "🦘 雜技：完成跳躍次數",
+        ko: "🦘 곡예: 점프 수행하기"
+    },
+    "minecraft:swim": {
+        en: "🏊 Swimmer: Swim Distance in Water",
+        ja: "🏊 スイマー: 水中を泳いで移動する",
+        zh_sp: "🏊 游泳健将：在水中游泳一段距离",
+        zh_tr: "🏊 游泳健將：在水中游泳一段距離",
+        ko: "🏊 수영 선수: 물속에서 수영하여 거리 이동하기"
+    }
+};
+
+// Вспомогательная функция получения переведённого имени цели из db
+window.getDbItemName = function(item) {
+    if (!item) return "";
+    if (currentLang === "ru") return item.name;
+    const entry = window.dbNamesByLang && window.dbNamesByLang[item.id];
+    return (entry && entry[currentLang]) || (entry && entry.en) || item.name;
+};
+
 // =========================================================================
 // ГЕНЕРАТОР СЛУЧАЙНОЙ ВЕТКИ ЗАДАНИЙ (ПОДДЕРЖКА МУЛЬТИ-ЗАДАЧ UT99 STYLE + EXPERT)
 // =========================================================================
@@ -4553,40 +5925,25 @@ function generateRandomQuestline() {
         let finalQuestTitle = t.stageText + (i + 1) + ": ";
         
         if (questTargets.length > 1) {
-            finalQuestTitle += currentLang === "ru" ? "🎰 Комплексное испытание" : (currentLang === "ja" ? "🎰 複合試練" : "🎰 Multi-Task");
+            const multiTaskTitles = {
+                ru: "🎰 Комплексное испытание",
+                ja: "🎰 複合試練",
+                zh_sp: "🎰 综合试炼",
+                zh_tr: "🎰 綜合試煉",
+                ko: "🎰 복합 시련"
+            };
+            finalQuestTitle += multiTaskTitles[currentLang] || "🎰 Multi-Task";
         } else if (questTargets.length === 1) {
-            const singleTarget = questTargets[0];
-            
-            let actionWord = t.task_mine;
-            if (singleTarget.cat === "kill" || singleTarget.type === "kill") actionWord = t.task_kill;
-            if (singleTarget.cat === "animals") actionWord = t.task_animal;
-            if (singleTarget.cat === "cook") actionWord = t.task_cook;
-            if (singleTarget.cat === "gear") actionWord = t.task_gear;
-            if (singleTarget.cat === "dims") actionWord = t.task_dims;
-            if (singleTarget.cat === "trade") actionWord = t.task_trade;
-            if (singleTarget.cat === "building") actionWord = t.task_build;
-            if (singleTarget.cat === "tools") actionWord = t.task_tools;
-            if (singleTarget.cat === "player_stats") actionWord = t.task_stats;
+            const singleTarget = questTargets.at(0);
+            const localizedFull = (typeof window.getDbItemName === "function")
+                ? window.getDbItemName(singleTarget)
+                : (singleTarget.name || "🎯 Quest");
 
-            let iconEmoji = "🎯";
-            let cleanItemName = "UNKNOWN_ITEM";
-            let rawItemName = "Неизвестная цель";
-
-            if (singleTarget.name) {
-                const emojiMatch = singleTarget.name.match(/^([^\s]+)/);
-                iconEmoji = emojiMatch ? emojiMatch[0] : "🎯";
-                rawItemName = singleTarget.name;
-            }
-            if (singleTarget.id) {
-                cleanItemName = singleTarget.id.split(':').slice(-1).join("").split('_').join(' ').toUpperCase();
-            }
-
-            if (currentLang === "ja") finalQuestTitle += iconEmoji + " " + cleanItemName + " を" + actionWord;
-            else if (currentLang === "ru") finalQuestTitle += rawItemName.replace(/^([^\s]+)\s/, "");
-            else finalQuestTitle += iconEmoji + " " + actionWord + " " + cleanItemName;
+            finalQuestTitle += localizedFull;
         } else {
-            finalQuestTitle += "Пустое задание";
+            finalQuestTitle += t.noName || "Пустое задание";
         }
+
 
         // =========================================================================
         // [ОБНОВЛЕНИЕ 1.5]: АВТОМАТИЧЕСКОЕ НАПОЛНЕНИЕ МАССИВА НАГРАД (subRewards)
@@ -4780,9 +6137,24 @@ function updateChainUI() {
         '</div>' +
         '<div id="questList">';
 
+    const reqLabelByLang = {
+        ru: "— Требуется: ",
+        ja: "— 必要数: ",
+        zh_sp: "— 需要: ",
+        zh_tr: "— 需要: ",
+        ko: "— 필요 수량: "
+    };
+    const fileLabelByLang = {
+        ru: "Файл: ",
+        ja: "ファイル: ",
+        zh_sp: "文件: ",
+        zh_tr: "檔案: ",
+        ko: "파일: "
+    };
+
     questChain.forEach((q, idx) => {
-        let reqLabel = currentLang === "ru" ? "— Требуется: " : (currentLang === "ja" ? "— 必要数: " : "— Required: ");
-        let fileLabel = currentLang === "ru" ? "Файл: " : (currentLang === "ja" ? "ファイル: " : "File: ");
+        let reqLabel = reqLabelByLang[currentLang] || "— Required: ";
+        let fileLabel = fileLabelByLang[currentLang] || "File: ";
 		
         // 1. ОПРЕДЕЛЯЕМ ПАРАМЕТРЫ ДЛЯ СЛОЖНОСТИ ЗАДАЧ
         let currentDiff = q.difficulty || 4;
@@ -4798,12 +6170,10 @@ function updateChainUI() {
         // 3. СБОРКА ЗОНЫ С БЕЙДЖАМИ (В ЗАВИСИМОСТИ ОТ РЕЖИМА)
         let badgesHtml = '';
         if (window.isExpertDifficultyMode) {
-            // Режим эксперта: Две компактные плашки
             badgesHtml = 
                 '<span style="font-size: 10px; font-family: monospace; color: #fff; background: ' + currentDiffColor + '; padding: 2px 6px; border-radius: 3px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;">⚔️ ' + diffText + '</span>' +
                 '<span style="font-size: 10px; font-family: monospace; color: #fff; background: ' + currentRewardColor + '; padding: 2px 6px; border-radius: 3px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;">💰 ' + rewardDiffText + '</span>';
         } else {
-            // Обычный режим: Одна классическая плашка со щитом
             badgesHtml = '<span style="font-size: 10px; font-family: monospace; color: #fff; background: ' + currentDiffColor + '; padding: 2px 6px; border-radius: 3px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;">🛡️ ' + diffText + '</span>';
         }
 
@@ -4833,12 +6203,12 @@ function updateChainUI() {
                 unitText = " " + t.unit_pcs;
             }
 
-            const emojiMatch = sub.name.match(/^([^\s]+)/);
-            const iconEmoji = emojiMatch ? emojiMatch[0] : "🎯";
-            let displayName = sub.name.replace(/^[^\s]+\s/, "");
-            if (currentLang !== "ru") {
-                displayName = sub.id.split(':').slice(-1).join('').split('_').join(' ').toUpperCase();
-            }
+            // Берем переведённую строку из словаря dbNamesByLang, отделяем эмодзи и текст
+            const localizedFull = (typeof window.getDbItemName === "function") ? window.getDbItemName(sub) : sub.name;
+            const spaceIdx = localizedFull.indexOf(' ');
+            const iconEmoji = spaceIdx > 0 ? localizedFull.slice(0, spaceIdx) : "🎯";
+            const displayName = spaceIdx > 0 ? localizedFull.slice(spaceIdx + 1) : localizedFull;
+
 
             let lineHtml = '<div style="margin-left: 15px; margin-top: 4px; color: #555;">' + 
                            iconEmoji + ' <b>' + displayName + '</b> ' + reqLabel + 
@@ -4850,8 +6220,39 @@ function updateChainUI() {
         // =========================================================================
         // [ИСПРАВЛЕНИЕ]: УМНЫЙ МНОЖЕСТВЕННЫЙ ВЫВОД НАГРАД НА ЭКРАН (СИНХРОННО С SNBT)
         // =========================================================================
-        let rewardLabelText = currentLang === "ru" ? "🎁 НАГРАДА ЗА ВЫПОЛНЕНИЕ:" : (currentLang === "ja" ? "🎁 クエスト報酬:" : "🎁 QUEST REWARD:");
-        let unitPcsText = currentLang === "ru" ? "шт." : (currentLang === "ja" ? "個" : "pcs.");
+        const rewardHeaderByLang = {
+            ru: "🎁 НАГРАДА ЗА ВЫПОЛНЕНИЕ:",
+            ja: "🎁 クエスト報酬:",
+            zh_sp: "🎁 任务奖励:",
+            zh_tr: "🎁 任務獎勵:",
+            ko: "🎁 퀘스트 보상:"
+        };
+        const rewardLabelText = rewardHeaderByLang[currentLang] || "🎁 QUEST REWARD:";
+        const unitPcsText = (typeof t !== "undefined" && t.unit_pcs) ? t.unit_pcs.trim() : "pcs.";
+
+        const amountLabelByLang = {
+            ru: "Количество: ",
+            ja: "数量: ",
+            zh_sp: "数量: ",
+            zh_tr: "數量: ",
+            ko: "수량: "
+        };
+        const amountLabelText = amountLabelByLang[currentLang] || "Amount: ";
+
+        // Словарь названий наград для карточек (с официальными названиями из Minecraft)
+        const rewardNamesById = {
+            "minecraft:experience_bottle": { icon: "🧪", ru: "Пузырёк опыта", ja: "エンチャントの瓶", zh_sp: "附魔之瓶", zh_tr: "附魔之瓶", ko: "경험치 병", en: "Experience Bottle" },
+            "minecraft:iron_ingot":        { icon: "🪙", ru: "Железный слиток", ja: "鉄インゴット", zh_sp: "铁锭", zh_tr: "鐵錠", ko: "철 주괴", en: "Iron Ingot" },
+            "minecraft:gold_ingot":        { icon: "👑", ru: "Золотой слиток", ja: "金インゴット", zh_sp: "金锭", zh_tr: "金錠", ko: "금 주괴", en: "Gold Ingot" },
+            "minecraft:emerald":           { icon: "💎", ru: "Изумруд", ja: "エメラルド", zh_sp: "绿宝石", zh_tr: "綠寶石", ko: "에메랄드", en: "Emerald" },
+            "minecraft:diamond":           { icon: "💎", ru: "Алмаз", ja: "ダイヤモンド", zh_sp: "钻石", zh_tr: "鑽石", ko: "다이아몬드", en: "Diamond" },
+            "minecraft:iron_block":        { icon: "🧱", ru: "Железный блок", ja: "鉄ブロック", zh_sp: "铁块", zh_tr: "鐵方塊", ko: "철 블록", en: "Iron Block" },
+            "minecraft:gold_block":        { icon: "📦", ru: "Золотой блок", ja: "金ブロック", zh_sp: "金块", zh_tr: "金方塊", ko: "금 블록", en: "Gold Block" },
+            "minecraft:diamond_block":     { icon: "🔷", ru: "Алмазный блок", ja: "ダイヤモンドブロック", zh_sp: "钻石块", zh_tr: "鑽石方塊", ko: "다이아몬드 블록", en: "Diamond Block" },
+            "minecraft:emerald_block":     { icon: "❇️", ru: "Изумрудный блок", ja: "エメラルドブロック", zh_sp: "绿宝石块", zh_tr: "綠寶石方塊", ko: "에메랄드 블록", en: "Emerald Block" },
+            "minecraft:totem_of_undying":  { icon: "🛡️", ru: "Тотем бессмертия", ja: "不死のトーテム", zh_sp: "不死图腾", zh_tr: "不死圖騰", ko: "불사의 토템", en: "Totem of Undying" },
+            "minecraft:cooked_beef":       { icon: "🥩", ru: "Жареная говядина", ja: "ステーキ", zh_sp: "牛排", zh_tr: "牛排", ko: "익힌 소고기", en: "Cooked Beef" }
+        };
 
         // Массив, в который мы соберем все награды для текущего квеста q
         let currentVisualRewards = [];
@@ -4860,17 +6261,11 @@ function updateChainUI() {
         let isAutoQuest = false;
         if (q.title && q.title.toLowerCase().includes("испытание")) isAutoQuest = true;
         if (q.isRandomGenerated === true || q.isRandomGenerated === "true") isAutoQuest = true;
-        if (q.rewardID === "custom_lootcrate" || !q.rewardID) isAutoQuest = true; // Если ID награды пустой — это авто-квест
+        if (q.rewardID === "custom_lootcrate" || !q.rewardID) isAutoQuest = true;
 
         if (isAutoQuest) {
-            
-            // Награда 1: Физический Сундук Юпитера (Лутбокс)
-            currentVisualRewards.push({
-                id: "ftbquests:lootcrate",
-                count: 1
-            });
+            currentVisualRewards.push({ id: "ftbquests:lootcrate", count: 1 });
 
-            // Награда 2: Дополнительный ресурс в зависимости от уровня сложности наград (currentRewardDiff)
             let extraItem = "minecraft:emerald_block";
             let extraCount = 1;
 
@@ -4882,85 +6277,47 @@ function updateChainUI() {
                 extraCount = 5;
             }
 
-            currentVisualRewards.push({
-                id: extraItem,
-                count: extraCount
-            });
-
-            // Награда 3: Бутылочки с опытом (масштабируются от сложности наград)
-            currentVisualRewards.push({
-                id: "minecraft:experience_bottle",
-                count: currentRewardDiff * 2
-            });
-
+            currentVisualRewards.push({ id: extraItem, count: extraCount });
+            currentVisualRewards.push({ id: "minecraft:experience_bottle", count: currentRewardDiff * 2 });
         } else {
-            // РУЧНОЙ РЕЖИМ: Если пользователь сам выбрал награду в форме
             let manualItem = q.rewardID || "minecraft:cooked_beef";
-            
             let manualCount = parseInt(q.rewardCount || q.qRewardCount);
             if (isNaN(manualCount)) {
                 const rInput = document.getElementById('qRewardCount');
                 manualCount = rInput ? (parseInt(rInput.value) || 1) : 1;
             }
-
-            currentVisualRewards.push({
-                id: manualItem,
-                count: manualCount
-            });
+            currentVisualRewards.push({ id: manualItem, count: manualCount });
         }
 
         // Генерируем HTML-строки для всех наград из нашего списка
         let visualRewardsHtml = '';
 
         currentVisualRewards.forEach(r => {
-            let cleanRewardName = "Жареная говядина";
+            let cleanRewardName = "";
             let rewardIcon = "🥩";
 
-            // Определяем текстовое имя и иконку на основе ID предмета
-            if (r.id === "minecraft:experience_bottle") {
-                cleanRewardName = currentLang === "ru" ? "Пузырёк опыта" : "Experience Bottle";
-                rewardIcon = "🧪";
-            } else if (r.id === "minecraft:iron_ingot") {
-                cleanRewardName = currentLang === "ru" ? "Железный слиток" : "Iron Ingot";
-                rewardIcon = "🪙";
-            } else if (r.id === "minecraft:gold_ingot") {
-                cleanRewardName = currentLang === "ru" ? "Золотой слиток" : "Gold Ingot";
-                rewardIcon = "👑";
-            } else if (r.id === "minecraft:emerald") {
-                cleanRewardName = currentLang === "ru" ? "Изумруд" : "Emerald";
-                rewardIcon = "💎";
-            } else if (r.id === "minecraft:diamond") {
-                cleanRewardName = currentLang === "ru" ? "Алмаз" : "Diamond";
-                rewardIcon = "💎";
-            } else if (r.id === "minecraft:iron_block") {
-                cleanRewardName = currentLang === "ru" ? "Железный блок" : "Iron Block";
-                rewardIcon = "🧱";
-            } else if (r.id === "minecraft:gold_block") {
-                cleanRewardName = currentLang === "ru" ? "Золотой блок" : "Gold Block";
-                rewardIcon = "📦";
-            } else if (r.id === "minecraft:diamond_block") {
-                cleanRewardName = currentLang === "ru" ? "Алмазный блок" : "Diamond Block";
-                rewardIcon = "🔷";
-            } else if (r.id === "minecraft:emerald_block") {
-                cleanRewardName = currentLang === "ru" ? "Изумрудный блок" : "Emerald Block";
-                rewardIcon = "❇️";
-            } else if (r.id === "ftbquests:lootcrate") {
-                // Подтягиваем кастомное имя главы для сундука
+            if (r.id === "ftbquests:lootcrate") {
                 let chTitle = document.getElementById('chapterTitle')?.value || "";
-                cleanRewardName = currentLang === "ru" ? ("Сундук: " + (chTitle || "Трофеи")) : ("Crate: " + (chTitle || "Loot"));
+                const cratePrefix = {
+                    ru: "Сундук: " + (chTitle || "Трофеи"),
+                    ja: "報酬箱: " + (chTitle || "戦利品"),
+                    zh_sp: "战利品箱: " + (chTitle || "奖励"),
+                    zh_tr: "戰利品箱: " + (chTitle || "獎勵"),
+                    ko: "전리품 상자: " + (chTitle || "보상")
+                };
+                cleanRewardName = cratePrefix[currentLang] || ("Crate: " + (chTitle || "Loot"));
                 rewardIcon = "🎁";
-            } else if (r.id === "minecraft:totem_of_undying") {
-                cleanRewardName = currentLang === "ru" ? "Тотем бессмертия" : "Totem of Undying";
-                rewardIcon = "🛡️";
             } else {
-                cleanRewardName = currentLang === "ru" ? "Жареная говядина" : "Cooked Beef";
-                rewardIcon = "🥩";
+                const info = rewardNamesById[r.id] || rewardNamesById["minecraft:cooked_beef"];
+                rewardIcon = info.icon;
+                cleanRewardName = info[currentLang] || info.en;
             }
 
             visualRewardsHtml += '<div style="margin-left: 15px; color: #333; margin-top: 4px;">' + 
-                rewardIcon + ' <b>' + cleanRewardName + '</b> — ' + (currentLang === "ru" ? "Количество: " : "Amount: ") + 
+                rewardIcon + ' <b>' + cleanRewardName + '</b> — ' + amountLabelText + 
                 '<b>' + r.count + ' ' + unitPcsText + '</b></div>';
         });
+
 
         // СОБИРАЕМ КАРТОЧКУ С РАЗДЕЛЕНИЕМ ЗАДАЧ И НАГРАД
         htmlContent += '<div class="quest-item" style="background: #ffffff; padding: 16px; margin: 10px 0; border-radius: 4px; font-size: 13px; border: 1px solid #e2e0d8; border-left: 4px solid ' + currentDiffColor + '; display: block;">' +
@@ -5101,12 +6458,19 @@ function downloadAllFiles() {
         // Подхватываем рассчитанные координаты змейки или линии (с округлением до 1 знака)
         let finalX = (q.x !== undefined) ? q.x : 0.0;
         let finalY = -59.5 + ((q.y !== undefined) ? q.y : 0.0);
+        
+		// Определяем форму и размер иконки квеста (по роли или ручному выбору)
+        let questShape = q.shape || "rsquare";
+        let questSize = q.size || 1.0;
 
         let qContent = "{\n" +
             "\tx: " + finalX.toFixed(1) + "d,\n" +
             "\ty: " + finalY.toFixed(1) + "d,\n" +
+            "\tshape: \"" + questShape + "\",\n" +
+            (questSize !== 1.0 ? "\tsize: " + questSize.toFixed(1) + "d,\n" : "") +
             "\ttitle: \"" + q.title + "\",\n" +
             "\tdescription: [\n\t\t\"" + q.desc + "\"\n\t],\n";
+
 
         let depsList = Array.isArray(q.dependencies) && q.dependencies.length > 0 
             ? q.dependencies 
@@ -5490,18 +6854,105 @@ function downloadAllFiles() {
     // =========================================================================
     const alertBox = document.getElementById("alertContainer");
     if (alertBox) {
-        // Зашиваем всю шпаргалку в одну чистую строку, экранируя кавычки через \"
+        const installGuideByLang = {
+            ru: {
+                header: "🎉 <b>ПОЛНОЦЕННЫЙ ZIP-АРХИВ СКАЧАН В ОДИН КЛИК!</b> 🎉",
+                sub: "<b>Шпаргалка по установке:</b>",
+                s1: "1️⃣ Распакуй скачанный архив <b>ftb_quests_chapter.zip</b> (через 7-Zip или WinRAR).",
+                s2: "2️⃣ Перенеси файл <b>index.snbt</b> в папку: <code>config/ftbquests/normal/chapters/</code>",
+                s3: "3️⃣ В этой же папке <code>chapters/</code> создай новую папку с именем вашего HEX-ID: <b style=\"color:#2b4c7e;\">" + chapterUID + "</b>",
+                s4: "4️⃣ Перенеси <b>chapter.snbt</b> и все файлы квестов (<code>*.snbt</code>) из архива в эту созданную папку.",
+                warnTitle: "⚠️ <b>Как не потерять уже существующие ветки квестов и награды:</b>",
+                warnBody: "Если в сборке уже есть свои квесты, <b>не перезаписывай</b> старый <code>chapters/index.snbt</code>! Открой его Блокнотом, поставь запятую после последнего ID и впиши новый HEX-ID с новой строки:<br>" +
+                          "<code style=\"display:inline-block; background:#e6f2ea; padding:4px 8px; margin:4px 0; border-radius:3px;\">\"старый_id\",<br>\"" + chapterUID + "\"</code><br>" +
+                          "То же самое сделай в файле <code>config/ftbquests/normal/reward_tables/index.snbt</code>, чтобы сохранить старые наградные сундуки.",
+                footer: "✨ Всё работает абсолютно автономно и без интернета! Запускай Майнкрафт! ✨"
+            },
+            en: {
+                header: "🎉 <b>FULL ZIP ARCHIVE DOWNLOADED IN ONE CLICK!</b> 🎉",
+                sub: "<b>Installation Cheat Sheet:</b>",
+                s1: "1️⃣ Extract the downloaded <b>ftb_quests_chapter.zip</b> archive (using 7-Zip or WinRAR).",
+                s2: "2️⃣ Move <b>index.snbt</b> into: <code>config/ftbquests/normal/chapters/</code>",
+                s3: "3️⃣ Inside the same <code>chapters/</code> folder, create a new folder named after your HEX-ID: <b style=\"color:#2b4c7e;\">" + chapterUID + "</b>",
+                s4: "4️⃣ Move <b>chapter.snbt</b> and all quest files (<code>*.snbt</code>) from the archive into this new folder.",
+                warnTitle: "⚠️ <b>How to keep your existing quest chapters & reward tables:</b>",
+                warnBody: "If your modpack already has quests, <b>do not overwrite</b> your existing <code>chapters/index.snbt</code>! Open it with Notepad, put a comma after the last ID, and add your new HEX-ID on a new line:<br>" +
+                          "<code style=\"display:inline-block; background:#e6f2ea; padding:4px 8px; margin:4px 0; border-radius:3px;\">\"old_id\",<br>\"" + chapterUID + "\"</code><br>" +
+                          "Do the exact same thing in <code>config/ftbquests/normal/reward_tables/index.snbt</code> so you don't lose your old reward crates.",
+                footer: "✨ Everything works completely offline! Launch Minecraft and play! ✨"
+            },
+            ja: {
+                header: "🎉 <b>ワンクリックで完全なZIPアーカイブをダウンロードしました！</b> 🎉",
+                sub: "<b>導入ガイド（メモ）:</b>",
+                s1: "1️⃣ ダウンロードした <b>ftb_quests_chapter.zip</b> を解凍します（7-Zip や WinRAR などを使用）。",
+                s2: "2️⃣ <b>index.snbt</b> を <code>config/ftbquests/normal/chapters/</code> フォルダに移動します。",
+                s3: "3️⃣ 同じ <code>chapters/</code> フォルダの中に、HEX-IDの名前の新しいフォルダを作成します: <b style=\"color:#2b4c7e;\">" + chapterUID + "</b>",
+                s4: "4️⃣ アーカイブ内の <b>chapter.snbt</b> とすべてのクエストファイル（<code>*.snbt</code>）をその新しいフォルダに移動します。",
+                warnTitle: "⚠️ <b>既存のクエスト章や報酬テーブルを消さないための注意:</b>",
+                warnBody: "すでに他のクエストがある場合は、既存の <code>chapters/index.snbt</code> を<b>上書きしないでください</b>！メモ帳で開き、最後のIDの後ろにカンマ「,」をつけて新しいHEX-IDを追記します:<br>" +
+                          "<code style=\"display:inline-block; background:#e6f2ea; padding:4px 8px; margin:4px 0; border-radius:3px;\">\"古いID\",<br>\"" + chapterUID + "\"</code><br>" +
+                          "既存の報酬箱（Lootcrate）を残すため、<code>config/ftbquests/normal/reward_tables/index.snbt</code> でも同じようにIDを追記してください。",
+                footer: "✨ インターネットなしで完全に動作します！マインクラフトを起動しよう！ ✨"
+            },
+            zh_sp: {
+                header: "🎉 <b>完整 ZIP 压缩包已一键下载完成！</b> 🎉",
+                sub: "<b>安装小贴士：</b>",
+                s1: "1️⃣ 解压下载的 <b>ftb_quests_chapter.zip</b> 压缩包（使用 7-Zip 或 WinRAR）。",
+                s2: "2️⃣ 将 <b>index.snbt</b> 文件移动到 <code>config/ftbquests/normal/chapters/</code> 文件夹中。",
+                s3: "3️⃣ 在同一个 <code>chapters/</code> 文件夹内，新建一个以你的 HEX-ID 命名的文件夹：<b style=\"color:#2b4c7e;\">" + chapterUID + "</b>",
+                s4: "4️⃣ 将压缩包中的 <b>chapter.snbt</b> 和所有任务文件（<code>*.snbt</code>）移动到这个新文件夹中。",
+                warnTitle: "⚠️ <b>如何保留已有的任务章节和奖励箱：</b>",
+                warnBody: "如果整合包里已经有其他任务，请<b>不要直接覆盖</b>原有的 <code>chapters/index.snbt</code>！用记事本打开它，在最后一个 ID 后面加一个英文逗号 <code>,</code>，然后换行添加新的 HEX-ID：<br>" +
+                          "<code style=\"display:inline-block; background:#e6f2ea; padding:4px 8px; margin:4px 0; border-radius:3px;\">\"旧的ID\",<br>\"" + chapterUID + "\"</code><br>" +
+                          "同样地，打开 <code>config/ftbquests/normal/reward_tables/index.snbt</code> 也按此格式添加 ID，即可保留原有的奖励箱。",
+                footer: "✨ 完全离线运行，无需联网！快启动我的世界吧！ ✨"
+            },
+            zh_tr: {
+                header: "🎉 <b>完整 ZIP 壓縮檔已一鍵下載完成！</b> 🎉",
+                sub: "<b>安裝小幫手：</b>",
+                s1: "1️⃣ 解壓縮下載的 <b>ftb_quests_chapter.zip</b> 壓縮檔（使用 7-Zip 或 WinRAR）。",
+                s2: "2️⃣ 將 <b>index.snbt</b> 檔案移動到 <code>config/ftbquests/normal/chapters/</code> 資料夾中。",
+                s3: "3️⃣ 在同一個 <code>chapters/</code> 資料夾內，新增一個以你的 HEX-ID 命名的資料夾：<b style=\"color:#2b4c7e;\">" + chapterUID + "</b>",
+                s4: "4️⃣ 將壓縮檔中的 <b>chapter.snbt</b> 和所有任務檔案（<code>*.snbt</code>）移動到這個新資料夾中。",
+                warnTitle: "⚠️ <b>如何保留已有的任務章節與獎勵箱：</b>",
+                warnBody: "如果整合包裡已經有其他任務，請<b>不要直接覆蓋</b>原有的 <code>chapters/index.snbt</code>！用記事本打開它，在最後一個 ID 後面加上英文逗號 <code>,</code>，然後換行加入新的 HEX-ID：<br>" +
+                          "<code style=\"display:inline-block; background:#e6f2ea; padding:4px 8px; margin:4px 0; border-radius:3px;\">\"舊的ID\",<br>\"" + chapterUID + "\"</code><br>" +
+                          "同樣地，打開 <code>config/ftbquests/normal/reward_tables/index.snbt</code> 也按此格式加入 ID，即可保留原有的獎勵箱。",
+                footer: "✨ 完全離線運作，無需網路！快啟動 Minecraft 吧！ ✨"
+            },
+            ko: {
+                header: "🎉 <b>완전한 ZIP 아카이브가 원클릭으로 다운로드되었습니다!</b> 🎉",
+                sub: "<b>설치 가이드:</b>",
+                s1: "1️⃣ 다운로드한 <b>ftb_quests_chapter.zip</b> 압축 파일을 풉니다 (반디집, 7-Zip 등 사용).",
+                s2: "2️⃣ <b>index.snbt</b> 파일을 <code>config/ftbquests/normal/chapters/</code> 폴더로 옮깁니다.",
+                s3: "3️⃣ 같은 <code>chapters/</code> 폴더 안에 현재 HEX-ID 이름으로 새 폴더를 만듭니다: <b style=\"color:#2b4c7e;\">" + chapterUID + "</b>",
+                s4: "4️⃣ 압축 파일 안의 <b>chapter.snbt</b> 와 모든 퀘스트 파일(<code>*.snbt</code>)을 방금 만든 새 폴더로 옮깁니다.",
+                warnTitle: "⚠️ <b>기존 퀘스트 챕터와 보상 상자를 유지하는 방법:</b>",
+                warnBody: "이미 다른 퀘스트가 있다면 기존 <code>chapters/index.snbt</code> 파일을 <b>덮어쓰지 마세요!</b> 메모장으로 파일을 열어 마지막 ID 뒤에 쉼표(<code>,</code>)를 찍고 다음 줄에 새 HEX-ID를 추가하세요:<br>" +
+                          "<code style=\"display:inline-block; background:#e6f2ea; padding:4px 8px; margin:4px 0; border-radius:3px;\">\"기존_ID\",<br>\"" + chapterUID + "\"</code><br>" +
+                          "기존 보상 상자(Lootcrate)도 유지하려면 <code>config/ftbquests/normal/reward_tables/index.snbt</code> 파일에도 똑같이 ID를 추가해 주세요.",
+                footer: "✨ 인터넷 없이도 완벽하게 작동합니다! 지금 마인크래프트를 실행해 보세요! ✨"
+            }
+        };
+
+        const g = installGuideByLang[currentLang] || installGuideByLang.en;
+
         alertBox.innerHTML = "<div style=\"background:#f4f9f5; border:1px solid #c2e0cb; padding:15px; margin-top:20px; border-radius:4px; font-family:monospace; font-size:13px; color:#2b5138; line-height:1.6;\">" +
-            "🎉 <b>ПОЛНОЦЕННЫЙ ZIP-АРХИВ СКАЧАН В ОДИН КЛИК!</b> 🎉<br><br>" +
-            "<b>Шпаргалка по установке:</b><br>" +
-            "1️⃣ Распакуй скачанный архив <b>ftb_quests_chapter.zip</b> (через 7-Zip или WinRAR).<br>" +
-            "2️⃣ Перенеси файл <b>index.snbt</b> в папку: <code>config/ftbquests/normal/</code> с заменой.<br>" +
-            "3️⃣ Внутри папки <code>chapters</code> создай новую папку с именем вашего HEX-ID: <b style=\"color:#2b4c7e;\">" + chapterUID + "</b><br>" +
-            "4️⃣ Перенеси <b>chapter.snbt</b> и все файлы квестов из архива в эту новую папку.<br><br>" +
-            "✨ Всё работает абсолютно автономно и без интернета! Запускай Майнкрафт! ✨" +
+            g.header + "<br><br>" +
+            g.sub + "<br>" +
+            g.s1 + "<br>" +
+            g.s2 + "<br>" +
+            g.s3 + "<br>" +
+            g.s4 + "<br><br>" +
+            "<div style=\"background:#fffdf0; border-left:3px solid #e6a800; padding:10px 12px; color:#4a3c10; border-radius:2px;\">" +
+                g.warnTitle + "<br>" +
+                g.warnBody +
+            "</div><br>" +
+            g.footer +
             "</div>";
     }
 }
+
 
 // =========================================================================
 // МУЛЬТИЯЗЫЧНЫЕ ФУНКЦИИ УПРАВЛЕНИЯ ЦЕПОЧКОЙ  [МИР 0.6]
@@ -5815,7 +7266,15 @@ window.toggleQuestCanvas = function(show) {
     
     if (show) {
         if (!questChain || questChain.length === 0) {
-            alert("Сначала добавьте или сгенерируйте хотя бы 1 квест в цепочку!");
+            const emptyChainAlerts = {
+                ru: "Сначала добавьте или сгенерируйте хотя бы 1 квест в цепочку!",
+                en: "Please add or generate at least 1 quest in the chain first!",
+                ja: "先にチェーンに少なくとも1つのクエストを追加または生成してください！",
+                zh_sp: "请先在任务链中添加或生成至少 1 个任务！",
+                zh_tr: "請先在任務鏈中新增或生成至少 1 個任務！",
+                ko: "먼저 체인에 최소 1개 이상의 퀘스트를 추가하거나 생성해 주세요!"
+            };
+            alert(emptyChainAlerts[currentLang] || emptyChainAlerts.en);
             return;
         }
         // Миграция одиночного dependency в массив dependencies при открытии
@@ -5824,6 +7283,7 @@ window.toggleQuestCanvas = function(show) {
                 q.dependencies = q.dependency ? [q.dependency] : [];
             }
         });
+
 
         modal.style.display = 'flex';
         window.linkingSourceUid = null;
@@ -5929,13 +7389,103 @@ window.initQuestCanvasNodes = function() {
             z-index: 5;
         `;
 
+        const shapeLabelsByLang = {
+            ru: {
+                rsquare: "▢ Скругл.",
+                square: "⬜ Квадрат",
+                circle: "⚪ Круг",
+                diamond: "💠 Ромб",
+                star: "⭐ Звезда",
+                hexagon: "⬡ Сота",
+                octagon: "🛑 Октагон",
+                heart: "❤️ Сердце",
+                gear: "⚙️ Шестерня"
+            },
+            en: {
+                rsquare: "▢ Rounded",
+                square: "⬜ Square",
+                circle: "⚪ Circle",
+                diamond: "💠 Diamond",
+                star: "⭐ Star",
+                hexagon: "⬡ Hexagon",
+                octagon: "🛑 Octagon",
+                heart: "❤️ Heart",
+                gear: "⚙️ Gear"
+            },
+            ja: {
+                rsquare: "▢ 角丸四角",
+                square: "⬜ 四角形",
+                circle: "⚪ 円形",
+                diamond: "💠 ひし形",
+                star: "⭐ 星形",
+                hexagon: "⬡ 六角形",
+                octagon: "🛑 八角形",
+                heart: "❤️ ハート",
+                gear: "⚙️ 歯車"
+            },
+            zh_sp: {
+                rsquare: "▢ 圆角矩形",
+                square: "⬜ 正方形",
+                circle: "⚪ 圆形",
+                diamond: "💠 菱形",
+                star: "⭐ 星形",
+                hexagon: "⬡ 六边形",
+                octagon: "🛑 八边形",
+                heart: "❤️ 心形",
+                gear: "⚙️ 齿轮"
+            },
+            zh_tr: {
+                rsquare: "▢ 圓角矩形",
+                square: "⬜ 正方形",
+                circle: "⚪ 圓形",
+                diamond: "💠 菱形",
+                star: "⭐ 星形",
+                hexagon: "⬡ 六邊形",
+                octagon: "🛑 八邊形",
+                heart: "❤️ 心形",
+                gear: "⚙️ 齒輪"
+            },
+            ko: {
+                rsquare: "▢ 둥근 사각형",
+                square: "⬜ 사각형",
+                circle: "⚪ 원형",
+                diamond: "💠 마름모",
+                star: "⭐ 별",
+                hexagon: "⬡ 육각형",
+                octagon: "🛑 팔각형",
+                heart: "❤️ 하트",
+                gear: "⚙️ 톱니바퀴"
+            }
+        };
+
+        const activeShapeDict = shapeLabelsByLang[currentLang] || shapeLabelsByLang.en;
+
+        const shapes = [
+            { val: "rsquare", lbl: activeShapeDict.rsquare },
+            { val: "square",  lbl: activeShapeDict.square },
+            { val: "circle",  lbl: activeShapeDict.circle },
+            { val: "diamond", lbl: activeShapeDict.diamond },
+            { val: "star",    lbl: activeShapeDict.star },
+            { val: "hexagon", lbl: activeShapeDict.hexagon },
+            { val: "octagon", lbl: activeShapeDict.octagon },
+            { val: "heart",   lbl: activeShapeDict.heart },
+            { val: "gear",    lbl: activeShapeDict.gear }
+        ];
+
+        const currentQShape = q.shape || "rsquare";
+        const optionsHtml = shapes.map(s => `<option value="${s.val}" ${s.val === currentQShape ? 'selected' : ''}>${s.lbl}</option>`).join('');
+
         node.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                 <span class="node-coords" style="font-size:10px; color:#888; font-family:monospace;">[${q.x.toFixed(1)}, ${q.y.toFixed(1)}]</span>
                 <span class="node-link-btn" onclick="window.handleNodeLinkClick(event, '${q.uid}')" title="Связать / отвязать квест" style="cursor:pointer; font-size:14px;">🟢</span>
             </div>
-            <div style="font-size:11px; color:#fff; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${q.title}">${q.title}</div>
+            <div style="font-size:11px; color:#fff; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:5px;" title="${q.title}">${q.title}</div>
+            <select onmousedown="event.stopPropagation()" onchange="questChain.find(x => x.uid === '${q.uid}').shape = this.value" style="width:100%; background:#141414; color:#99ccff; border:1px solid rgba(153,204,255,0.25); border-radius:3px; font-size:10px; padding:2px; cursor:pointer; outline:none;">
+                ${optionsHtml}
+            </select>
         `;
+
 
         // Кэшируем ссылку на текстовый индикатор координат один раз (без поиска в mousemove)
         const coordsSpan = node.querySelector('.node-coords');
@@ -6025,6 +7575,359 @@ window.drawQuestConnections = function() {
     });
 };
 
+const licenseTextsByLang = {
+    ru: {
+        btnTitle: "📜 Лицензия «Абсолют» (Charityware)",
+        title: "📜 Лицензионное соглашение «Абсолют» (Charityware)",
+        close: "Принимаю / Закрыть",
+        fullText: `=======================================================================
+           ЛИЦЕНЗИОННОЕ СОГЛАШЕНИЕ ВЕРСИИ «АБСОЛЮТ» (CHARITYWARE)
+=======================================================================
+Автор: picadoni | Год: 2026
+
+1. ОБЩИЕ ПОЛОЖЕНИЯ И СТАТУС ИНСТРУМЕНТА
+Настоящий веб-инструмент (онлайн-генератор, далее — Инструмент) является 
+веб-технологией, не является самостоятельной игровой сборкой и создан для 
+бесплатного использования игровым сообществом. Автор разрешает свободное 
+использование, изучение, перевод, развитие и модификацию кода Инструмента 
+при строгом соблюдении условий данного соглашения.
+
+2. ПРЯМЫЕ ЗАПРЕТЫ (ПЕРЕЗАЛИВ, ПРОДАЖА И НЕЖЕЛАТЕЛЬНЫЕ ПЛОЩАДКИ)
+Категорически ЗАПРЕЩАЕТСЯ:
+— Публиковать, перезаливать, распространять сам Инструмент, его форки, 
+  модификации, архивы, а также размещать прямые ссылки на его скачивание 
+  на веб-ресурсах из чёрного списка автора, а именно:
+  * ru-minecraft.ru (и любых его поддоменах и зеркалах).
+  Автор оставляет за собой право дополнять данный список в одностороннем 
+  порядке в новых версиях соглашения;
+— Перезаливать исходный код или копии Инструмента на любые сторонние 
+  ресурсы, форумы и площадки (включая Boosty, Patreon и аналоги) с целью 
+  продажи или закрытия доступа за плату (пейволл);
+— Напрямую продавать, сдавать в аренду или распространять за деньги файлы, 
+  конфиги и ветки заданий, сгенерированные с помощью данного Инструмента;
+— Выдавать Инструмент или его модификации за свою разработку, удалять 
+  информацию об оригинальном авторе или текст данной лицензии.
+
+3. УСЛОВИЯ МОНЕТИЗАЦИИ И КОММЕРЧЕСКОГО ИСПОЛЬЗОВАНИЯ
+
+А. Свободное и некоммерческое использование:
+От любых обязательств освобождаются:
+— Бесплатное распространение производных материалов, квестов и модификаций 
+  в составе открытых сборок и на общедоступных серверах;
+— Чисто добровольные пожертвования (донаты) на развитие проектов, хостинг 
+  серверов или кофе автору, если они не ограничивают доступ к контенту;
+— Монетизация видеороликов, стримов и руководств, демонстрирующих работу 
+  Инструмента.
+
+Б. Косвенное коммерческое использование (Платный доступ и монетизация):
+Если Инструмент используется для создания контента в коммерческих проектах 
+(закрытые серверы с платным доступом, проекты с донат-привилегиями на доступ 
+к контенту или любое иное косвенное извлечение прибыли), Лицензиат берет 
+на себя ОБЯЗАТЕЛЬСТВО перечислять не менее 7% от полученного чистого дохода 
+в официально зарегистрированные благотворительные фонды на свой выбор.
+
+Исключение: Условие не распространяется на фонды содержания приютов для 
+бродячих животных (автор выступает за системное решение проблемы и наказание 
+безответственных хозяев, а не следствия). Рекомендуются фонды помощи 
+тяжелобольным детям, сиротам или инвалидам.
+
+4. ПРЕДУПРЕЖДЕНИЕ О СОВЕСТИ (ОГОВОРКА АВТОРА)
+Автор является верующим человеком, и его совесть принадлежит Богу. 
+Контроль за исполнением этого соглашения оставляется на честность Лицензиата.
+
+Помните: если вы скрываете доходы, наруваете это условие или присваиваете 
+труд себе ради личной наживы — вы воруете не у автора проекта. Вы воруете 
+у обездоленных, немощных и тяжелобольных людей, которым могла бы помочь 
+эта спасенная монетка. Перед Богом каждый сам будет нести ответ за свой 
+выбор и свою честность.
+
+5. ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ (AS IS)
+Инструмент предоставляется по принципу «как есть» (AS IS). Автор не несёт 
+ответственности за любые возможные сбои, потерю данных или несоответствие 
+ожиданиям. Текст настоящего соглашения и указание авторства (picadoni) 
+должны быть сохранены во всех производных копиях.
+
+
+Да благословит Господь ваши благие дела.
+=======================================================================`
+    },
+
+    en: {
+        btnTitle: "📜 Absolute License (Charityware)",
+        title: "📜 License Agreement — \"Absolute\" (Charityware)",
+        close: "Accept / Close",
+        fullText: `=======================================================================
+           LICENSE AGREEMENT — "ABSOLUTE" EDITION (CHARITYWARE)
+=======================================================================
+Author: picadoni | Year: 2026
+
+1. GENERAL PROVISIONS AND TOOL STATUS
+This web tool (online generator, hereinafter referred to as the Tool) is a 
+web technology, is not a standalone game modpack, and is created for free 
+use by the gaming community. The Author permits free use, study, translation, 
+development, and modification of the Tool's code, subject to strict 
+compliance with the terms of this agreement.
+
+2. EXPLICIT PROHIBITIONS (RE-UPLOADING, SALE & BLACKLISTED PLATFORMS)
+It is strictly PROHIBITED to:
+— Publish, re-upload, or distribute the Tool itself, its forks, modifications, 
+  or archives, as well as post direct download links on websites from the 
+  Author's blacklist, specifically:
+  * ru-minecraft.ru (and any of its subdomains and mirrors).
+  The Author reserves the right to unilaterally expand this list in future 
+  versions of this agreement;
+— Re-upload the source code or copies of the Tool to any third-party 
+  resources, forums, or platforms (including Boosty, Patreon, and similar) 
+  for the purpose of selling or locking access behind a paywall;
+— Directly sell, rent out, or distribute for money any files, configs, or 
+  quest lines generated using this Tool;
+— Claim the Tool or its modifications as your own work, or remove credit 
+  to the original Author or the text of this license.
+
+3. MONETIZATION AND COMMERCIAL USE TERMS
+
+A. Free and Non-Commercial Use:
+Exempt from all financial obligations:
+— Free distribution of derivative materials, quests, and modifications 
+  within public modpacks and on publicly accessible servers;
+— Purely voluntary donations (tips) for project development, server hosting, 
+  or buying the Author a coffee, provided they do not restrict content access;
+— Monetization of videos, streams, and guides demonstrating the Tool.
+
+B. Indirect Commercial Use (Paid Access and Monetization):
+If the Tool is used to create content for commercial projects (private 
+servers with paid entry, projects with donation privileges granting access 
+to content, or any other indirect profit generation), the Licensee undertakes 
+the OBLIGATION to donate at least 7% of the net income earned to officially 
+registered charitable foundations of their choice.
+
+Exception: This condition does not apply to stray animal shelter funds 
+(the Author advocates for systemic solutions and holding irresponsible 
+owners accountable rather than treating symptoms). Foundations helping 
+seriously ill children, orphans, or people with disabilities are recommended.
+
+4. WARNING OF CONSCIENCE (AUTHOR'S CLAUSE)
+The Author is a person of faith, and his conscience belongs to God. 
+Compliance with this agreement is entrusted to the Licensee's honesty.
+
+Remember: if you conceal income, violate this condition, or appropriate 
+this work for personal greed — you are not stealing from the Author. You 
+are stealing from the destitute, the infirm, and the seriously ill whom 
+that saved coin could have helped. Before God, everyone will answer for 
+their own choices and honesty.
+
+5. DISCLAIMER OF WARRANTY (AS IS)
+The Tool is provided "AS IS". The Author bears no responsibility for any 
+possible malfunctions, data loss, or unmet expectations. The text of this 
+agreement and attribution to the Author (picadoni) must be preserved in 
+all derivative copies.
+
+
+May the Lord bless your good deeds.
+=======================================================================`
+    },
+
+    ja: {
+        btnTitle: "📜 ライセンス「アブソリュート」(Charityware)",
+        title: "📜 ライセンス契約「アブソリュート」(Charityware)",
+        close: "同意して閉じる",
+        fullText: `=======================================================================
+           ライセンス契約書「アブソリュート」版 (CHARITYWARE)
+=======================================================================
+作者: picadoni | 年: 2026
+
+1. 総則および本ツールの位置づけ
+本ウェブツール（オンラインジェネレーター、以下「本ツール」）はウェブ技術であり、
+独立したゲームModパックではなく、ゲームコミュニティによる無料利用のために作成されたものです。
+本契約の条件を厳格に遵守する限り、作者は本ツールのコードの自由な使用、研究、翻訳、
+発展および改変を許可します。
+
+2. 明確な禁止事項（無断転載・販売・禁止サイト）
+以下の行為を固く禁止します：
+— 本ツール本体、フォーク、改変版、アーカイブの公開・再アップロード・配布、ならびに
+  作者のブラックリスト対象ウェブサイトへの直接ダウンロードリンクの掲載：
+  * ru-minecraft.ru（およびそのすべてのサブドメイン・ミラーサイト）。
+  作者は本契約の新バージョンにおいて、独自の判断でこのリストを追加する権利を有します；
+— 販売または有料化（ペイウォール）を目的として、外部サイト、フォーラム、プラットフォーム
+  （Boosty、Patreonおよび類似サービスを含む）へソースコードやコピーを再アップロードすること；
+— 本ツールを使用して生成されたファイル、コンフィグ、クエストラインを直接販売、貸与、
+  または有償で配布すること；
+— 本ツールまたはその改変版を自作であると偽ること、原作者のクレジットや本ライセンスの
+  本文を削除すること。
+
+3. 収益化および商用利用の条件
+
+A. 無料および非商用利用：
+以下の場合、一切の義務が免除されます：
+— 公開Modパック内や一般公開サーバーにおける、派生物・クエスト・改変版の無料配布；
+— コンテンツへのアクセスを制限しない形での、プロジェクト開発、サーバー維持、または
+  作者へのコーヒー代としての純粋な任意寄付（ドネーション）；
+— 本ツールの動作を紹介する動画、配信、ガイド記事の収益化。
+
+B. 間接的な商用利用（有料アクセスおよび収益化）：
+商業プロジェクト（有料参加制の非公開サーバー、コンテンツへのアクセス権を伴う課金特典付き
+プロジェクト、その他あらゆる間接的な営利目的）のコンテンツ作成に本ツールを使用する場合、
+ライセンシーは得られた純利益の7%以上を、自ら選択した公認の慈善団体へ寄付する義務を負います。
+
+例外：野良動物の保護施設運営基金は本条件の対象外とします（作者は対症療法ではなく、
+無責任な飼い主への処罰と根本的な問題解決を支持しているためです）。難病の子供、孤児、
+または障害者を支援する慈善団体を推奨します。
+
+4. 良心への警告（作者の留保条項）
+作者は信仰を持つ人間であり、その良心は神に属しています。
+本契約の履行管理は、ライセンシーの誠実さに委ねられます。
+
+忘れないでください：もしあなたが収益を隠し、本条件に違反し、私欲のためにこの労働の成果を
+横取りするならば、あなたが盗んでいる相手はプロジェクトの作者ではありません。その救われた
+一枚の硬貨で助けられたはずの、貧しい人々、病弱な人々、重病に苦しむ人々から盗んでいるのです。
+神の御前において、すべての人は自らの選択と誠実さについて自ら責任を負うことになります。
+
+5. 免責事項 (AS IS)
+本ツールは「現状のまま」（AS IS）で提供されます。作者はいかなる不具合、データ損失、
+または期待に沿わない結果についても責任を負いません。すべての派生物のコピーにおいて、
+本契約書の全文および作者表示（picadoni）を保持しなければなりません。
+
+
+神があなたの善き行いを祝福されますように。
+=======================================================================`
+    },
+
+    zh_sp: {
+        btnTitle: "📜 “绝对”许可协议 (Charityware)",
+        title: "📜 许可协议——“绝对”版 (Charityware)",
+        close: "接受 / 关闭",
+        fullText: "=======================================================================\n" +
+                  "           许可协议——“绝对”版 (CHARITYWARE)\n" +
+                  "=======================================================================\n" +
+                  "作者：picadoni | 年份：2026\n\n" +
+                  "1. 总则与工具性质\n" +
+                  "本网络工具（在线生成器，以下简称“本工具”）是一项网页技术，并非独立的游戏整合包，专为游戏社区免费使用而创建。在严格遵守本协议条款的前提下，作者允许自由使用、研究、翻译、开发和修改本工具的代码。\n\n" +
+                  "2. 明确禁止事项（转载、出售及黑名单平台）\n" +
+                  "严禁以下行为：\n" +
+                  "— 在作者黑名单中的网站上发布、转载、分发本工具本体、分支版本、修改版、压缩包，或放置其直接下载链接，黑名单具体包括：\n" +
+                  "  * ru-minecraft.ru（及其所有子域名和镜像站点）。\n" +
+                  "  作者保留在新版协议中单方面补充此黑名单的权利；\n" +
+                  "— 以出售或付费墙（Paywall）限制访问为目的，将本工具的源代码或副本重新上传至任何第三方网站、论坛或平台（包括 Boosty、Patreon 及类似平台）；\n" +
+                  "— 直接出售、出租或有偿分发使用本工具生成的文件、配置文件及任务线；\n" +
+                  "— 将本工具或其修改版冒充为自己的开发成果，或删除原作者信息及本许可协议文本。\n\n" +
+                  "3. 变现与商业使用条款\n\n" +
+                  "A. 免费及非商业用途：\n" +
+                  "以下情况免除任何义务：\n" +
+                  "— 在公开整合包及公共服务器中免费分发衍生内容、任务及修改版；\n" +
+                  "— 不限制内容访问权限的前提下，用于项目开发、服务器托管或请作者喝咖啡的纯自愿捐赠；\n" +
+                  "— 展示本工具用法的视频、直播及教程的创作者收益。\n\n" +
+                  "B. 间接商业用途（付费准入与商业变现）：\n" +
+                  "若将本工具用于商业项目的内容制作（如付费准入的封闭服务器、通过氪金特权解锁游戏内容的项目，或其他任何间接盈利行为），被许可方必须承担将所得净利润的至少 7% 捐赠给其自选的官方注册慈善机构的义务。\n\n" +
+                  "例外说明：本条款不适用于流浪动物收容所基金（作者主张从制度上解决问题并惩戒不负责任的遗弃者，而非仅处理表象）。建议捐赠给救助重病儿童、孤儿或残障人士的慈善基金。\n\n" +
+                  "4. 良知警示（作者声明）\n" +
+                  "作者是一名有信仰的人，其良知归于上帝。本协议的执行监督交由被许可方的诚实与良知。\n\n" +
+                  "请记住：如果你隐瞒收入、违反此条款，或为了一己私利窃取他人劳动成果——你偷窃的并非项目作者。你偷窃的是那些本可以因这枚省下的硬币而获得救助的贫困者、体弱者与重病患者。在上帝面前，每个人都将为自己的选择与诚实独自承担责任。\n\n" +
+                  "5. 免责声明 (AS IS)\n" +
+                  "本工具按“现状”（AS IS）提供。作者不对任何可能出现的故障、数据丢失或未达预期承担责任。所有衍生副本中均须完整保留本协议文本及作者署名（picadoni）。\n\n" +
+                  "愿主赐福于你的善行。\n" +
+                  "======================================================================="
+    },
+
+    zh_tr: {
+        btnTitle: "📜 「絕對」授權條款 (Charityware)",
+        title: "📜 授權協議——「絕對」版 (Charityware)",
+        close: "接受 / 關閉",
+        fullText: "=======================================================================\n" +
+                  "           授權協議——「絕對」版 (CHARITYWARE)\n" +
+                  "=======================================================================\n" +
+                  "作者：picadoni | 年份：2026\n\n" +
+                  "1. 總則與工具性質\n" +
+                  "本網路工具（線上生成器，以下簡稱「本工具」）是一項網頁技術，並非獨立的遊戲模組包，專為遊戲社群免費使用而建立。在嚴格遵守本協議條款的前提下，作者允許自由使用、研究、翻譯、開發與修改本工具的程式碼。\n\n" +
+                  "2. 明確禁止事項（轉載、販售及黑名單平台）\n" +
+                  "嚴禁以下行為：\n" +
+                  "— 在作者黑名單中的網站上發佈、轉載、分發本工具本體、分支版本、修改版、壓縮檔，或放置其直接下載連結，黑名單具體包括：\n" +
+                  "  * ru-minecraft.ru（及其所有子網域和鏡像站點）。\n" +
+                  "  作者保留在新版協議中單方面補充此黑名單的權利；\n" +
+                  "— 以販售或付費牆（Paywall）限制存取為目的，將本工具的原始碼或副本重新上傳至任何第三方網站、論壇或平台（包括 Boosty、Patreon 及類似平台）；\n" +
+                  "— 直接販售、出租或有償分發使用本工具生成的檔案、設定檔及任務線；\n" +
+                  "— 將本工具或其修改版冒充為自己的開發成果，或刪除原作者資訊及本授權協議文本。\n\n" +
+                  "3. 變現與商業使用條款\n\n" +
+                  "A. 免費及非商業用途：\n" +
+                  "以下情況免除任何義務：\n" +
+                  "— 在公開模組包及公共伺服器中免費分發衍生內容、任務及修改版；\n" +
+                  "— 不限制內容存取權限的前提下，用於專案開發、伺服器託管或請作者喝咖啡的純自願捐贈；\n" +
+                  "— 展示本工具用法的影片、直播及教學的創作者收益。\n\n" +
+                  "B. 間接商業用途（付費准入與商業變現）：\n" +
+                  "若將本工具用於商業專案的內容製作（如付費准入的封閉伺服器、透過贊助特權解鎖遊戲內容的專案，或其他任何間接營利行為），被授權方必須承擔將所得淨利潤的至少 7% 捐贈給其自選的官方註冊慈善機構的義務。\n\n" +
+                  "例外說明：本條款不適用於流浪動物收容所基金（作者主張從制度上解決問題並懲戒不負責任的飼主，而非僅處理表象）。建議捐贈給救助重病兒童、孤兒或身心障礙者的慈善基金。\n\n" +
+                  "4. 良知警示（作者聲明）\n" +
+                  "作者是一名有信仰的人，其良知歸於上帝。本協議的執行監督交由被授權方的誠實與良知。\n\n" +
+                  "請記住：如果你隱瞞收入、違反此條款，或為了一己私利竊取他人勞動成果——你偷竊的並非專案作者。你偷竊的是那些本可以因這枚省下的硬幣而獲得救助的貧困者、體弱者與重病患者。在上帝面前，每個人都將為自己的選擇與誠實獨自承擔責任。\n\n" +
+                  "5. 免責聲明 (AS IS)\n" +
+                  "本工具按「現狀」（AS IS）提供。作者不對任何可能出現的故障、資料遺失或未達預期承擔責任。所有衍生副本中均須完整保留本協議文本及作者署名（picadoni）。\n\n" +
+                  "願主賜福於你的善行。\n" +
+                  "======================================================================="
+    },
+
+    ko: {
+        btnTitle: "📜 앱솔루트 라이선스 (Charityware)",
+        title: "📜 라이선스 계약 — 「앱솔루트」 버전 (Charityware)",
+        close: "동의 / 닫기",
+        fullText: "=======================================================================\n" +
+                  "           라이선스 계약서 「앱솔루트(ABSOLUTE)」 버전 (CHARITYWARE)\n" +
+                  "=======================================================================\n" +
+                  "저작자: picadoni | 연도: 2026\n\n" +
+                  "1. 총칙 및 도구의 지위\n" +
+                  "본 웹 도구(온라인 생성기, 이하 '도구')는 웹 기술이며, 독립적인 게임 모드팩이 아니고 게임 커뮤니티의 무료 이용을 위해 제작되었습니다. 저작자는 본 계약의 조건을 엄격히 준수하는 전제하에 도구의 코드를 자유롭게 사용, 연구, 번역, 발전 및 수정하는 것을 허가합니다.\n\n" +
+                  "2. 명시적 금지 사항 (무단 재배포, 판매 및 블랙리스트 사이트)\n" +
+                  "다음 행위를 엄격히 금지합니다:\n" +
+                  "— 저작자의 블랙리스트에 오른 웹사이트에 본 도구 자체, 포크(Fork), 수정본, 아카이브를 게시·재업로드·배포하거나 직접 다운로드 링크를 게재하는 행위:\n" +
+                  "  * ru-minecraft.ru (및 모든 하위 도메인과 미러 사이트 포함).\n" +
+                  "  저작자는 향후 계약 버전에서 일방적으로 이 목록을 추가할 권리를 보유합니다;\n" +
+                  "— 판매하거나 유료 결제(페이월)로 접근을 제한할 목적으로 외부 리소스, 포럼 및 플랫폼(Boosty, Patreon 및 유사 서비스 포함)에 소스 코드나 사본을 재업로드하는 행위;\n" +
+                  "— 본 도구를 사용하여 생성된 파일, 설정(Config) 및 퀘스트 라인을 직접 판매, 대여 또는 유료로 배포하는 행위;\n" +
+                  "— 본 도구 또는 그 수정본을 자신의 개발물인 것처럼 사칭하거나, 원저작자 정보 및 본 라이선스 전문을 삭제하는 행위.\n\n" +
+                  "3. 수익 창출 및 상업적 이용 조건\n\n" +
+                  "A. 무료 및 비상업적 이용:\n" +
+                  "다음의 경우 모든 의무가 면제됩니다:\n" +
+                  "— 공개 모드팩 및 일반 공개 서버 내에서 파생 자료, 퀘스트 및 수정본을 무료로 배포하는 경우;\n" +
+                  "— 콘텐츠 접근을 제한하지 않는 선에서 프로젝트 개발, 서버 호스팅 또는 저작자에게 커피를 후원하기 위한 순수 자발적 기부(후원);\n" +
+                  "— 본 도구의 작동 방식을 소개하는 동영상, 스트리밍 및 가이드 콘텐츠의 수익 창출.\n\n" +
+                  "B. 간접적 상업 이용 (유료 접근 및 수익 창출):\n" +
+                  "상업적 프로젝트(유료 입장 비공개 서버, 콘텐츠 접근 권한을 부여하는 후원 특전 프로젝트 또는 기타 모든 간접적 영리 추구)의 콘텐츠 제작에 본 도구를 사용하는 경우, 라이선시(이용자)는 발생한 순수익의 최소 7% 이상을 본인이 선택한 공식 등록 자선단체에 기부할 의무를 집니다.\n\n" +
+                  "예외: 유기동물 보호소 운영 기금은 본 조건에서 제외됩니다(저작자는 결과의 수습이 아닌 문제의 제도적 해결과 무책임한 주인에 대한 처벌을 지지합니다). 난치병 어린이, 고아 또는 장애인을 돕는 자선단체를 권장합니다.\n\n" +
+                  "4. 양심에 대한 경고 (저작자 유보 조항)\n" +
+                  "저작자는 신앙을 가진 사람이며, 그의 양심은 하나님께 속해 있습니다. 본 계약의 이행 여부는 라이선시의 정직함에 맡깁니다.\n\n" +
+                  "기억하십시오: 만약 당신이 수익을 숨기고, 이 조건을 어기며, 개인의 사리사욕을 위해 이 노고를 가로챈다면 — 당신은 프로젝트 저작자의 것을 훔치는 것이 아닙니다. 당신은 그 아낀 동전 한 닢으로 도움을 받을 수 있었던 소외된 이웃, 연약한 자, 그리고 중병을 앓는 이들의 몫을 훔치는 것입니다. 하나님 앞에서 각자는 자신의 선택과 정직함에 대해 스스로 책임을 지게 될 것입니다.\n\n" +
+                  "5. 보증의 부인 (AS IS)\n" +
+                  "본 도구는 '있는 그대로'(AS IS) 제공됩니다. 저작자는 발생 가능한 모든 오류, 데이터 손실 또는 기대 불일치에 대해 어떠한 책임도 지지 않습니다. 모든 파생 사본에는 본 계약서의 전문과 저작자 표시(picadoni)가 반드시 유지되어야 합니다.\n\n" +
+                  "주님께서 당신의 선한 행실을 축복하시기를 바랍니다.\n" +
+                  "======================================================================="
+    }
+};
+
+window.toggleLicenseModal = function(show) {
+    const modal = document.getElementById('licenseModal');
+    if (!modal) return;
+    if (show) {
+        const l = licenseTextsByLang[currentLang] || licenseTextsByLang.en;
+        const tEl = document.getElementById('lblLicenseTitle');
+        const sEl = document.getElementById('lblLicenseSummary');
+        const fEl = document.getElementById('lblLicenseFullText');
+        const cEl = document.getElementById('btnLicenseClose');
+        if (tEl) tEl.innerText = l.title;
+        if (sEl) sEl.innerText = licenseSummaryByLang[currentLang] || licenseSummaryByLang.en;
+        if (fEl) fEl.innerText = l.fullText;
+        if (cEl) cEl.innerText = l.close;
+        modal.style.display = 'flex';
+    } else {
+        modal.style.display = 'none';
+    }
+};
+
+const licenseSummaryByLang = {
+    ru: "Бесплатно для игроков и открытых сборок. Запрещена продажа и перезалив на сайты из чёрного списка. Для коммерческих проектов — отчисление от 7% на благотворительность.",
+    en: "Free for players and public modpacks. Selling or re-uploading to blacklisted sites is strictly prohibited. Commercial projects must donate at least 7% of net profit to charity.",
+    ja: "プレイヤーや公開Modパックでの利用は無料です。販売およびブラックリスト対象サイトへの無断転載は厳禁です。商用プロジェクトでは純利益の7%以上を慈善団体へ寄付する必要があります。",
+    zh_sp: "供玩家和公开整合包免费使用。严禁出售或转载至黑名单网站。用于商业项目时，需将至少 7% 的净利润捐赠给慈善机构。",
+    zh_tr: "供玩家與公開模組包免費使用。嚴禁販售或轉載至黑名單網站。用於商業專案時，須將至少 7% 的淨利潤捐贈給慈善機構。",
+    ko: "일반 플레이어 및 공개 모드팩은 무료로 사용할 수 있습니다. 판매 및 블랙리스트 사이트 무단 재배포는 엄격히 금지됩니다. 상업적 프로젝트는 순수익의 7% 이상을 자선단체에 기부해야 합니다."
+};
 
 </script>
 </body>
