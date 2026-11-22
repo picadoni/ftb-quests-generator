@@ -23,7 +23,7 @@ A web-based online tool for quickly creating questlines, chapters, geometric lay
 
 ---
 
-### 🗺️ FTB Quest Generator — Mars (Version 1.7) — [🚀 Launch / Запустить]([https://github.io](https://picadoni.github.io/ftb-quests-generator/1.7/))
+### 🗺️ FTB Quest Generator — Mars (Version 1.7) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.7/)
 * **Updates:**
   * Graphical interface for viewing and editing quest connections (interactive dependency map).
   * Added support for choosing quest node shapes when building quests (9 presets).
