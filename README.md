@@ -14,6 +14,15 @@ A web-based online tool for quickly creating questlines, chapters, geometric lay
 
 ## 🚀 Development History & Changelog
 
+### 🗺️ FTB Quest Generator — Sun (Version 1.8)
+* **Status:** In Development
+* **Updates:**
+  * *Coming soon...*
+
+> *The Sun is the beginning and the end, what is seen for the first time in life and what is seen for the very last time… The Sun is life and meadows bathed in warm rays — a place that can rightfully be called paradise, or perhaps…*
+
+---
+
 ### 🗺️ FTB Quest Generator — Mars (Version 1.7) — [🚀 Launch / Запустить](https://github.io)
 * **Updates:**
   * Graphical interface for viewing and editing quest connections (interactive dependency map).
