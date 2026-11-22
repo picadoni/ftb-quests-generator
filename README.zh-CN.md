@@ -25,7 +25,7 @@
 
 ---
 
-### 🗺️ FTB Quest 任务生成器 — 太空港 (版本 1.6)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.6/)
+### 🗺️ FTB Quest 任务生成器 — 太空港 (版本 1.6)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/1.6/)
 * **更新内容:**
   * **奖励列表:** 新增奖励与奖励箱弹窗，支持预设选择或自定义配置。
   * 扩展奖励功能 *（目前处于测试阶段，开发中，但运行已十分稳定，未发现崩溃）*。
@@ -40,7 +40,7 @@
 
 ---
 
-### 🗺️ FTB Quest 任务生成器 — 土星 (版本 1.5)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.5/)
+### 🗺️ FTB Quest 任务生成器 — 土星 (版本 1.5)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/1.5/)
 * **更新内容:**
   * 新增奖励箱以及更加丰厚的奖励数量。
   * 优化了难度系统和奖励系统。
@@ -50,7 +50,7 @@
 
 ---
 
-### 🗺️ FTB Quest 任务生成器 — 超空间跳跃 (版本 1.4)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.4/)
+### 🗺️ FTB Quest 任务生成器 — 超空间跳跃 (版本 1.4)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/1.4/)
 * **更新内容:**
   * 全面重写几何图形代码（此前 34 种图形中仅有 11 种能正常工作）。
   * 新增奖励与任务的手动模式切换按钮（点击奖牌图标触发）。
@@ -62,7 +62,7 @@
 
 ---
 
-### 🗺️ FTB Quest 任务生成器 — 星尘 (版本 1.3)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.3/)
+### 🗺️ FTB Quest 任务生成器 — 星尘 (版本 1.3)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/1.3/)
 * **更新内容:**
   * 新增与 **CustomNPCs** 模组的联动说明。
   * 新增视觉特效：樱花、雪花、雨滴、烟花、秋日落叶、夏日落叶，以及取消/关闭特效按钮。
@@ -73,7 +73,7 @@
 
 ---
 
-### 🗺️ FTB Quest 任务生成器 — 光子 (版本 1.2)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.2/)
+### 🗺️ FTB Quest 任务生成器 — 光子 (版本 1.2)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/1.2/)
 * **更新内容（新功能）:**
   * 支持设置自定义背景图片。
   * 支持删除已设置的自定义背景图片。
@@ -84,7 +84,7 @@
 
 ---
 
-### 🗺️ FTB Quest 任务生成器 — 木星 (版本 1.1)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.1/)
+### 🗺️ FTB Quest 任务生成器 — 木星 (版本 1.1)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/1.1/)
 * **更新内容:**
   * 解锁所有任务布局预设（即任务树在游戏内的呈现样式）。
   * 新增用于就各类问题联系作者的弹窗。
@@ -94,7 +94,7 @@
 
 ---
 
-### 🗺️ FTB Quest 任务生成器 — 超新星 (版本 1.0)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.0/)
+### 🗺️ FTB Quest 任务生成器 — 超新星 (版本 1.0)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/1.0/)
 * **更新内容:**
   * 新增几何布局标签/按钮（首批包含 10 种图形）：
     1. **直线** *（与以往一样，生成单行任务链）*
@@ -114,7 +114,7 @@
 
 ---
 
-### 🗺️ FTB Quest 任务生成器 — 水星 (版本 0.9)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.9/)
+### 🗺️ FTB Quest 任务生成器 — 水星 (版本 0.9)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.9/)
 * **更新内容:**
   * 代码更新与优化，提升稳定性。
   * 更新任务与奖励库。
@@ -123,7 +123,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 任务生成器 彗星 (版本 0.8)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.8/)
+### 🗺️ FTB Quests — 任务生成器 彗星 (版本 0.8)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.8/)
 * **更新与修复:**
   * 代码更新与优化。
   * 修复了任务图标缺失的问题，以及“方块与建筑”按钮的图片显示错误。
@@ -133,7 +133,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 生成器 小行星 (版本 0.7)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.7/)
+### 🗺️ FTB Quests — 生成器 小行星 (版本 0.7)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.7/)
 * **更新内容:**
   * 代码与功能更新。
   * 新增难度滑块，任务奖励将根据所选难度动态变化（共 8 个等级：*婴儿、非常简单、简单、普通、困难、非常困难、硬核、我即审判*）。
@@ -142,7 +142,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 任务生成器 世界 (版本 0.6)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.6/)
+### 🗺️ FTB Quests — 任务生成器 世界 (版本 0.6)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.6/)
 * **更新内容:**
   * 规模空前的核心代码重构：从早期的“构建器”正式进化为功能完备的“任务生成器”。
   * 新增任务生成引擎及一键打包下载 `.zip` 文件功能。
@@ -152,7 +152,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 任务构建器 瀑布 (版本 0.5)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.5/)
+### 🗺️ FTB Quests — 任务构建器 瀑布 (版本 0.5)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.5/)
 * **更新内容:**
   * 首个带有奖励功能的任务构建器。
   * 新增分类按钮：随机任务生成、建筑与方块、工具、玩家属性。
@@ -164,7 +164,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 交互式构建器 原型 (版本 0.4)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.4/)
+### 🗺️ FTB Quests — 交互式构建器 原型 (版本 0.4)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.4/)
 * **更新内容:**
   * 界面设计焕新：告别了原本暗沉奇怪的背景，改用明亮的纸张质感风格。
   * 同系列中的最后一个“构建器”版本。
@@ -184,7 +184,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 交互式构建器 洪流 (版本 0.3)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.3/)
+### 🗺️ FTB Quests — 交互式构建器 洪流 (版本 0.3)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.3/)
 * **更新内容:**
   * 代码大合并：此前拆分为 `Logic.js` 和 `конструктор.html` 的代码被合并为单个优化后的文件。
 
@@ -192,7 +192,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 交互式生成器 要塞 (版本 0.2)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.2/)
+### 🗺️ FTB Quests — 交互式生成器 要塞 (版本 0.2)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.2/)
 * **更新内容:**
   * 代码与功能扩展。
   * 新增任务章节生成器并更新核心代码：
@@ -203,7 +203,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 交互式构建器 水滴 (版本 0.1)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.1/)
+### 🗺️ FTB Quests — 交互式构建器 水滴 (版本 0.1)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.1/)
 * **更新内容:**
   * 核心扩展。
   * 新增分类按钮：
@@ -225,7 +225,7 @@
 
 ---
 
-### 🗺️ FTB Quests — 交互式构建器 虚无 (版本 0.0)  — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/0.0/)
+### 🗺️ FTB Quests — 交互式构建器 虚无 (版本 0.0)  — [🚀 启动](https://picadoni.github.io/ftb-quests-generator/0.0/)
 * **更新内容:**
   * 项目的起点。
   * 仅创建了用于选择任务类型的最初 4 个标签页（`选择游戏动作类型：`）：
