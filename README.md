@@ -14,10 +14,17 @@ A web-based online tool for quickly creating questlines, chapters, geometric lay
 
 ## 🚀 Development History & Changelog
 
-### 🗺️ FTB Quest Generator — Sun (Version 1.8)
-* **Status:** In Development
+### 🗺️ FTB Quest Generator — Sun (Version 1.8) — [🚀 Launch / Запустить](https://picadoni.github.io/ftb-quests-generator/1.8/)
+* **Status:** In Development (Test Version)
 * **Updates:**
-  * *Coming soon...*
+  * **Generation & Progression Logic:**
+    1. **Questline Difficulty & Progression Curve:** Added 5 buttons to select quest behavior logic.
+    2. **Reward Balance & Logic:** Implemented 3 selectable buttons.
+    3. **Content Source:**
+       * Vanilla / Mods *(Not yet available, currently in development)*.
+  * **Theme Studio** for fine-tuning colors with presets and color pickers (customizable UI themes to your taste).
+  * Updated localization and translated new features/windows into all supported languages.
+  * Added quick theme presets for the generator (3 presets to choose from, or fine-tune to your taste via the theme menu).
 
 > *The Sun is the beginning and the end, what is seen for the first time in life and what is seen for the very last time… The Sun is life and meadows bathed in warm rays — a place that can rightfully be called paradise, or perhaps…*
 
