@@ -13,7 +13,7 @@ MinecraftのMOD **FTB Quests** 向けに、クエストライン、チャプタ�
 
 ## 🚀 開発履歴とアップデートログ
 
-### 🗺️ FTB Quest クエストジェネレーター — 太陽 (バージョン 1.8)
+### 🗺️ FTB Quest クエストジェネレーター — 太陽 (バージョン 1.8) — [🚀 起動する](https://picadoni.github.io/ftb-quests-generator/1.8/)
 * **ステータス:** 開発中 開発中（テスト版）
 * **アップデート内容 (Updates):**
   * **生成および進行ロジック:**
